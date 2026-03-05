@@ -245,7 +245,10 @@ if (!myPlayerId) {
 // ─────────────────────────────────────────────────────────────
 //  STATE
 // ─────────────────────────────────────────────────────────────
-const socket = io();
+// When hosted on GitHub Pages, set this to your deployed server URL.
+// Leave empty to connect to the same origin (local dev).
+const SERVER_URL = 'https://no-rush-rush.onrender.com';
+const socket = io(SERVER_URL);
 let view = null;
 let selected = [];
 
