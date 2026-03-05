@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shithead Card Game</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          animation: { blink: 'blink 1s ease-in-out infinite' },
+          keyframes: { blink: { '0%,100%': { opacity: '1' }, '50%': { opacity: '0.3' } } },
+        }
+      }
+    }
+  </script>
+  <style type="text/tailwindcss">
+    /* ── Component classes used in JS-generated HTML ── */
+    .btn {
+      @apply bg-[#f4d03f] text-[#1a1a1a] border-none px-[22px] py-[9px] text-[0.9rem] font-bold font-serif rounded-md cursor-pointer transition-all duration-100;
+    }
+    .btn:hover  { @apply bg-[#f7dc6f] -translate-y-px; }
+    .btn:active { @apply translate-y-0; }
+    .btn:disabled { @apply bg-[#666] text-[#aaa] cursor-not-allowed translate-y-0; }
+    .btn.red-btn          { @apply bg-[#e74c3c] text-white; }
+    .btn.red-btn:hover    { @apply bg-[#ec7063]; }
+    .btn.green-btn        { @apply bg-[#27ae60] text-white; }
+    .btn.green-btn:hover  { @apply bg-[#2ecc71]; }
+
+    .player-zone  { @apply bg-black/[0.18] rounded-xl p-3; }
+    .zone-title   { @apply text-[0.8rem] font-bold text-[#a8d5b5] uppercase tracking-[2px] mb-2 flex items-center gap-2; }
+    .card-groups  { @apply flex gap-3.5 flex-wrap items-end; }
+    .card-group   { @apply flex flex-col gap-1; }
+    .group-label  { @apply text-[10px] font-sans text-white/50 uppercase tracking-[1px]; }
+    .cards-row    { @apply flex gap-1.5 flex-wrap; }
+
+    .center-row  { @apply flex justify-center items-start gap-8 py-2; }
+    .pile-block  { @apply text-center; }
+    .pile-label  { @apply text-[11px] font-sans text-white/60 uppercase tracking-[1px] mb-[5px]; }
+    .pile-count  { @apply text-[11px] text-white/50 mt-1 font-sans; }
+
+    .message-box  { @apply bg-black/30 rounded-lg px-4 py-[10px] text-center text-[0.95rem] min-h-[42px] leading-relaxed; }
+    .warning      { @apply text-[#f39c12] font-bold; }
+    .action-row   { @apply flex justify-center gap-2.5 flex-wrap; }
+
+    .opponents-row           { @apply flex gap-2 flex-wrap; }
+    .opponents-row .player-zone { @apply flex-1 min-w-[180px]; }
+
+    /* modal inner content */
+    #modal h2  { @apply text-[1.8rem] text-[#f4d03f] mb-3.5; }
+    #modal p   { @apply text-base mb-2.5 leading-relaxed; }
+    .sub       { @apply text-[#a8d5b5] text-[0.85rem]; }
+
+    /* share link */
+    #shareLink a { @apply text-[#a8d5b5]; }
+
+    /* ── Cards (fixed-dimension visual components) ─────────── */
+    .card {
+      width: 64px; height: 92px;
+      border-radius: 7px;
+      background: #fff;
+      border: 1px solid #bbb;
+      box-shadow: 1px 2px 5px rgba(0,0,0,0.35);
+      display: flex; flex-direction: column; justify-content: space-between;
+      padding: 4px 5px;
+      font-size: 13px; font-weight: bold;
+      position: relative;
+      transition: transform 0.12s, box-shadow 0.12s;
+      flex-shrink: 0;
+      user-select: none;
+    }
+    .card.selectable { cursor: pointer; }
+    .card.selectable:hover { transform: translateY(-6px); box-shadow: 1px 8px 14px rgba(0,0,0,0.5); }
+    .card.selected { transform: translateY(-14px); box-shadow: 0 12px 20px rgba(0,0,0,0.55); outline: 3px solid #f4d03f; outline-offset: 1px; }
+    .card.red   { color: #c0392b; }
+    .card.black { color: #1a1a1a; }
+    .card .corner     { font-size: 13px; line-height: 1; }
+    .card .corner.bot { transform: rotate(180deg); align-self: flex-end; }
+    .card .center-suit { font-size: 28px; text-align: center; line-height: 1; }
+    .card .badge {
+      position: absolute; top: -7px; right: -7px;
+      background: #e74c3c; color: #fff;
+      font-size: 9px; font-family: Arial, sans-serif; font-weight: 900;
+      padding: 2px 4px; border-radius: 8px;
+      pointer-events: none; letter-spacing: 0.5px;
+    }
+    .card .badge.wild   { background: #8e44ad; }
+    .card .badge.burn   { background: #e74c3c; }
+    .card .badge.lower  { background: #e67e22; }
+    .card .badge.ghost  { background: #2980b9; }
+    .card .badge.window { background: #16a085; }
+    .card.back {
+      background: repeating-linear-gradient(-55deg, #1a3a8f 0px, #1a3a8f 6px, #1e4db7 6px, #1e4db7 12px);
+      border-color: #1a3a8f;
+    }
+    .card.empty-slot {
+      background: transparent;
+      border: 2px dashed rgba(255,255,255,0.25);
+      box-shadow: none;
+    }
+    .card.pile-placeholder {
+      background: rgba(0,0,0,0.2);
+      border: 2px dashed rgba(255,255,255,0.3);
+      box-shadow: none;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 11px; color: rgba(255,255,255,0.45); font-family: Arial, sans-serif;
+    }
+    .burn-icon {
+      width: 64px; height: 92px; border-radius: 7px;
+      background: rgba(231,76,60,0.2); border: 2px solid rgba(231,76,60,0.4);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 28px;
+    }
+    .turn-dot {
+      width: 9px; height: 9px; border-radius: 50%;
+      background: #4ade80;
+      animation: blink 1s ease-in-out infinite;
+      display: inline-block;
+    }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.3} }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col items-center p-4 gap-3 font-serif text-white"
+      style="background: #1b4332; background-image: radial-gradient(ellipse at center, #2d6a4f 0%, #1b4332 100%)">
+
+<h1 class="text-[2rem] tracking-[6px] text-[#f4d03f] mt-1 [text-shadow:0_2px_8px_rgba(0,0,0,0.6)]">♠ SHITHEAD ♣</h1>
+
+<ul class="flex gap-4 list-none p-0 m-0">
+  <li>
+    <button class="text-[0.78rem] font-sans text-white/45 underline cursor-pointer tracking-widest uppercase bg-transparent border-0 p-0 hover:text-white/75" onclick="showRules()">Rules</button>
+  </li>
+  <li>
+    <button class="text-[0.78rem] font-sans text-white/45 underline cursor-pointer tracking-widest uppercase bg-transparent border-0 p-0 hover:text-white/75 hidden" id="exitBtn" onclick="leaveGame()">Exit Game</button>
+  </li>
+</ul>
+
+<!-- ── HOME SCREEN ──────────────────────────────────────── -->
+<div class="w-full max-w-[480px] bg-black/25 rounded-xl px-8 py-7 flex flex-col gap-4" id="homeScreen">
+  <div class="flex flex-col gap-1.5">
+    <label for="nameInput" class="text-[0.8rem] text-white/60 uppercase tracking-widest font-sans">Your Name</label>
+    <input id="nameInput" type="text" placeholder="Enter your name" maxlength="20" autocomplete="off"
+           class="bg-white/10 border border-white/25 rounded-md text-white text-base font-serif px-3 py-2 outline-none focus:border-[#f4d03f] focus:bg-white/15 placeholder:text-white/30">
+  </div>
+
+  <button class="btn" id="createBtn">Create Game</button>
+
+  <div class="flex items-center gap-2.5 text-white/30 text-[0.8rem] font-sans">
+    <div class="flex-1 border-t border-white/15"></div>
+    or join existing game
+    <div class="flex-1 border-t border-white/15"></div>
+  </div>
+
+  <div class="flex flex-col gap-1.5">
+    <label for="codeInput" class="text-[0.8rem] text-white/60 uppercase tracking-widest font-sans">Room Code</label>
+    <input id="codeInput" type="text" placeholder="XXXXXX" maxlength="6" autocomplete="off"
+           style="text-transform:uppercase;letter-spacing:3px;font-family:'Courier New',monospace"
+           class="bg-white/10 border border-white/25 rounded-md text-white text-base px-3 py-2 outline-none focus:border-[#f4d03f] focus:bg-white/15 placeholder:text-white/30">
+  </div>
+
+  <button class="btn" id="joinBtn">Join Game</button>
+
+  <div class="text-[#e74c3c] text-[0.85rem] font-sans min-h-5 text-center" id="homeError"></div>
+</div>
+
+<!-- ── LOBBY SCREEN ─────────────────────────────────────── -->
+<div class="w-full max-w-[480px] bg-black/25 rounded-xl px-8 py-7 flex flex-col gap-4 hidden" id="lobbyScreen">
+  <h2 class="text-[1.3rem] text-[#f4d03f] mb-1">Waiting for players…</h2>
+
+  <div>
+    <div class="pile-label" style="margin-bottom:6px">Room Code</div>
+    <div class="text-[2.4rem] tracking-[10px] text-[#f4d03f] font-bold text-center bg-black/30 rounded-lg p-3"
+         style="font-family:'Courier New',monospace" id="lobbyCode"></div>
+  </div>
+
+  <div class="text-[0.78rem] font-sans text-white/50 text-center break-all" id="shareLink"></div>
+
+  <div class="text-center">
+    <div class="pile-label" style="margin-bottom:8px">Scan to Join</div>
+    <div class="bg-white rounded-lg p-2.5 inline-block">
+      <div id="qrCode"></div>
+    </div>
+  </div>
+
+  <div>
+    <div class="pile-label" style="margin-bottom:6px">Players (<span id="lobbyCount">0</span>/4)</div>
+    <div class="flex flex-col gap-1.5" id="lobbyPlayerList"></div>
+  </div>
+
+  <button class="btn" id="startBtn" disabled>Start Game (need 2+)</button>
+  <button class="btn red-btn" onclick="leaveGame()">Leave Game</button>
+  <div class="text-[#e74c3c] text-[0.85rem] font-sans min-h-5 text-center" id="lobbyError"></div>
+</div>
+
+<!-- ── GAME BOARD ────────────────────────────────────────── -->
+<div class="w-full max-w-[860px] flex flex-col gap-2.5 hidden" id="board"></div>
+
+<!-- ── RULES MODAL ────────────────────────────────────────── -->
+<div class="fixed inset-0 bg-black/[0.72] flex items-center justify-center z-[200] hidden" id="rulesOverlay" onclick="closeRules(event)">
+  <div class="bg-[#1b4332] border-[3px] border-[#f4d03f] rounded-2xl px-11 py-9 max-w-[500px] w-[90%] text-left">
+    <h2 class="text-center mb-5 text-[#f4d03f] text-[1.8rem]">Rules</h2>
+    <table class="w-full border-collapse text-[0.88rem] font-sans">
+      <tr><td class="py-1.5 px-2 border-b border-white/[0.08] align-top whitespace-nowrap pr-4">Play</td><td class="py-1.5 px-2 border-b border-white/[0.08] align-top">Play a card equal to or higher than the top pile card.</td></tr>
+      <tr><td class="py-1.5 px-2 border-b border-white/[0.08] align-top whitespace-nowrap pr-4 text-[#c9b46a] font-bold">2 — Wild</td><td class="py-1.5 px-2 border-b border-white/[0.08] align-top">Plays on anything, resets the pile. Play again.</td></tr>
+      <tr><td class="py-1.5 px-2 border-b border-white/[0.08] align-top whitespace-nowrap pr-4 text-[#2980b9] font-bold">3 — Chain</td><td class="py-1.5 px-2 border-b border-white/[0.08] align-top">Plays on anything. Next player must play a 3 or pick up the pile. Chains until someone can't.</td></tr>
+      <tr><td class="py-1.5 px-2 border-b border-white/[0.08] align-top whitespace-nowrap pr-4 text-[#16a085] font-bold">8 — Window</td><td class="py-1.5 px-2 border-b border-white/[0.08] align-top">Plays on anything. Next player plays on the card below the 8 (or anything if pile is empty below).</td></tr>
+      <tr><td class="py-1.5 px-2 border-b border-white/[0.08] align-top whitespace-nowrap pr-4 text-[#e67e22] font-bold">7 — Low</td><td class="py-1.5 px-2 border-b border-white/[0.08] align-top">Plays on anything except a 3. Next player must play 7 or lower.</td></tr>
+      <tr><td class="py-1.5 px-2 border-b border-white/[0.08] align-top whitespace-nowrap pr-4 text-[#e74c3c] font-bold">10 — Burn</td><td class="py-1.5 px-2 border-b border-white/[0.08] align-top">Plays on anything. Burn the pile. Play again.</td></tr>
+      <tr><td class="py-1.5 px-2 border-b border-white/[0.08] align-top whitespace-nowrap pr-4 font-bold">Four of a kind</td><td class="py-1.5 px-2 border-b border-white/[0.08] align-top">Four of the same value on top of the pile burns it. Play again.</td></tr>
+    </table>
+    <p class="text-white/50 text-[0.8rem] mt-3.5 leading-relaxed">Play from Hand first, then Face-up, then Face-down (blind flip). If you can't play, pick up the pile. First player to empty all cards wins.</p>
+    <br>
+    <div class="text-center"><button class="btn" onclick="closeRules()">Close</button></div>
+  </div>
+</div>
+
+<div class="max-w-[860px] w-full bg-black/20 rounded-lg px-3 py-2 text-[11px] font-sans text-white/55 max-h-[70px] overflow-y-auto leading-[1.8] hidden" id="logPanel"></div>
+
+<!-- ── MODAL ────────────────────────────────────────────── -->
+<div class="fixed inset-0 bg-black/[0.72] flex items-center justify-center z-[200] hidden" id="overlay">
+  <div class="bg-[#1b4332] border-[3px] border-[#f4d03f] rounded-2xl px-11 py-9 text-center max-w-[460px] w-[90%]" id="modal"></div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+// ─────────────────────────────────────────────────────────────
+//  CONSTANTS
+// ─────────────────────────────────────────────────────────────
+const NAMES    = {2:'2',3:'3',4:'4',5:'5',6:'6',7:'7',8:'8',9:'9',10:'10',11:'J',12:'Q',13:'K',14:'A'};
+const RED_SUITS = new Set(['♥','♦']);
+
+// ─────────────────────────────────────────────────────────────
+//  PERSISTENT IDENTITY
+// ─────────────────────────────────────────────────────────────
+function genId() {
+  return Math.random().toString(36).slice(2, 10) + Math.random().toString(36).slice(2, 10);
+}
+let myPlayerId = localStorage.getItem('shithead_pid');
+if (!myPlayerId) {
+  myPlayerId = genId();
+  localStorage.setItem('shithead_pid', myPlayerId);
+}
+
+// ─────────────────────────────────────────────────────────────
+//  STATE
+// ─────────────────────────────────────────────────────────────
+const socket = io();
+let view = null;
+let selected = [];
+
+// ─────────────────────────────────────────────────────────────
+//  CARD RENDERING
+// ─────────────────────────────────────────────────────────────
+function specialBadge(v) {
+  if (v === 2)  return `<div class="badge wild">WILD</div>`;
+  if (v === 7)  return `<div class="badge lower">≤7</div>`;
+  if (v === 10) return `<div class="badge burn">BURN</div>`;
+  if (v === 3)  return `<div class="badge ghost">CHAIN</div>`;
+  if (v === 8)  return `<div class="badge window">WINDOW</div>`;
+  return '';
+}
+
+function cardEl(card, { selectable = false, isSelected = false, back = false, onclick = '' } = {}) {
+  if (back) {
+    return `<div class="card back" ${onclick ? `onclick="${onclick}" style="cursor:pointer"` : ''}></div>`;
+  }
+  if (!card) return emptyCardEl();
+  const col   = RED_SUITS.has(card.suit) ? 'red' : 'black';
+  const name  = NAMES[card.value];
+  const sel   = isSelected  ? ' selected'  : '';
+  const seli  = selectable ? ' selectable' : '';
+  const badge = specialBadge(card.value);
+  return `
+    <div class="card ${col}${sel}${seli}" ${onclick ? `onclick="${onclick}"` : ''}>
+      ${badge}
+      <div class="corner">${name}${card.suit}</div>
+      <div class="center-suit">${card.suit}</div>
+      <div class="corner bot">${name}${card.suit}</div>
+    </div>`;
+}
+
+function emptyCardEl() {
+  return `<div class="card empty-slot"></div>`;
+}
+
+// ─────────────────────────────────────────────────────────────
+//  HOME SCREEN
+// ─────────────────────────────────────────────────────────────
+function showHomeScreen() {
+  document.getElementById('homeScreen').classList.remove('hidden');
+  document.getElementById('lobbyScreen').classList.add('hidden');
+  document.getElementById('board').classList.add('hidden');
+  document.getElementById('logPanel').classList.add('hidden');
+  document.getElementById('overlay').classList.add('hidden');
+  document.getElementById('exitBtn').classList.add('hidden');
+}
+
+function showLobby() {
+  document.getElementById('homeScreen').classList.add('hidden');
+  document.getElementById('lobbyScreen').classList.remove('hidden');
+  document.getElementById('board').classList.add('hidden');
+  document.getElementById('logPanel').classList.add('hidden');
+  document.getElementById('exitBtn').classList.remove('hidden');
+}
+
+function showGame() {
+  document.getElementById('homeScreen').classList.add('hidden');
+  document.getElementById('lobbyScreen').classList.add('hidden');
+  document.getElementById('board').classList.remove('hidden');
+  document.getElementById('logPanel').classList.remove('hidden');
+  document.getElementById('exitBtn').classList.remove('hidden');
+}
+
+function leaveGame() {
+  localStorage.removeItem('shithead_room');
+  view = null;
+  selected = [];
+  qrInstance = null;
+  qrRoomCode = null;
+  document.getElementById('qrCode').innerHTML = '';
+  document.getElementById('board').innerHTML = '';
+  document.getElementById('logPanel').innerHTML = '';
+  socket.emit('leaveRoom');
+  showHomeScreen();
+}
+
+function showRules() {
+  document.getElementById('rulesOverlay').classList.remove('hidden');
+}
+
+function closeRules(e) {
+  if (e && e.target !== document.getElementById('rulesOverlay')) return;
+  document.getElementById('rulesOverlay').classList.add('hidden');
+}
+
+// ─────────────────────────────────────────────────────────────
+//  HOME HANDLERS
+// ─────────────────────────────────────────────────────────────
+document.getElementById('createBtn').addEventListener('click', () => {
+  const name = document.getElementById('nameInput').value.trim();
+  if (!name) { showHomeError('Please enter your name.'); return; }
+  socket.emit('createRoom', { name, playerId: myPlayerId });
+});
+
+document.getElementById('joinBtn').addEventListener('click', () => {
+  const name = document.getElementById('nameInput').value.trim();
+  const code = document.getElementById('codeInput').value.trim().toUpperCase();
+  if (!name) { showHomeError('Please enter your name.'); return; }
+  if (!code) { showHomeError('Please enter a room code.'); return; }
+  socket.emit('joinRoom', { code, name, playerId: myPlayerId });
+});
+
+document.getElementById('nameInput').addEventListener('keydown', e => {
+  if (e.key === 'Enter') document.getElementById('createBtn').click();
+});
+
+document.getElementById('codeInput').addEventListener('keydown', e => {
+  if (e.key === 'Enter') document.getElementById('joinBtn').click();
+});
+
+function showHomeError(msg) {
+  document.getElementById('homeError').textContent = msg;
+}
+
+document.getElementById('startBtn').addEventListener('click', () => {
+  socket.emit('startGame');
+});
+
+// Pre-fill room code from URL ?room=XXXX
+const urlCode = new URLSearchParams(window.location.search).get('room');
+if (urlCode) {
+  document.getElementById('codeInput').value = urlCode.toUpperCase();
+}
+
+// ─────────────────────────────────────────────────────────────
+//  LOBBY RENDER
+// ─────────────────────────────────────────────────────────────
+let qrInstance = null;
+let qrRoomCode  = null;
+
+function renderLobby(v) {
+  document.getElementById('lobbyCode').textContent = v.roomCode;
+  const shareUrl = `${location.origin}?room=${v.roomCode}`;
+  document.getElementById('shareLink').innerHTML =
+    `Share this link: <a href="${shareUrl}">${shareUrl}</a>`;
+
+  const qrContainer = document.getElementById('qrCode');
+  if (!qrInstance || qrRoomCode !== v.roomCode) {
+    qrContainer.innerHTML = '';
+    qrInstance = new QRCode(qrContainer, {
+      text: shareUrl,
+      width: 160,
+      height: 160,
+      colorDark: '#000000',
+      colorLight: '#ffffff',
+    });
+    qrRoomCode = v.roomCode;
+  }
+
+  const playerCount = 1 + v.opponents.length;
+  document.getElementById('lobbyCount').textContent = playerCount;
+
+  // Build player list (self + opponents in seat order)
+  const all = [];
+  for (let i = 0; i < (1 + v.opponents.length); i++) {
+    if (i === v.seatIndex) {
+      all.push({ name: 'You (' + getMyName() + ')', ready: v.myReady, connected: true, self: true });
+    } else {
+      const opp = v.opponents.find(o => o.seatIndex === i);
+      if (opp) all.push({ name: opp.name, ready: opp.ready, connected: opp.connected, self: false });
+    }
+  }
+
+  document.getElementById('lobbyPlayerList').innerHTML = all.map(p => `
+    <div class="flex items-center gap-2 text-[0.9rem] px-2.5 py-1.5 bg-black/20 rounded-md">
+      <div class="w-2 h-2 rounded-full shrink-0 ${p.connected ? 'bg-[#f4d03f]' : 'bg-[#666]'}"></div>
+      <span>${p.name}</span>
+      ${v.seatIndex === v.hostSeatIndex && p.self ? '<span class="text-[#f4d03f] text-[0.75rem] ml-auto">HOST</span>' : ''}
+      ${v.hostSeatIndex === getSeatForName(v, p.name) && !p.self ? '<span class="text-[#f4d03f] text-[0.75rem] ml-auto">HOST</span>' : ''}
+    </div>
+  `).join('');
+
+  const startBtn = document.getElementById('startBtn');
+  const isHost = v.seatIndex === v.hostSeatIndex;
+  startBtn.style.display = isHost ? '' : 'none';
+  startBtn.disabled = playerCount < 2;
+  startBtn.textContent = playerCount < 2 ? 'Start Game (need 2+)' : `Start Game (${playerCount} players)`;
+}
+
+function getMyName() {
+  return document.getElementById('nameInput').value.trim() || 'Me';
+}
+
+function getSeatForName(v, name) {
+  return v.hostSeatIndex;
+}
+
+// ─────────────────────────────────────────────────────────────
+//  GAME RENDER
+// ─────────────────────────────────────────────────────────────
+function myPhase() {
+  if (!view) return 'hand';
+  if (view.myHand.length > 0)   return 'hand';
+  if (view.myFaceUp.length > 0) return 'faceUp';
+  return 'faceDown';
+}
+
+function renderGame(v) {
+  const board = document.getElementById('board');
+  const isMyTurn = v.current === v.seatIndex;
+  const phase = myPhase();
+  const selSet = new Set(selected);
+
+  // ── Opponent zones ────────────────────────────────────────
+  const opponentZones = v.opponents.map(opp => {
+    const isOppTurn = v.current === opp.seatIndex;
+    const handCards = Array.from({ length: opp.handCount }, () => cardEl(null, { back: true })).join('') || emptyCardEl();
+    const faceUpCards = opp.faceUp.length
+      ? opp.faceUp.map(c => c ? cardEl(c) : cardEl(null, { back: true })).join('')
+      : emptyCardEl();
+    const faceDownCards = Array.from({ length: opp.faceDownCount }, () => cardEl(null, { back: true })).join('') || emptyCardEl();
+
+    return `
+      <div class="player-zone" style="opacity:${isOppTurn ? 1 : 0.82}">
+        <div class="zone-title">
+          ${isOppTurn && v.phase === 'playing' ? '<span class="turn-dot"></span>' : ''}
+          ${opp.name}
+          <span style="font-weight:normal;color:rgba(255,255,255,0.4)">(hand: ${opp.handCount})</span>
+          ${!opp.connected ? '<span style="color:#e74c3c;font-size:0.7rem">[offline]</span>' : ''}
+        </div>
+        <div class="card-groups">
+          <div class="card-group">
+            <div class="group-label">Face Down</div>
+            <div class="cards-row">${faceDownCards}</div>
+          </div>
+          <div class="card-group">
+            <div class="group-label">Face Up</div>
+            <div class="cards-row">${faceUpCards}</div>
+          </div>
+          <div class="card-group">
+            <div class="group-label">Hand</div>
+            <div class="cards-row">${handCards}</div>
+          </div>
+        </div>
+      </div>`;
+  }).join('');
+
+  // ── Pile area ─────────────────────────────────────────────
+  const topCard = v.pile.length ? v.pile[v.pile.length - 1] : null;
+  const pileEl  = topCard
+    ? cardEl(topCard)
+    : `<div class="card pile-placeholder">empty</div>`;
+  const drawEl  = v.deckCount
+    ? cardEl(null, { back: true })
+    : `<div class="card pile-placeholder">gone</div>`;
+  const burnEl  = v.burnCount
+    ? `<div class="burn-icon">🔥</div>`
+    : `<div class="card empty-slot"></div>`;
+
+  // ── My zone ───────────────────────────────────────────────
+  const canFlipDown     = isMyTurn && v.phase === 'playing' && phase === 'faceDown';
+  const canSelectHand   = isMyTurn && v.phase === 'playing' && phase === 'hand';
+  const canSelectFaceUp = isMyTurn && v.phase === 'playing' && phase === 'faceUp';
+
+  const myFaceDownCards = Array.from({ length: v.myFaceDownCount }, (_, i) =>
+    cardEl(null, { back: true, onclick: canFlipDown ? `flipFaceDown(${i})` : '' })
+  ).join('') || emptyCardEl();
+
+  const myFaceUpCards = v.myFaceUp.map(c =>
+    cardEl(c, {
+      selectable: v.phase === 'setup' || canSelectFaceUp,
+      isSelected: selSet.has(c.id),
+      onclick: v.phase === 'setup' ? `setupSelectFaceUp(${c.id})` : canSelectFaceUp ? `toggleSelect(${c.id})` : '',
+    })
+  ).join('') || emptyCardEl();
+
+  const myHandCards = v.myHand.map(c =>
+    cardEl(c, {
+      selectable: v.phase === 'setup' || canSelectHand,
+      isSelected: selSet.has(c.id),
+      onclick: v.phase === 'setup' ? `setupSelectHand(${c.id})` : canSelectHand ? `toggleSelect(${c.id})` : '',
+    })
+  ).join('') || emptyCardEl();
+
+  // ── Action buttons ────────────────────────────────────────
+  let actions = '';
+  if (v.phase === 'setup') {
+    actions = `
+      <div class="action-row">
+        <button class="btn green-btn" onclick="sendReady()" ${v.myReady ? 'disabled' : ''}>
+          ${v.myReady ? 'Waiting for others…' : 'Ready!'}
+        </button>
+      </div>`;
+  } else if (isMyTurn && v.phase === 'playing') {
+    if (phase === 'faceDown') {
+      actions = `<div class="action-row"><span style="font-size:0.85rem;color:rgba(255,255,255,0.6)">Click a face-down card to flip it blind!</span></div>`;
+    } else {
+      actions = `
+        <div class="action-row">
+          <button class="btn" onclick="playSelected()" ${!selected.length ? 'disabled' : ''}>Play Selected</button>
+          ${v.pile.length > 0 ? `<button class="btn red-btn" onclick="pickUp()">Pick Up Pile</button>` : ''}
+        </div>`;
+    }
+  } else if (v.phase === 'playing') {
+    actions = `<div class="action-row"><span style="font-size:0.85rem;color:rgba(255,255,255,0.45)">Waiting for ${v.opponents.find(o => o.seatIndex === v.current)?.name || 'opponent'}…</span></div>`;
+  }
+
+  // ── My zone title ─────────────────────────────────────────
+  let myTitle = 'You';
+  if (v.phase === 'setup') {
+    myTitle += ' — <span style="font-weight:normal;color:#f4d03f;font-size:0.8rem">click hand card then face-up card to swap</span>';
+  }
+
+  // ── Render ────────────────────────────────────────────────
+  const wrapStart = v.opponents.length > 1 ? '<div class="opponents-row">' : '';
+  const wrapEnd   = v.opponents.length > 1 ? '</div>' : '';
+
+  board.innerHTML = `
+    ${wrapStart}${opponentZones}${wrapEnd}
+
+    <div class="center-row">
+      <div class="pile-block">
+        <div class="pile-label">Draw</div>
+        ${drawEl}
+        <div class="pile-count">${v.deckCount}</div>
+      </div>
+      <div class="pile-block">
+        <div class="pile-label">Pile (${v.pile.length})</div>
+        ${pileEl}
+        ${v.threeOn ? '<div class="pile-count warning">⚠ play a 3</div>' : v.sevenOn ? '<div class="pile-count warning">⚠ play ≤7</div>' : ''}
+      </div>
+      <div class="pile-block">
+        <div class="pile-label">Burned</div>
+        ${burnEl}
+        <div class="pile-count">${v.burnCount}</div>
+      </div>
+    </div>
+
+    <div class="message-box">${v.msg}</div>
+
+    ${actions}
+
+    <div class="player-zone" style="opacity:${isMyTurn && v.phase === 'playing' ? 1 : 0.82}">
+      <div class="zone-title">
+        ${isMyTurn && v.phase === 'playing' ? '<span class="turn-dot"></span>' : ''}
+        ${myTitle}
+      </div>
+      <div class="card-groups">
+        <div class="card-group">
+          <div class="group-label">Face Down</div>
+          <div class="cards-row">${myFaceDownCards}</div>
+        </div>
+        <div class="card-group">
+          <div class="group-label">Face Up</div>
+          <div class="cards-row">${myFaceUpCards}</div>
+        </div>
+        <div class="card-group">
+          <div class="group-label">Hand</div>
+          <div class="cards-row">${myHandCards}</div>
+        </div>
+      </div>
+    </div>
+  `;
+
+  // Update log — hidden during setup so opponents can't see swaps
+  const logEl = document.getElementById('logPanel');
+  if (v.phase === 'setup') {
+    logEl.classList.add('hidden');
+  } else {
+    logEl.classList.remove('hidden');
+    logEl.innerHTML = (v.log || []).slice().reverse().join('<br>');
+  }
+}
+
+// ─────────────────────────────────────────────────────────────
+//  SETUP INTERACTIONS
+// ─────────────────────────────────────────────────────────────
+let setupHandSelected   = null;
+let setupFaceUpSelected = null;
+
+function setupSelectHand(cardId) {
+  if (!view || view.phase !== 'setup' || view.myReady) return;
+  setupHandSelected = cardId;
+  trySetupSwap();
+}
+
+function setupSelectFaceUp(cardId) {
+  if (!view || view.phase !== 'setup' || view.myReady) return;
+  setupFaceUpSelected = cardId;
+  trySetupSwap();
+}
+
+function trySetupSwap() {
+  if (setupHandSelected !== null && setupFaceUpSelected !== null) {
+    socket.emit('swapCards', { handCardId: setupHandSelected, faceUpCardId: setupFaceUpSelected });
+    setupHandSelected   = null;
+    setupFaceUpSelected = null;
+  }
+}
+
+function sendReady() {
+  socket.emit('playerReady');
+}
+
+// ─────────────────────────────────────────────────────────────
+//  PLAYING INTERACTIONS
+// ─────────────────────────────────────────────────────────────
+function toggleSelect(cardId) {
+  if (!view || view.current !== view.seatIndex || view.phase !== 'playing') return;
+  const idx = selected.indexOf(cardId);
+  if (idx === -1) {
+    selected.push(cardId);
+    // Enforce same-value: keep only matching
+    if (selected.length > 1) {
+      const phase = myPhase();
+      const pool  = phase === 'hand' ? view.myHand : view.myFaceUp;
+      const first = pool.find(c => c.id === selected[0]);
+      if (first) selected = selected.filter(id => {
+        const c = pool.find(c => c.id === id);
+        return c && c.value === first.value;
+      });
+    }
+  } else {
+    selected.splice(idx, 1);
+  }
+  renderGame(view);
+}
+
+function playSelected() {
+  if (!selected.length) return;
+  const phase = myPhase();
+  socket.emit('play', { cardIds: selected, source: phase });
+  selected = [];
+}
+
+function pickUp() {
+  socket.emit('pickUp');
+}
+
+function flipFaceDown(index) {
+  socket.emit('flipFaceDown', { index });
+}
+
+// ─────────────────────────────────────────────────────────────
+//  GAME OVER MODAL
+// ─────────────────────────────────────────────────────────────
+function showGameOver(v) {
+  const overlay = document.getElementById('overlay');
+  const modal   = document.getElementById('modal');
+  const winner  = v.winner;
+  const isMe    = winner === v.seatIndex;
+  const winnerName = winner === v.seatIndex ? 'You' : (v.opponents.find(o => o.seatIndex === winner)?.name || 'Someone');
+
+  modal.innerHTML = `
+    <h2>${isMe ? '🎉 You Win!' : `${winnerName} Wins!`}</h2>
+    <p>${winnerName} cleared all their cards!</p>
+    <p class="sub">${isMe ? 'Opponents' : 'You'} ${isMe ? 'are' : 'are'} the Shithead!</p>
+    <br>
+    ${v.seatIndex === v.hostSeatIndex
+      ? `<button class="btn" onclick="restartGame()">Play Again</button>`
+      : `<p class="sub">Waiting for host to restart…</p>`}
+  `;
+  overlay.classList.remove('hidden');
+}
+
+function restartGame() {
+  socket.emit('restartGame');
+  document.getElementById('overlay').classList.add('hidden');
+}
+
+// ─────────────────────────────────────────────────────────────
+//  SOCKET EVENTS
+// ─────────────────────────────────────────────────────────────
+socket.on('stateUpdate', v => {
+  view = v;
+  localStorage.setItem('shithead_room', v.roomCode);
+  selected = selected.filter(id => {
+    const pool = [...view.myHand, ...view.myFaceUp];
+    return pool.some(c => c.id === id);
+  });
+
+  if (v.phase === 'lobby') {
+    showLobby();
+    renderLobby(v);
+  } else {
+    showGame();
+    renderGame(v);
+    if (v.phase === 'gameover') {
+      showGameOver(v);
+    } else {
+      document.getElementById('overlay').classList.add('hidden');
+    }
+  }
+});
+
+socket.on('joinError', msg => {
+  showHomeError(msg);
+  document.getElementById('lobbyError').textContent = msg;
+});
+
+socket.on('reconnectFailed', () => {
+  localStorage.removeItem('shithead_room');
+  showHomeScreen();
+});
+
+socket.on('playError', msg => {
+  if (view) {
+    const msgBox = document.querySelector('.message-box');
+    if (msgBox) {
+      msgBox.innerHTML = `<span class="warning">❌ ${msg}</span>`;
+      setTimeout(() => {
+        if (view) msgBox.innerHTML = view.msg;
+      }, 2000);
+    }
+  }
+});
+
+// ─────────────────────────────────────────────────────────────
+//  INIT — attempt rejoin on page load, otherwise show home
+// ─────────────────────────────────────────────────────────────
+const savedRoom = localStorage.getItem('shithead_room');
+if (savedRoom) {
+  socket.emit('rejoinRoom', { playerId: myPlayerId, roomCode: savedRoom });
+} else {
+  showHomeScreen();
+}
+</script>
+</body>
+</html>

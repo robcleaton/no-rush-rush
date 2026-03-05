@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shithead Card Game</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #1b4332;
+      background-image: radial-gradient(ellipse at center, #2d6a4f 0%, #1b4332 100%);
+      font-family: 'Georgia', serif;
+      color: #fff;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 16px;
+      gap: 12px;
+    }
+
+    h1 {
+      font-size: 2rem;
+      letter-spacing: 6px;
+      color: #f4d03f;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.6);
+      margin: 4px 0 0;
+    }
+
+    /* ── Cards ─────────────────────────────────────────── */
+    .card {
+      width: 64px;
+      height: 92px;
+      border-radius: 7px;
+      background: #fff;
+      border: 1px solid #bbb;
+      box-shadow: 1px 2px 5px rgba(0,0,0,0.35);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 4px 5px;
+      font-size: 13px;
+      font-weight: bold;
+      position: relative;
+      transition: transform 0.12s, box-shadow 0.12s;
+      flex-shrink: 0;
+      user-select: none;
+    }
+    .card.selectable { cursor: pointer; }
+    .card.selectable:hover {
+      transform: translateY(-6px);
+      box-shadow: 1px 8px 14px rgba(0,0,0,0.5);
+    }
+    .card.selected {
+      transform: translateY(-14px);
+      box-shadow: 0 12px 20px rgba(0,0,0,0.55);
+      outline: 3px solid #f4d03f;
+      outline-offset: 1px;
+    }
+    .card.red  { color: #c0392b; }
+    .card.black { color: #1a1a1a; }
+    .card .corner { font-size: 13px; line-height: 1; }
+    .card .corner.bot { transform: rotate(180deg); align-self: flex-end; }
+    .card .center-suit { font-size: 28px; text-align: center; line-height: 1; }
+    .card .badge {
+      position: absolute;
+      top: -7px; right: -7px;
+      background: #e74c3c;
+      color: #fff;
+      font-size: 9px;
+      font-family: Arial, sans-serif;
+      font-weight: 900;
+      padding: 2px 4px;
+      border-radius: 8px;
+      pointer-events: none;
+      letter-spacing: 0.5px;
+    }
+    .card .badge.wild  { background: #8e44ad; }
+    .card .badge.burn  { background: #e74c3c; }
+    .card .badge.lower { background: #e67e22; }
+    .card .badge.ghost { background: #2980b9; }
+
+    .card.back {
+      background: repeating-linear-gradient(
+        -55deg,
+        #1a3a8f 0px, #1a3a8f 6px,
+        #1e4db7 6px, #1e4db7 12px
+      );
+      border-color: #1a3a8f;
+    }
+    .card.empty-slot {
+      background: transparent;
+      border: 2px dashed rgba(255,255,255,0.25);
+      box-shadow: none;
+    }
+    .card.pile-placeholder {
+      background: rgba(0,0,0,0.2);
+      border: 2px dashed rgba(255,255,255,0.3);
+      box-shadow: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      color: rgba(255,255,255,0.45);
+      font-family: Arial, sans-serif;
+    }
+
+    /* ── Zones ──────────────────────────────────────────── */
+    .board {
+      width: 100%;
+      max-width: 860px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .player-zone {
+      background: rgba(0,0,0,0.18);
+      border-radius: 10px;
+      padding: 12px 14px;
+    }
+    .zone-title {
+      font-size: 0.8rem;
+      font-weight: bold;
+      color: #a8d5b5;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .turn-dot {
+      width: 9px; height: 9px;
+      border-radius: 50%;
+      background: #4ade80;
+      animation: blink 1s ease-in-out infinite;
+      display: inline-block;
+    }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.3} }
+
+    .card-groups {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      align-items: flex-end;
+    }
+    .card-group { display: flex; flex-direction: column; gap: 4px; }
+    .group-label {
+      font-size: 10px;
+      font-family: Arial, sans-serif;
+      color: rgba(255,255,255,0.5);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .cards-row { display: flex; gap: 6px; }
+
+    /* ── Center ─────────────────────────────────────────── */
+    .center-row {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 32px;
+      padding: 8px 0;
+    }
+    .pile-block { text-align: center; }
+    .pile-label {
+      font-size: 11px;
+      font-family: Arial, sans-serif;
+      color: rgba(255,255,255,0.6);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 5px;
+    }
+    .pile-count {
+      font-size: 11px;
+      color: rgba(255,255,255,0.5);
+      margin-top: 4px;
+      font-family: Arial, sans-serif;
+    }
+    .burn-icon {
+      width: 64px; height: 92px;
+      border-radius: 7px;
+      background: rgba(231,76,60,0.2);
+      border: 2px solid rgba(231,76,60,0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+    }
+
+    /* ── Message ─────────────────────────────────────────── */
+    .message-box {
+      background: rgba(0,0,0,0.3);
+      border-radius: 8px;
+      padding: 10px 16px;
+      text-align: center;
+      font-size: 0.95rem;
+      min-height: 42px;
+      line-height: 1.5;
+    }
+    .warning { color: #f39c12; font-weight: bold; }
+
+    /* ── Actions ─────────────────────────────────────────── */
+    .action-row {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .btn {
+      background: #f4d03f;
+      color: #1a1a1a;
+      border: none;
+      padding: 9px 22px;
+      font-size: 0.9rem;
+      font-weight: bold;
+      font-family: Georgia, serif;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.1s, transform 0.1s;
+    }
+    .btn:hover { background: #f7dc6f; transform: translateY(-1px); }
+    .btn:active { transform: translateY(0); }
+    .btn:disabled { background: #666; color: #aaa; cursor: not-allowed; transform: none; }
+    .btn.red-btn { background: #e74c3c; color: #fff; }
+    .btn.red-btn:hover { background: #ec7063; }
+
+    /* ── Rules panel ─────────────────────────────────────── */
+    .rules {
+      background: rgba(0,0,0,0.25);
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-size: 11px;
+      font-family: Arial, sans-serif;
+      color: rgba(255,255,255,0.6);
+      line-height: 1.7;
+      max-width: 860px;
+      width: 100%;
+    }
+    .rules strong { color: rgba(255,255,255,0.85); }
+
+    /* ── Modal overlay ───────────────────────────────────── */
+    .overlay {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.72);
+      display: flex; align-items: center; justify-content: center;
+      z-index: 200;
+    }
+    .overlay.hidden { display: none; }
+    .modal {
+      background: #1b4332;
+      border: 3px solid #f4d03f;
+      border-radius: 14px;
+      padding: 36px 44px;
+      text-align: center;
+      max-width: 420px;
+    }
+    .modal h2 { font-size: 1.8rem; color: #f4d03f; margin-bottom: 14px; }
+    .modal p  { font-size: 1rem; margin-bottom: 10px; line-height: 1.6; }
+    .modal .sub { color: #a8d5b5; font-size: 0.85rem; }
+
+    /* ── Log ─────────────────────────────────────────────── */
+    .log {
+      max-width: 860px;
+      width: 100%;
+      background: rgba(0,0,0,0.2);
+      border-radius: 8px;
+      padding: 8px 12px;
+      font-size: 11px;
+      font-family: Arial, sans-serif;
+      color: rgba(255,255,255,0.55);
+      max-height: 70px;
+      overflow-y: auto;
+      line-height: 1.8;
+    }
+  </style>
+</head>
+<body>
+
+<h1>♠ SHITHEAD ♣</h1>
+
+<div class="board" id="board"></div>
+
+<div class="rules" id="rulesPanel">
+  <strong>How to play:</strong>
+  Play a card equal to or higher than the top pile card.
+  <strong style="color:#c9b46a">2</strong> = wild/reset &nbsp;
+  <strong style="color:#e67e22">7</strong> = next player must play ≤7 &nbsp;
+  <strong style="color:#e74c3c">10</strong> = burn pile &amp; play again &nbsp;
+  <strong>Four-of-a-kind</strong> = burn pile. &nbsp;
+  Play Hand → Face-up → Face-down (blind). Can't play? Pick up the pile.
+</div>
+
+<div class="log" id="logPanel"></div>
+
+<div class="overlay hidden" id="overlay">
+  <div class="modal" id="modal"></div>
+</div>
+
+<script>
+// ─────────────────────────────────────────────────────────────
+//  DATA
+// ─────────────────────────────────────────────────────────────
+const SUITS  = ['♠','♥','♦','♣'];
+const VALUES = [2,3,4,5,6,7,8,9,10,11,12,13,14];
+const NAMES  = {2:'2',3:'3',4:'4',5:'5',6:'6',7:'7',8:'8',9:'9',10:'10',11:'J',12:'Q',13:'K',14:'A'};
+const RED_SUITS = new Set(['♥','♦']);
+
+let G = null;   // game state
+const logLines = [];
+
+// ─────────────────────────────────────────────────────────────
+//  DECK UTILITIES
+// ─────────────────────────────────────────────────────────────
+function makeDeck() {
+  let id = 0;
+  return SUITS.flatMap(suit => VALUES.map(value => ({ suit, value, id: id++ })));
+}
+
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+// ─────────────────────────────────────────────────────────────
+//  GAME INIT
+// ─────────────────────────────────────────────────────────────
+function initGame() {
+  logLines.length = 0;
+  const deck = shuffle(makeDeck());
+  let di = 0;
+
+  const players = [
+    { name: 'You',  isHuman: true,  hand: [], faceUp: [], faceDown: [] },
+    { name: 'CPU',  isHuman: false, hand: [], faceUp: [], faceDown: [] },
+  ];
+
+  for (const p of players) {
+    p.faceDown = deck.slice(di, di + 3); di += 3;
+    p.faceUp   = deck.slice(di, di + 3); di += 3;
+    p.hand     = deck.slice(di, di + 3); di += 3;
+  }
+
+  G = {
+    players,
+    deck: deck.slice(di),
+    pile: [],
+    burned: [],
+    phase: 'setup',        // 'setup' | 'playing' | 'gameover'
+    current: 0,
+    sevenOn: false,        // next player must play ≤7
+    msg: 'Swap cards between your hand and face-up slots, then click Ready.',
+    selected: [],          // card IDs selected by human
+    winner: null,
+  };
+
+  // AI pre-selects best face-up cards
+  aiArrange(G.players[1]);
+  render();
+}
+
+function aiArrange(p) {
+  // Move 3 highest-value cards to face-up
+  const all = [...p.hand, ...p.faceUp].sort((a, b) => b.value - a.value);
+  p.faceUp = all.slice(0, 3);
+  p.hand   = all.slice(3);
+}
+
+// ─────────────────────────────────────────────────────────────
+//  GAME LOGIC
+// ─────────────────────────────────────────────────────────────
+function effectiveTop() {
+  // 3 is transparent; skip 3s from top to find effective top card
+  for (let i = G.pile.length - 1; i >= 0; i--) {
+    if (G.pile[i].value !== 3) return G.pile[i];
+  }
+  return null;
+}
+
+function canPlay(card) {
+  const top = effectiveTop();
+  if (card.value === 2)  return true;   // wild
+  if (card.value === 10) return true;   // burn always valid
+  if (!top)              return true;   // empty pile
+  if (G.sevenOn) return card.value <= 7;
+  return card.value >= top.value;
+}
+
+function canPlayGroup(cards) {
+  if (!cards.length) return false;
+  if (!cards.every(c => c.value === cards[0].value)) return false;
+  return canPlay(cards[0]);
+}
+
+function fourOfAKindOnPile() {
+  if (G.pile.length < 4) return false;
+  const top = G.pile[G.pile.length - 1].value;
+  let n = 0;
+  for (let i = G.pile.length - 1; i >= 0; i--) {
+    if (G.pile[i].value === top) n++;
+    else break;
+  }
+  return n >= 4;
+}
+
+function burnPile() {
+  G.burned.push(...G.pile);
+  G.pile = [];
+  G.sevenOn = false;
+}
+
+function drawUp(player) {
+  while (player.hand.length < 3 && G.deck.length > 0) {
+    player.hand.push(G.deck.shift());
+  }
+}
+
+function playerPhase(p) {
+  if (p.hand.length > 0)   return 'hand';
+  if (p.faceUp.length > 0) return 'faceUp';
+  return 'faceDown';
+}
+
+function isGameOver(p) {
+  return p.hand.length === 0 && p.faceUp.length === 0 && p.faceDown.length === 0;
+}
+
+function doPlay(pidx, cardIds, source) {
+  const p = G.players[pidx];
+  let cards;
+
+  if (source === 'hand') {
+    cards = cardIds.map(id => p.hand.find(c => c.id === id));
+    p.hand = p.hand.filter(c => !cardIds.includes(c.id));
+  } else if (source === 'faceUp') {
+    cards = cardIds.map(id => p.faceUp.find(c => c.id === id));
+    p.faceUp = p.faceUp.filter(c => !cardIds.includes(c.id));
+  } else {
+    // faceDown: cardIds is an array index
+    cards = [p.faceDown.splice(cardIds[0], 1)[0]];
+  }
+
+  const label = cards.map(c => NAMES[c.value] + c.suit).join('+');
+  G.pile.push(...cards);
+
+  let playAgain = false;
+  let extraMsg = '';
+
+  if (cards.some(c => c.value === 10)) {
+    burnPile();
+    playAgain = true;
+    extraMsg = '🔥 BURN! Play again.';
+  } else if (fourOfAKindOnPile()) {
+    burnPile();
+    playAgain = true;
+    extraMsg = '🔥 FOUR OF A KIND — BURN! Play again.';
+  } else if (cards.some(c => c.value === 7)) {
+    G.sevenOn = true;
+    extraMsg = '⚠ Next player must play 7 or lower!';
+  } else {
+    G.sevenOn = false;
+  }
+
+  if (source === 'hand') drawUp(p);
+
+  addLog(`${p.name} plays ${label}. ${extraMsg}`);
+
+  if (isGameOver(p)) {
+    G.phase = 'gameover';
+    G.winner = pidx;
+    G.msg = `${p.name} wins!`;
+    render();
+    showGameOver(pidx);
+    return;
+  }
+
+  if (playAgain) {
+    G.msg = `${p.name} plays again! ${extraMsg}`;
+    render();
+    if (!p.isHuman) setTimeout(aiTurn, 1100);
+  } else {
+    advanceTurn();
+  }
+}
+
+function doPickUp(pidx) {
+  const p = G.players[pidx];
+  addLog(`${p.name} picks up the pile (${G.pile.length} cards).`);
+  p.hand.push(...G.pile);
+  G.pile = [];
+  G.sevenOn = false;
+  advanceTurn();
+}
+
+function advanceTurn() {
+  G.current = (G.current + 1) % G.players.length;
+  G.selected = [];
+  const p = G.players[G.current];
+  const phase = playerPhase(p);
+
+  if (!p.isHuman) {
+    G.msg = `${p.name} is thinking…`;
+    render();
+    setTimeout(aiTurn, 900);
+  } else {
+    if (phase === 'faceDown') {
+      G.msg = 'Click a face-down card to flip it!';
+    } else {
+      G.msg = G.sevenOn
+        ? '⚠ You must play 7 or lower. Select card(s) and click Play.'
+        : 'Your turn! Select card(s) to play (same value), then click Play.';
+    }
+    render();
+  }
+}
+
+// ─────────────────────────────────────────────────────────────
+//  AI
+// ─────────────────────────────────────────────────────────────
+function aiTurn() {
+  const p = G.players[G.current];
+  const phase = playerPhase(p);
+
+  if (phase === 'faceDown') {
+    const idx = Math.floor(Math.random() * p.faceDown.length);
+    const card = p.faceDown[idx];
+    if (canPlay(card)) {
+      addLog(`${p.name} flips ${NAMES[card.value]}${card.suit} — valid!`);
+      doPlay(G.current, [idx], 'faceDown');
+    } else {
+      // Invalid flip: take card into hand + pick up pile
+      p.faceDown.splice(idx, 1);
+      addLog(`${p.name} flips ${NAMES[card.value]}${card.suit} — can't play it, picks up the pile!`);
+      p.hand.push(card, ...G.pile);
+      G.pile = [];
+      G.sevenOn = false;
+      G.msg = `${p.name} flipped ${NAMES[card.value]}${card.suit} — invalid, picks up the pile!`;
+      render();
+      setTimeout(advanceTurn, 1000);
+    }
+    return;
+  }
+
+  const pool = phase === 'hand' ? p.hand : p.faceUp;
+
+  // Group by value
+  const groups = {};
+  for (const c of pool) {
+    if (!groups[c.value]) groups[c.value] = [];
+    groups[c.value].push(c);
+  }
+
+  // Candidate plays: filter to valid ones
+  const candidates = Object.values(groups).filter(grp => canPlay(grp[0]));
+
+  if (candidates.length === 0) {
+    G.msg = `${p.name} can't play — picks up the pile.`;
+    render();
+    setTimeout(() => doPickUp(G.current), 700);
+    return;
+  }
+
+  // Pick best play:
+  // Priority: complete 4-of-a-kind burn > 10 > lowest valid (save high cards)
+  let best = null;
+  let bestScore = -Infinity;
+
+  for (const grp of candidates) {
+    const v = grp[0].value;
+    let score;
+    if (v === 10) {
+      score = 900;
+    } else {
+      // Check if this would make 4-of-a-kind on pile
+      const pileMatchCount = G.pile.filter(c => c.value === v).length;
+      if (grp.length + pileMatchCount >= 4) {
+        score = 800;
+      } else if (v === 2) {
+        score = 50; // wild — use as last resort
+      } else {
+        // Prefer playing more cards at once, prefer lower values to save high ones
+        score = grp.length * 10 + (50 - v);
+      }
+    }
+    if (score > bestScore) {
+      bestScore = score;
+      best = grp;
+    }
+  }
+
+  G.msg = `${p.name} plays ${best.map(c => NAMES[c.value] + c.suit).join('+')}`;
+  render();
+  setTimeout(() => doPlay(G.current, best.map(c => c.id), phase), 600);
+}
+
+// ─────────────────────────────────────────────────────────────
+//  HUMAN HANDLERS
+// ─────────────────────────────────────────────────────────────
+function toggleSelect(id) {
+  if (G.current !== 0 || G.phase !== 'playing') return;
+  const idx = G.selected.indexOf(id);
+  if (idx === -1) G.selected.push(id);
+  else G.selected.splice(idx, 1);
+
+  // Enforce same-value constraint: deselect incompatible
+  if (G.selected.length > 1) {
+    const p = G.players[0];
+    const phase = playerPhase(p);
+    const pool = phase === 'hand' ? p.hand : p.faceUp;
+    const first = pool.find(c => c.id === G.selected[0]);
+    if (first) G.selected = G.selected.filter(id => {
+      const c = pool.find(c => c.id === id);
+      return c && c.value === first.value;
+    });
+  }
+  render();
+}
+
+function setupToggle(id) {
+  if (G.phase !== 'setup') return;
+  const idx = G.selected.indexOf(id);
+  if (idx === -1) G.selected.push(id);
+  else G.selected.splice(idx, 1);
+
+  // If 2 selected and one from each group, swap them
+  if (G.selected.length === 2) {
+    const p = G.players[0];
+    const [id1, id2] = G.selected;
+    const hIdx = p.hand.findIndex(c => c.id === id1 || c.id === id2);
+    const fIdx = p.faceUp.findIndex(c => c.id === id1 || c.id === id2);
+    if (hIdx !== -1 && fIdx !== -1) {
+      [p.hand[hIdx], p.faceUp[fIdx]] = [p.faceUp[fIdx], p.hand[hIdx]];
+      addLog(`Swapped ${NAMES[p.hand[hIdx].value]}${p.hand[hIdx].suit} ↔ ${NAMES[p.faceUp[fIdx].value]}${p.faceUp[fIdx].suit}`);
+      G.selected = [];
+      G.msg = 'Swap cards between your hand and face-up slots, then click Ready.';
+    }
+  }
+  render();
+}
+
+function humanPlay() {
+  if (!G.selected.length) return;
+  const p = G.players[0];
+  const phase = playerPhase(p);
+  const pool = phase === 'hand' ? p.hand : p.faceUp;
+  const cards = G.selected.map(id => pool.find(c => c.id === id)).filter(Boolean);
+
+  if (!cards.length) return;
+  if (!canPlayGroup(cards)) {
+    const top = effectiveTop();
+    G.msg = G.sevenOn
+      ? `❌ Can't play that — must play 7 or lower!`
+      : `❌ Can't play that — must match or beat ${top ? NAMES[top.value] : 'anything'}.`;
+    G.selected = [];
+    render();
+    return;
+  }
+  const ids = [...G.selected];
+  G.selected = [];
+  doPlay(0, ids, phase);
+}
+
+function humanPickUp() {
+  if (G.pile.length === 0) return;
+  doPickUp(0);
+}
+
+function humanFlipFaceDown(idx) {
+  if (G.current !== 0 || playerPhase(G.players[0]) !== 'faceDown') return;
+  const card = G.players[0].faceDown[idx];
+  if (canPlay(card)) {
+    addLog(`You flip ${NAMES[card.value]}${card.suit} — valid!`);
+    doPlay(0, [idx], 'faceDown');
+  } else {
+    G.players[0].faceDown.splice(idx, 1);
+    addLog(`You flip ${NAMES[card.value]}${card.suit} — can't play it, pick up the pile!`);
+    G.players[0].hand.push(card, ...G.pile);
+    G.pile = [];
+    G.sevenOn = false;
+    G.msg = `You flipped ${NAMES[card.value]}${card.suit} — can't play it. Pile added to your hand.`;
+    render();
+    setTimeout(advanceTurn, 800);
+  }
+}
+
+function readyToPlay() {
+  G.phase = 'playing';
+  G.selected = [];
+  G.current = Math.random() < 0.5 ? 0 : 1;
+  const first = G.players[G.current];
+  G.msg = `${first.name} go${first.isHuman ? '' : 'es'} first!`;
+  addLog(`--- Game started. ${first.name} goes first. ---`);
+  render();
+  if (!first.isHuman) setTimeout(aiTurn, 1000);
+}
+
+// ─────────────────────────────────────────────────────────────
+//  RENDER
+// ─────────────────────────────────────────────────────────────
+function cardEl(card, { selectable = false, selected = false, back = false, onclick = '' } = {}) {
+  if (back) return `<div class="card back" onclick="${onclick}" style="${onclick ? 'cursor:pointer' : ''}"></div>`;
+  const col   = RED_SUITS.has(card.suit) ? 'red' : 'black';
+  const name  = NAMES[card.value];
+  const sel   = selected  ? ' selected'  : '';
+  const seli  = selectable ? ' selectable' : '';
+  const badge = specialBadge(card.value);
+  return `
+    <div class="card ${col}${sel}${seli}" onclick="${onclick}">
+      ${badge}
+      <div class="corner">${name}${card.suit}</div>
+      <div class="center-suit">${card.suit}</div>
+      <div class="corner bot">${name}${card.suit}</div>
+    </div>`;
+}
+
+function emptyCardEl() {
+  return `<div class="card empty-slot"></div>`;
+}
+
+function specialBadge(v) {
+  if (v === 2)  return `<div class="badge wild">WILD</div>`;
+  if (v === 7)  return `<div class="badge lower">≤7</div>`;
+  if (v === 10) return `<div class="badge burn">BURN</div>`;
+  if (v === 3)  return `<div class="badge ghost">GHOST</div>`;
+  return '';
+}
+
+function render() {
+  const board = document.getElementById('board');
+  const isHumanTurn = G.current === 0;
+  const humanPhase  = playerPhase(G.players[0]);
+  const cpu  = G.players[1];
+  const me   = G.players[0];
+  const selSet = new Set(G.selected);
+
+  // ── CPU zone ──────────────────────────────────────────────
+  const cpuFaceDown = cpu.faceDown.map(() => cardEl(null, { back: true })).join('')
+    || emptyCardEl();
+  const cpuFaceUp = cpu.faceUp.map(c => cardEl(c)).join('')
+    || emptyCardEl();
+  const cpuHand = cpu.hand.map(() => cardEl(null, { back: true })).join('')
+    || emptyCardEl();
+
+  const cpuActive = !isHumanTurn && G.phase === 'playing';
+
+  // ── Pile area ─────────────────────────────────────────────
+  const topCard = G.pile.length ? G.pile[G.pile.length - 1] : null;
+  const pileEl  = topCard
+    ? cardEl(topCard)
+    : `<div class="card pile-placeholder">empty</div>`;
+  const drawEl  = G.deck.length
+    ? cardEl(null, { back: true })
+    : `<div class="card pile-placeholder">${G.deck.length === 0 ? 'gone' : ''}</div>`;
+  const burnEl  = G.burned.length
+    ? `<div class="burn-icon">🔥</div>`
+    : `<div class="card empty-slot"></div>`;
+
+  // ── Human zone ────────────────────────────────────────────
+  const canFlipDown = isHumanTurn && G.phase === 'playing' && humanPhase === 'faceDown';
+  const meActive = isHumanTurn && G.phase === 'playing';
+  const canSelectHand   = meActive && humanPhase === 'hand';
+  const canSelectFaceUp = meActive && humanPhase === 'faceUp';
+
+  const meFaceDown = me.faceDown.map((c, i) =>
+    cardEl(c, {
+      back: true,
+      onclick: canFlipDown ? `humanFlipFaceDown(${i})` : '',
+    })
+  ).join('') || emptyCardEl();
+
+  const meFaceUp = me.faceUp.map(c =>
+    cardEl(c, {
+      selectable: G.phase === 'setup' || canSelectFaceUp,
+      selected: selSet.has(c.id),
+      onclick: G.phase === 'setup' ? `setupToggle(${c.id})` : canSelectFaceUp ? `toggleSelect(${c.id})` : '',
+    })
+  ).join('') || emptyCardEl();
+
+  const meHand = me.hand.map(c =>
+    cardEl(c, {
+      selectable: G.phase === 'setup' || canSelectHand,
+      selected: selSet.has(c.id),
+      onclick: G.phase === 'setup' ? `setupToggle(${c.id})` : canSelectHand ? `toggleSelect(${c.id})` : '',
+    })
+  ).join('') || emptyCardEl();
+
+  // ── Action buttons ────────────────────────────────────────
+  let actions = '';
+  if (G.phase === 'setup') {
+    actions = `
+      <div class="action-row">
+        <button class="btn" onclick="readyToPlay()">Ready to Play →</button>
+      </div>`;
+  } else if (isHumanTurn && G.phase === 'playing') {
+    if (humanPhase === 'faceDown') {
+      actions = `<div class="action-row"><span style="font-size:0.85rem;color:rgba(255,255,255,0.6)">Click a face-down card to flip it blind!</span></div>`;
+    } else {
+      const hasSelection = G.selected.length > 0;
+      actions = `
+        <div class="action-row">
+          <button class="btn" onclick="humanPlay()" ${!hasSelection ? 'disabled' : ''}>Play Selected</button>
+          ${G.pile.length > 0 ? `<button class="btn red-btn" onclick="humanPickUp()">Pick Up Pile</button>` : ''}
+        </div>`;
+    }
+  }
+
+  // ── Render HTML ───────────────────────────────────────────
+  board.innerHTML = `
+    <!-- CPU -->
+    <div class="player-zone" style="opacity:${cpuActive ? 1 : 0.82}">
+      <div class="zone-title">
+        ${cpuActive ? '<span class="turn-dot"></span>' : ''}
+        CPU &nbsp;<span style="font-weight:normal;color:rgba(255,255,255,0.4)">(hand: ${cpu.hand.length})</span>
+      </div>
+      <div class="card-groups">
+        <div class="card-group">
+          <div class="group-label">Face Down</div>
+          <div class="cards-row">${cpuFaceDown}</div>
+        </div>
+        <div class="card-group">
+          <div class="group-label">Face Up</div>
+          <div class="cards-row">${cpuFaceUp}</div>
+        </div>
+        <div class="card-group">
+          <div class="group-label">Hand</div>
+          <div class="cards-row">${cpuHand}</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Center -->
+    <div class="center-row">
+      <div class="pile-block">
+        <div class="pile-label">Draw</div>
+        ${drawEl}
+        <div class="pile-count">${G.deck.length}</div>
+      </div>
+      <div class="pile-block">
+        <div class="pile-label">Pile (${G.pile.length})</div>
+        ${pileEl}
+        ${G.sevenOn ? '<div class="pile-count warning">⚠ play ≤7</div>' : ''}
+      </div>
+      <div class="pile-block">
+        <div class="pile-label">Burned</div>
+        ${burnEl}
+        <div class="pile-count">${G.burned.length}</div>
+      </div>
+    </div>
+
+    <!-- Message -->
+    <div class="message-box">${G.msg}</div>
+
+    <!-- Actions -->
+    ${actions}
+
+    <!-- Human -->
+    <div class="player-zone" style="opacity:${isHumanTurn ? 1 : 0.82}">
+      <div class="zone-title">
+        ${isHumanTurn && G.phase === 'playing' ? '<span class="turn-dot"></span>' : ''}
+        You
+        ${G.phase === 'setup' ? '— <span style="font-weight:normal;color:#f4d03f;font-size:0.8rem">click two cards (hand ↔ face-up) to swap</span>' : ''}
+      </div>
+      <div class="card-groups">
+        <div class="card-group">
+          <div class="group-label">Face Down</div>
+          <div class="cards-row">${meFaceDown}</div>
+        </div>
+        <div class="card-group">
+          <div class="group-label">Face Up</div>
+          <div class="cards-row">${meFaceUp}</div>
+        </div>
+        <div class="card-group">
+          <div class="group-label">Hand</div>
+          <div class="cards-row">${meHand}</div>
+        </div>
+      </div>
+    </div>
+  `;
+
+  // Update log
+  const logEl = document.getElementById('logPanel');
+  logEl.innerHTML = logLines.slice(-6).reverse().join('<br>');
+}
+
+// ─────────────────────────────────────────────────────────────
+//  MODALS
+// ─────────────────────────────────────────────────────────────
+function showGameOver(winnerIdx) {
+  const overlay = document.getElementById('overlay');
+  const modal   = document.getElementById('modal');
+  const winner  = G.players[winnerIdx];
+  const loser   = G.players[1 - winnerIdx];
+
+  modal.innerHTML = `
+    <h2>${winnerIdx === 0 ? '🎉 You Win!' : '😞 You Lose!'}</h2>
+    <p>${winner.name} cleared all their cards!</p>
+    <p class="sub">${loser.name} is the Shithead.</p>
+    <br>
+    <button class="btn" onclick="restartGame()">Play Again</button>
+  `;
+  overlay.classList.remove('hidden');
+}
+
+function restartGame() {
+  document.getElementById('overlay').classList.add('hidden');
+  initGame();
+}
+
+// ─────────────────────────────────────────────────────────────
+//  LOG
+// ─────────────────────────────────────────────────────────────
+function addLog(line) {
+  logLines.push(line);
+}
+
+// ─────────────────────────────────────────────────────────────
+//  START
+// ─────────────────────────────────────────────────────────────
+initGame();
+</script>
+</body>
+</html>
