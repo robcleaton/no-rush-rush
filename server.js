@@ -327,7 +327,7 @@ function broadcastState(room) {
   if (!gs) return;
   gs.players.forEach((_, pidx) => {
     const rp = room.players[pidx];
-    if (rp && rp.connected !== false) {
+    if (rp && rp.connected !== false && !rp.permanentlyLeft) {
       io.to(rp.id).emit('stateUpdate', stateView(room, pidx));
     }
   });
@@ -394,6 +394,7 @@ io.on('connection', socket => {
 
     const pidx = room.players.findIndex(p => p.playerId === playerId);
     if (pidx === -1) { socket.emit('reconnectFailed', 'Not found in room.'); return; }
+    if (room.players[pidx].permanentlyLeft) { socket.emit('reconnectFailed', 'You left this game.'); return; }
 
     // Cancel pending cleanup timer for this seat
     if (room.cleanupTimers[pidx]) {
@@ -569,6 +570,27 @@ io.on('connection', socket => {
     gs.winner = null;
     dealCards(room);
     broadcastState(room);
+  });
+
+  socket.on('leaveRoom', () => {
+    if (!currentRoom || seatIndex === null) return;
+    const room = currentRoom;
+    const rp = room.players[seatIndex];
+    if (rp) {
+      rp.connected = false;
+      rp.permanentlyLeft = true;
+    }
+    const gs = room.state;
+    if (gs && (gs.phase === 'playing' || gs.phase === 'setup')) {
+      addLog(gs, `${gs.players[seatIndex].name} left the game.`);
+      gs.msg = `${gs.players[seatIndex].name} left the game.`;
+      broadcastState(room);
+    } else if (gs && gs.phase === 'lobby') {
+      broadcastState(room);
+    }
+    socket.leave(room.code);
+    currentRoom = null;
+    seatIndex = null;
   });
 
   socket.on('disconnect', () => {

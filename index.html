@@ -302,6 +302,7 @@ const SERVER_URL = 'https://no-rush-rush.onrender.com';
 const socket = io(SERVER_URL);
 let view = null;
 let selected = [];
+let intentionallyLeft = false;
 
 // ─────────────────────────────────────────────────────────────
 //  CARD RENDERING
@@ -392,6 +393,7 @@ function closeLeaveModal() {
 
 function leaveGame() {
   closeLeaveModal();
+  intentionallyLeft = true;
   localStorage.removeItem('shithead_room');
   view = null;
   selected = [];
@@ -419,6 +421,7 @@ function closeRules(e) {
 document.getElementById('createBtn').addEventListener('click', () => {
   const name = document.getElementById('nameInput').value.trim();
   if (!name) { showHomeError('Please enter your name.'); return; }
+  intentionallyLeft = false;
   socket.emit('createRoom', { name, playerId: myPlayerId });
 });
 
@@ -427,6 +430,7 @@ document.getElementById('joinBtn').addEventListener('click', () => {
   const code = document.getElementById('codeInput').value.trim().toUpperCase();
   if (!name) { showHomeError('Please enter your name.'); return; }
   if (!code) { showHomeError('Please enter a room code.'); return; }
+  intentionallyLeft = false;
   socket.emit('joinRoom', { code, name, playerId: myPlayerId });
 });
 
@@ -792,6 +796,7 @@ function restartGame() {
 //  SOCKET EVENTS
 // ─────────────────────────────────────────────────────────────
 socket.on('stateUpdate', v => {
+  if (intentionallyLeft) return;
   view = v;
   localStorage.setItem('shithead_room', v.roomCode);
   selected = selected.filter(id => {
