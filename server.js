@@ -40,11 +40,23 @@ function shuffle(arr) {
   return a;
 }
 
+const RUDE_WORDS = [
+  'ARSE','ARSEHOLE','BASTARD','BELLEND','BITCH','BLOODY','BOLLOCKS','BONK',
+  'BUGGER','BUMHOLE','CLUNGE','COB','COCK','COCKUP','COD','CRAP','CRUD',
+  'CUNT','DICKHEAD','DIPSTICK','DUFFER','DUNCE','FANNY','FART','FATARSE',
+  'FILTH','FLANGE','FLANKER','FLAPS','FRIG','FUCK','FUCKER','FUCKUP',
+  'GIT','GOBSHITE','GROTTY','GUFF','HELL','HOOKER','JACKASS','JOBBY',
+  'KNOB','KNOBBER','KNOBEND','LARD','MINGE','MINGER','MUPPET','NONCE',
+  'NUMPTY','PANTS','PILLOCK','PISS','PISSED','PLONKER','PRAT','PRICK',
+  'PRUDE','PUBE','SHIT','SHITE','SHITHEAD','SKANK','SLAG','SLAPPER',
+  'SLOB','SNOG','SNOTTY','SOD','SPUNK','TART','THICK','TITS','TOSSER',
+  'TURD','TWAT','TWIT','WANK','WANKER','WAZZOCK','WHORE','WILLY',
+];
+
 function generateCode() {
-  const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; // no 0/O/1/I
   let code;
   do {
-    code = Array.from({ length: 6 }, () => chars[Math.floor(Math.random() * chars.length)]).join('');
+    code = RUDE_WORDS[Math.floor(Math.random() * RUDE_WORDS.length)];
   } while (rooms.has(code));
   return code;
 }
