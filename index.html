@@ -493,7 +493,7 @@ let qrRoomCode  = null;
 
 function renderLobby(v) {
   document.getElementById('lobbyCode').textContent = v.roomCode;
-  const shareUrl = `${location.origin}?room=${v.roomCode}`;
+  const shareUrl = `${location.origin}${location.pathname}?room=${v.roomCode}`;
   document.getElementById('shareLink').textContent = shareUrl;
 
   const qrContainer = document.getElementById('qrCode');
