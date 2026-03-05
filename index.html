@@ -895,7 +895,11 @@ socket.on('connect', () => {
   if (savedRoom && !intentionallyLeft) {
     socket.emit('rejoinRoom', { playerId: myPlayerId, roomCode: savedRoom });
   } else if (!intentionallyLeft && !savedRoom) {
-    showSplash();
+    if (new URLSearchParams(location.search).get('room')) {
+      showHomeScreen();
+    } else {
+      showSplash();
+    }
   }
 });
 
