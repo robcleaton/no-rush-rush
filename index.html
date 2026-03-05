@@ -203,8 +203,17 @@
 
   <div>
     <div class="pile-label" style="margin-bottom:6px">Room Code</div>
-    <div class="text-[2.4rem] tracking-[10px] text-[#f4d03f] font-bold text-center bg-black/30 rounded-lg p-3"
-         style="font-family:'Courier New',monospace" id="lobbyCode"></div>
+    <div class="flex items-center gap-2 bg-black/30 rounded-lg p-3">
+      <div class="text-[2.4rem] tracking-[10px] text-[#f4d03f] font-bold flex-1 text-center"
+           style="font-family:'Courier New',monospace" id="lobbyCode"></div>
+      <button onclick="copyRoomCode()" title="Copy code"
+              class="text-white/40 hover:text-white/80 transition-colors bg-transparent border-0 cursor-pointer p-1 shrink-0"
+              id="copyCodeBtn">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+        </svg>
+      </button>
+    </div>
   </div>
 
   <div class="text-[0.78rem] font-sans text-white/50 text-center break-all" id="shareLink"></div>
@@ -509,6 +518,18 @@ function renderLobby(v) {
   startBtn.style.display = isHost ? '' : 'none';
   startBtn.disabled = playerCount < 2;
   startBtn.textContent = playerCount < 2 ? 'Start Game (need 2+)' : `Start Game (${playerCount} players)`;
+}
+
+function copyRoomCode() {
+  const code = document.getElementById('lobbyCode').textContent.trim();
+  if (!code) return;
+  navigator.clipboard.writeText(code).then(() => {
+    const btn = document.getElementById('copyCodeBtn');
+    btn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>`;
+    setTimeout(() => {
+      btn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>`;
+    }, 2000);
+  });
 }
 
 function getMyName() {
