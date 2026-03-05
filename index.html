@@ -264,6 +264,13 @@
   <div class="bg-[#1b4332] border-[3px] border-[#f4d03f] rounded-2xl px-11 py-9 text-center max-w-[460px] w-[90%]" id="modal"></div>
 </div>
 
+<!-- ── RECONNECTING BANNER ────────────────────────────── -->
+<div class="fixed top-0 inset-x-0 z-[400] hidden" id="reconnectingBanner">
+  <div class="bg-[#e67e22] text-white text-center text-[0.85rem] font-sans py-2 px-4 tracking-wide">
+    Connection lost — reconnecting…
+  </div>
+</div>
+
 <!-- ── LEAVE CONFIRMATION MODAL ───────────────────────── -->
 <div class="fixed inset-0 bg-black/[0.72] flex items-center justify-center z-[300] hidden" id="leaveOverlay">
   <div class="bg-[#1b4332] border-[3px] border-[#f4d03f] rounded-2xl px-10 py-8 text-center max-w-[420px] w-[90%] flex flex-col gap-5">
@@ -847,7 +854,26 @@ socket.on('joinError', msg => {
 
 socket.on('reconnectFailed', () => {
   localStorage.removeItem('shithead_room');
+  document.getElementById('reconnectingBanner').classList.add('hidden');
   showSplash();
+});
+
+socket.on('disconnect', () => {
+  if (intentionallyLeft) return;
+  const savedRoom = localStorage.getItem('shithead_room');
+  if (savedRoom) {
+    document.getElementById('reconnectingBanner').classList.remove('hidden');
+  }
+});
+
+socket.on('connect', () => {
+  document.getElementById('reconnectingBanner').classList.add('hidden');
+  const savedRoom = localStorage.getItem('shithead_room');
+  if (savedRoom && !intentionallyLeft) {
+    socket.emit('rejoinRoom', { playerId: myPlayerId, roomCode: savedRoom });
+  } else if (!intentionallyLeft && !savedRoom) {
+    showSplash();
+  }
 });
 
 socket.on('playError', msg => {
@@ -862,15 +888,8 @@ socket.on('playError', msg => {
   }
 });
 
-// ─────────────────────────────────────────────────────────────
-//  INIT — attempt rejoin on page load, otherwise show home
-// ─────────────────────────────────────────────────────────────
-const savedRoom = localStorage.getItem('shithead_room');
-if (savedRoom) {
-  socket.emit('rejoinRoom', { playerId: myPlayerId, roomCode: savedRoom });
-} else {
-  showSplash();
-}
+// Init is handled by socket.on('connect') above, which fires on both
+// initial connection and every auto-reconnect after a network drop.
 </script>
 </body>
 </html>

@@ -611,7 +611,7 @@ io.on('connection', socket => {
     room.cleanupTimers[seatIndex] = setTimeout(() => {
       const allGone = room.players.every(p => p.connected === false);
       if (allGone) rooms.delete(room.code);
-    }, 60000);
+    }, 300000); // 5 minutes
   });
 });
 
