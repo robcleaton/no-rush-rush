@@ -29,11 +29,6 @@ footer {
   right: 1rem;
 }
 
-#logPanel {
-  position: sticky;
-  bottom: 0;
-  margin-top: auto;
-}
 
 /* ── Cards (fixed-dimension visual components) ─────────── */
 .card {

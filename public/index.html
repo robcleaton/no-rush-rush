@@ -85,8 +85,6 @@
 </head>
 <body style="background: var(--shithead-cream); overflow: hidden; height: 100dvh;">
 
-<div id="appFrame">
-
   <header>
     <h1 class="text-[2rem] tracking-[6px] text-[#f4d03f] mt-1 [text-shadow:0_2px_8px_rgba(0,0,0,0.6)]">♠ SHITHEAD ♣</h1>
     <ul class="flex gap-4 list-none p-0 m-0">
@@ -99,6 +97,8 @@
     </ul>
   </header>
 
+
+<div id="appFrame">
     
   <!-- ── SPLASH SCREEN ─────────────────────────────────────── -->
   <div class="flex flex-col items-center gap-6 mt-8" id="splashScreen">
@@ -207,7 +207,7 @@
   </div>
 </div>
 
-<div class="max-w-[860px] w-full bg-black/20 rounded-lg px-3 py-2 text-[11px] font-sans text-white/55 max-h-[70px] overflow-y-auto leading-[1.8] hidden" id="logPanel"></div>
+<div class="max-w-[860px] w-full bg-black/20 rounded-lg px-3 py-2 text-[11px] font-sans text-white/55 leading-[1.8] hidden" id="logPanel"></div>
 
 <!-- ── MODAL ────────────────────────────────────────────── -->
 <div class="fixed inset-0 bg-black/[0.72] flex items-center justify-center z-[200] hidden" id="overlay">
@@ -232,13 +232,13 @@
   </div>
 </div>
 
-<footer class="mt-auto pt-8 pb-4">
+</div><!-- /#appFrame -->
+
+<footer class="mt-auto">
   <a href="https://www.warface.co.uk/" target="_blank" rel="noopener">
-    <img src="https://www.warface.co.uk/assets/images/warface-logo-black.svg" alt="Warface" class="h-5 opacity-30 brightness-0 invert hover:opacity-60 transition-opacity">
+    <img src="https://www.warface.co.uk/assets/images/warface-logo-black.svg" alt="Warface" class="h-5 hover:opacity-60 transition-opacity">
   </a>
 </footer>
-
-</div><!-- /#appFrame -->
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script src="/socket.io/socket.io.js"></script>
