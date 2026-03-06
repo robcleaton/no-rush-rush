@@ -43,7 +43,8 @@ footer {
 
 /* ── Cards (fixed-dimension visual components) ─────────── */
 .card {
-  width: 64px; height: 92px;
+  width: clamp(40px,25vw,100px);
+  height: clamp(40px,36vw,142px);
   border-radius: 7px;
   background: #fff;
   border: 1px solid #bbb;
@@ -61,7 +62,7 @@ footer {
 .card.selected { transform: translateY(-14px); box-shadow: 0 12px 20px rgba(0,0,0,0.55); outline: 3px solid #f4d03f; outline-offset: 1px; }
 .card.red   { color: #c0392b; }
 .card.black { color: #1a1a1a; }
-.card .corner     { font-size: 13px; line-height: 1; }
+.card .corner     { font-family: 'TuskerGrotesk'; font-size: 18px; line-height: 1; }
 .card .corner.bot { transform: rotate(180deg); align-self: flex-end; }
 .card .center-suit { font-size: 28px; text-align: center; line-height: 1; }
 .card .badge {
@@ -118,4 +119,12 @@ body {
 }
 .card.selectable {
   cursor: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='110' height='44'><polygon points='0,0 0,28 7,21 11,33 17,31 13,19 22,19' fill='%231E1E1E' stroke='white' stroke-width='1.5' stroke-linejoin='round'/><text x='26' y='21' font-family='Arial,sans-serif' font-size='13' font-weight='900' fill='%23F8331E' stroke='white' stroke-width='3' paint-order='stroke'>lets play</text></svg>") 0 0, pointer;
+}
+
+/* ── Your hand ──────────────────────────────────────────── */
+.your-hand {
+  .face-down .card, .face-up .card  {
+    width: clamp(40px,12.7vw,100px);
+    height: clamp(40px,18.8vw,136px);
+  }
 }

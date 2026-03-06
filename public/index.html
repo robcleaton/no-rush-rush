@@ -545,15 +545,15 @@ function renderGame(v) {
           ${!opp.connected ? '<span style="color:#e74c3c;font-size:0.7rem">[offline]</span>' : ''}
         </div>
         <div class="card-groups">
-          <div class="card-group">
+          <div class="card-group face-down">
             <div class="group-label">Face Down</div>
             <div class="cards-row">${faceDownCards}</div>
           </div>
-          <div class="card-group">
+          <div class="card-group face-up">
             <div class="group-label">Face Up</div>
             <div class="cards-row">${faceUpCards}</div>
           </div>
-          <div class="card-group">
+          <div class="card-group hand">
             <div class="group-label">Hand</div>
             <div class="cards-row">${handCards}</div>
           </div>
@@ -661,16 +661,20 @@ function renderGame(v) {
         ${isMyTurn && v.phase === 'playing' ? '<span class="turn-dot"></span>' : ''}
         ${myTitle}
       </div>
-      <div class="card-groups">
-        <div class="card-group">
-          <div class="group-label">Face Down</div>
-          <div class="cards-row">${myFaceDownCards}</div>
-        </div>
-        <div class="card-group">
-          <div class="group-label">Face Up</div>
-          <div class="cards-row">${myFaceUpCards}</div>
-        </div>
-        <div class="card-group">
+      
+      <div class="gap-4 your-hand">
+        <div class="card-groups">
+          <div class="card-group face-down">
+            <div class="group-label">Face Down</div>
+            <div class="cards-row">${myFaceDownCards}</div>
+          </div>
+          <div class="card-group face-up">
+            <div class="group-label">Face Up</div>
+            <div class="cards-row">${myFaceUpCards}</div>
+          </div>
+      </div>
+
+        <div class="card-group hand">
           <div class="group-label">Hand</div>
           <div class="cards-row">${myHandCards}</div>
         </div>
