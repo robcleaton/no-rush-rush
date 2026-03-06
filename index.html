@@ -44,6 +44,16 @@
     }
   </script>
   <link rel="stylesheet" href="public/styles.css">
+  <style>
+    /* Override font path for GitHub Pages (styles.css uses /fonts/ which resolves to root) */
+    @font-face {
+      font-family: 'TuskerGrotesk';
+      src: url('public/fonts/TuskerGrotesk-9800Super.woff2') format('woff2');
+      font-weight: 900;
+      font-style: normal;
+      font-display: swap;
+    }
+  </style>
   <style type="text/tailwindcss">
     /* ── Component classes used in JS-generated HTML ── */
     .btn {
@@ -84,24 +94,24 @@
 </head>
 <body style="background: var(--shithead-cream); overflow: hidden; height: 100dvh;">
 
-<div id="appFrame">
-
-
-<header class="w-full flex items-center justify-between px-2">
-  <h1><a href="#" onclick="showSplash(); return false;"><img src="https://shithead.warface.co.uk/assets/logo.svg" alt="Shithead" class="h-8"></a></h1>
+<header class="w-full flex items-center justify-between px-2 mt-4">
+  <h1><a href="#" onclick="showSplash(); return false;"><img src="https://shithead.warface.co.uk/assets/logo.svg" alt="Shithead" class="h-6 hover:opacity-80"></a></h1>
   <ul class="flex gap-4 list-none p-0 m-0">
     <li>
-      <button class="text-[0.78rem] font-sans text-white/45 underline cursor-pointer tracking-widest uppercase bg-transparent border-0 p-0 hover:text-white/75" onclick="showRules()">Rules</button>
+      <button class="text-[0.78rem] text-black/45 underline cursor-pointer tracking-widest uppercase bg-transparent border-0 p-0 hover:text-black/75" onclick="showRules()">Rules</button>
     </li>
     <li>
-      <button class="text-[0.78rem] font-sans text-white/45 underline cursor-pointer tracking-widest uppercase bg-transparent border-0 p-0 hover:text-white/75 hidden" id="exitBtn" onclick="confirmLeave(event)">Exit Game</button>
+      <button class="text-[0.78rem] text-black/45 underline cursor-pointer tracking-widest uppercase bg-transparent border-0 p-0 hover:text-black/75 hidden" id="exitBtn" onclick="confirmLeave(event)">Exit Game</button>
     </li>
   </ul>
 </header>
 
+<div id="appFrame">
+
 <!-- ── SPLASH SCREEN ─────────────────────────────────────── -->
 <div class="flex flex-col items-center gap-6 mt-8" id="splashScreen">
-  <p class="text-white/50 text-base font-sans tracking-widest uppercase">2–4 players</p>
+  <h2 class="font-tusker text-[clamp(1.4rem,8vw,8rem)] leading-[clamp(2.2rem,8vw,8rem)] max-w-[1400px] uppercase">Card game for and your shit mates!</h2>
+  <p class="text-white/50 uppercase">2–4 players</p>
   <button class="btn text-xl px-12 py-4 tracking-widest" onclick="showHomeScreen()">Let's Play</button>
 </div>
 
