@@ -276,14 +276,6 @@ let intentionallyLeft = false;
 // ─────────────────────────────────────────────────────────────
 //  CARD RENDERING
 // ─────────────────────────────────────────────────────────────
-function specialBadge(v) {
-  if (v === 2)  return `<div class="badge wild">WILD</div>`;
-  if (v === 7)  return `<div class="badge lower">≤7</div>`;
-  if (v === 10) return `<div class="badge burn">BURN</div>`;
-  if (v === 3)  return `<div class="badge ghost">CHAIN</div>`;
-  if (v === 8)  return `<div class="badge window">WINDOW</div>`;
-  return '';
-}
 
 function cardEl(card, { selectable = false, isSelected = false, back = false, onclick = '' } = {}) {
   if (back) {
@@ -508,7 +500,9 @@ function getMyName() {
 }
 
 function getSeatForName(v, name) {
-  return v.hostSeatIndex;
+  if (name === 'You (' + getMyName() + ')') return v.seatIndex;
+  const opp = v.opponents.find(o => o.name === name);
+  return opp ? opp.seatIndex : -1;
 }
 
 // ─────────────────────────────────────────────────────────────
@@ -662,7 +656,7 @@ function renderGame(v) {
         ${myTitle}
       </div>
       
-      <div class="gap-4 your-hand">
+      <div class="flex gap-4 your-hand">
         <div class="card-groups">
           <div class="card-group face-down">
             <div class="group-label">Face Down</div>
@@ -672,11 +666,10 @@ function renderGame(v) {
             <div class="group-label">Face Up</div>
             <div class="cards-row">${myFaceUpCards}</div>
           </div>
-      </div>
-
-        <div class="card-group hand">
-          <div class="group-label">Hand</div>
-          <div class="cards-row">${myHandCards}</div>
+          <div class="card-group hand">
+            <div class="group-label">Hand</div>
+            <div class="cards-row">${myHandCards}</div>
+          </div>
         </div>
       </div>
     </div>
@@ -774,7 +767,7 @@ function showGameOver(v) {
   modal.innerHTML = `
     <h2>${isMe ? '🎉 You Win!' : `${winnerName} Wins!`}</h2>
     <p>${winnerName} cleared all their cards!</p>
-    <p class="sub">${isMe ? 'Opponents' : 'You'} ${isMe ? 'are' : 'are'} the Shithead!</p>
+    <p class="sub">${isMe ? 'Opponents are' : 'You are'} the Shithead!</p>
     <br>
     ${v.seatIndex === v.hostSeatIndex
       ? `<button class="btn" onclick="restartGame()">Play Again</button>`
