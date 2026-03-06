@@ -117,7 +117,7 @@
 
     <button class="btn" id="createBtn">Create Game</button>
 
-    <div class="flex items-center gap-2.5 text-white/30 text-[0.8rem] font-sans">
+    <div id="createDivider" class="flex items-center gap-2.5 text-white/30 text-[0.8rem] font-sans">
       <div class="flex-1 border-t border-white/15"></div>
       or join existing game
       <div class="flex-1 border-t border-white/15"></div>
@@ -415,6 +415,8 @@ document.getElementById('startBtn').addEventListener('click', () => {
 const urlCode = new URLSearchParams(window.location.search).get('room');
 if (urlCode) {
   document.getElementById('codeInput').value = urlCode.toUpperCase();
+  document.getElementById('createBtn').classList.add('hidden');
+  document.getElementById('createDivider').classList.add('hidden');
 }
 
 // ─────────────────────────────────────────────────────────────
