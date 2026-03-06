@@ -124,7 +124,11 @@ body {
 /* ── Your hand ──────────────────────────────────────────── */
 .your-hand {
   .face-down .card, .face-up .card  {
-    width: clamp(40px,12.7vw,100px);
+    width: clamp(44px,11.6vw,100px);
     height: clamp(40px,18.8vw,136px);
+
+    .corner {
+      font-size: 14px;
+    }
   }
 }
