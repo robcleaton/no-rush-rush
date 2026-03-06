@@ -294,10 +294,8 @@ function cardEl(card, { selectable = false, isSelected = false, back = false, on
   const name  = NAMES[card.value];
   const sel   = isSelected  ? ' selected'  : '';
   const seli  = selectable ? ' selectable' : '';
-  const badge = specialBadge(card.value);
   return `
     <div class="card ${col}${sel}${seli}" ${onclick ? `onclick="${onclick}"` : ''}>
-      ${badge}
       <div class="corner">${name}${card.suit}</div>
       <div class="center-suit">${card.suit}</div>
       <div class="corner bot">${name}${card.suit}</div>
