@@ -83,72 +83,76 @@
     #shareLink a { @apply text-[#a8d5b5]; }
   </style>
 </head>
-<body class="min-h-screen flex flex-col items-center p-4 gap-3 font-serif text-white"
-      style="background: #1b4332; background-image: radial-gradient(ellipse at center, #2d6a4f 0%, #1b4332 100%)">
+<body style="background: var(--shithead-red); overflow: hidden; height: 100dvh;">
 
-<h1 class="text-[2rem] tracking-[6px] text-[#f4d03f] mt-1 [text-shadow:0_2px_8px_rgba(0,0,0,0.6)]">♠ SHITHEAD ♣</h1>
+<div id="appFrame">
 
-<ul class="flex gap-4 list-none p-0 m-0">
-  <li>
-    <button class="text-[0.78rem] font-sans text-white/45 underline cursor-pointer tracking-widest uppercase bg-transparent border-0 p-0 hover:text-white/75" onclick="showRules()">Rules</button>
-  </li>
-  <li>
-    <button class="text-[0.78rem] font-sans text-white/45 underline cursor-pointer tracking-widest uppercase bg-transparent border-0 p-0 hover:text-white/75 hidden" id="exitBtn" onclick="confirmLeave(event)">Exit Game</button>
-  </li>
-</ul>
+  <header>
+    <h1 class="text-[2rem] tracking-[6px] text-[#f4d03f] mt-1 [text-shadow:0_2px_8px_rgba(0,0,0,0.6)]">♠ SHITHEAD ♣</h1>
+    <ul class="flex gap-4 list-none p-0 m-0">
+      <li>
+        <button class="text-[0.78rem] font-sans text-white/45 underline cursor-pointer tracking-widest uppercase bg-transparent border-0 p-0 hover:text-white/75" onclick="showRules()">Rules</button>
+      </li>
+      <li>
+        <button class="text-[0.78rem] font-sans text-white/45 underline cursor-pointer tracking-widest uppercase bg-transparent border-0 p-0 hover:text-white/75 hidden" id="exitBtn" onclick="confirmLeave(event)">Exit Game</button>
+      </li>
+    </ul>
+  </header>
 
-<!-- ── SPLASH SCREEN ─────────────────────────────────────── -->
-<div class="flex flex-col items-center gap-6 mt-8" id="splashScreen">
-  <p class="text-white/50 text-base font-sans tracking-widest uppercase">2–4 players</p>
-  <button class="btn text-xl px-12 py-4 tracking-widest" onclick="showHomeScreen()">Let's Play</button>
-</div>
-
-<!-- ── HOME SCREEN ──────────────────────────────────────── -->
-<div class="w-full max-w-[480px] bg-black/25 rounded-xl px-8 py-7 flex flex-col gap-4 hidden" id="homeScreen">
-  <div class="flex flex-col gap-1.5">
-    <label for="nameInput" class="text-[0.8rem] text-white/60 uppercase tracking-widest font-sans">Your Name</label>
-    <input id="nameInput" type="text" placeholder="Enter your name" maxlength="20" autocomplete="off"
-           class="bg-white/10 border border-white/25 rounded-md text-white text-base font-serif px-3 py-2 outline-none focus:border-[#f4d03f] focus:bg-white/15 placeholder:text-white/30">
+    
+  <!-- ── SPLASH SCREEN ─────────────────────────────────────── -->
+  <div class="flex flex-col items-center gap-6 mt-8" id="splashScreen">
+    <p class="text-white/50 text-base font-sans tracking-widest uppercase">2–4 players</p>
+    <button class="btn text-xl px-12 py-4 tracking-widest" onclick="showHomeScreen()">Let's Play</button>
   </div>
 
-  <button class="btn" id="createBtn">Create Game</button>
-
-  <div class="flex items-center gap-2.5 text-white/30 text-[0.8rem] font-sans">
-    <div class="flex-1 border-t border-white/15"></div>
-    or join existing game
-    <div class="flex-1 border-t border-white/15"></div>
-  </div>
-
-  <div class="flex flex-col gap-1.5">
-    <label for="codeInput" class="text-[0.8rem] text-white/60 uppercase tracking-widest font-sans">Room Code</label>
-    <input id="codeInput" type="text" placeholder="e.g. BOLLOCKS" maxlength="12" autocomplete="off"
-           style="text-transform:uppercase;letter-spacing:2px;font-family:'Courier New',monospace"
-           class="bg-white/10 border border-white/25 rounded-md text-white text-base px-3 py-2 outline-none focus:border-[#f4d03f] focus:bg-white/15 placeholder:text-white/30">
-  </div>
-
-  <button class="btn" id="joinBtn">Join Game</button>
-
-  <div class="text-[#e74c3c] text-[0.85rem] font-sans min-h-5 text-center" id="homeError"></div>
-</div>
-
-<!-- ── LOBBY SCREEN ─────────────────────────────────────── -->
-<div class="w-full max-w-[480px] bg-black/25 rounded-xl px-8 py-7 flex flex-col gap-4 hidden" id="lobbyScreen">
-  <h2 class="text-[1.3rem] text-[#f4d03f] mb-1">Waiting for players…</h2>
-
-  <div>
-    <div class="pile-label" style="margin-bottom:6px">Room Code</div>
-    <div class="flex items-center gap-2 bg-black/30 rounded-lg p-3">
-      <div class="text-[2.4rem] tracking-[10px] text-[#f4d03f] font-bold flex-1 text-center"
-           style="font-family:'Courier New',monospace" id="lobbyCode"></div>
-      <button onclick="copyRoomCode()" title="Copy code"
-              class="text-white/40 hover:text-white/80 transition-colors bg-transparent border-0 cursor-pointer p-1 shrink-0"
-              id="copyCodeBtn">
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
-        </svg>
-      </button>
+  <!-- ── HOME SCREEN ──────────────────────────────────────── -->
+  <div class="w-full max-w-[480px] bg-black/25 rounded-xl px-8 py-7 flex flex-col gap-4 hidden" id="homeScreen">
+    <div class="flex flex-col gap-1.5">
+      <label for="nameInput" class="text-[0.8rem] text-white/60 uppercase tracking-widest font-sans">Your Name</label>
+      <input id="nameInput" type="text" placeholder="Enter your name" maxlength="20" autocomplete="off"
+            class="bg-white/10 border border-white/25 rounded-md text-white text-base font-serif px-3 py-2 outline-none focus:border-[#f4d03f] focus:bg-white/15 placeholder:text-white/30">
     </div>
+
+    <button class="btn" id="createBtn">Create Game</button>
+
+    <div class="flex items-center gap-2.5 text-white/30 text-[0.8rem] font-sans">
+      <div class="flex-1 border-t border-white/15"></div>
+      or join existing game
+      <div class="flex-1 border-t border-white/15"></div>
+    </div>
+
+    <div class="flex flex-col gap-1.5">
+      <label for="codeInput" class="text-[0.8rem] text-white/60 uppercase tracking-widest font-sans">Room Code</label>
+      <input id="codeInput" type="text" placeholder="e.g. BOLLOCKS" maxlength="12" autocomplete="off"
+            style="text-transform:uppercase;letter-spacing:2px;font-family:'Courier New',monospace"
+            class="bg-white/10 border border-white/25 rounded-md text-white text-base px-3 py-2 outline-none focus:border-[#f4d03f] focus:bg-white/15 placeholder:text-white/30">
+    </div>
+
+    <button class="btn" id="joinBtn">Join Game</button>
+
+    <div class="text-[#e74c3c] text-[0.85rem] font-sans min-h-5 text-center" id="homeError"></div>
   </div>
+
+
+  <!-- ── LOBBY SCREEN ─────────────────────────────────────── -->
+  <div class="w-full max-w-[480px] bg-black/25 rounded-xl px-8 py-7 flex flex-col gap-4 hidden" id="lobbyScreen">
+    <h2 class="text-[1.3rem] text-[#f4d03f] mb-1">Waiting for players…</h2>
+
+    <div>
+      <div class="pile-label" style="margin-bottom:6px">Room Code</div>
+      <div class="flex items-center gap-2 bg-black/30 rounded-lg p-3">
+        <div class="text-[2.4rem] tracking-[10px] text-[#f4d03f] font-bold flex-1 text-center"
+            style="font-family:'Courier New',monospace" id="lobbyCode"></div>
+        <button onclick="copyRoomCode()" title="Copy code"
+                class="text-white/40 hover:text-white/80 transition-colors bg-transparent border-0 cursor-pointer p-1 shrink-0"
+                id="copyCodeBtn">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+          </svg>
+        </button>
+      </div>
+    </div>
 
   <div>
     <div class="pile-label" style="margin-bottom:6px">Invite Link</div>
@@ -233,6 +237,8 @@
     <img src="https://www.warface.co.uk/assets/images/warface-logo-black.svg" alt="Warface" class="h-5 opacity-30 brightness-0 invert hover:opacity-60 transition-opacity">
   </a>
 </footer>
+
+</div><!-- /#appFrame -->
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script src="/socket.io/socket.io.js"></script>

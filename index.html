@@ -82,8 +82,10 @@
     #shareLink a { @apply text-[#a8d5b5]; }
   </style>
 </head>
-<body class="min-h-screen flex flex-col items-center p-4 gap-3 font-serif text-white"
-      style="background: #1b4332; background-image: radial-gradient(ellipse at center, #2d6a4f 0%, #1b4332 100%)">
+<body style="background: var(--shithead-red); overflow: hidden; height: 100dvh;">
+
+<div id="appFrame">
+
 
 <h1 class="text-[2rem] tracking-[6px] text-[#f4d03f] mt-1 [text-shadow:0_2px_8px_rgba(0,0,0,0.6)]">♠ SHITHEAD ♣</h1>
 
@@ -232,6 +234,8 @@
     <img src="https://www.warface.co.uk/assets/images/warface-logo-black.svg" alt="Warface" class="h-5 opacity-30 brightness-0 invert hover:opacity-60 transition-opacity">
   </a>
 </footer>
+
+</div><!-- /#appFrame -->
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
