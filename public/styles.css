@@ -57,10 +57,14 @@
 .card .badge.ghost  { background: #2980b9; }
 .card .badge.window { background: #16a085; }
 .card.back {
-  background-color: var(--shithead-red);
-  background-image: url('/card-back.svg');
-  background-size: 40px 20px;
-  border-color: var(--shithead-dark-red);
+  background-image: repeating-linear-gradient(
+    45deg,
+    #6b21a8 0px,
+    #6b21a8 8px,
+    #a855f7 8px,
+    #a855f7 16px
+  );
+  border: 3px solid #fff;
 }
 .card.empty-slot {
   background: transparent;
