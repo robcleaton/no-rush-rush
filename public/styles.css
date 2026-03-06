@@ -57,8 +57,24 @@
 .card .badge.ghost  { background: #2980b9; }
 .card .badge.window { background: #16a085; }
 .card.back {
-  background: repeating-linear-gradient(-55deg, #1a3a8f 0px, #1a3a8f 6px, #1e4db7 6px, #1e4db7 12px);
-  border-color: #1a3a8f;
+  background-color: var(--shithead-red);
+  background-image:
+    repeating-linear-gradient(
+      45deg,
+      var(--shithead-cream) 0px,
+      var(--shithead-cream) 1px,
+      transparent 1px,
+      transparent 50%
+    ),
+    repeating-linear-gradient(
+      -45deg,
+      var(--shithead-cream) 0px,
+      var(--shithead-cream) 1px,
+      transparent 1px,
+      transparent 50%
+    );
+  background-size: 10px 10px;
+  border-color: var(--shithead-dark-red);
 }
 .card.empty-slot {
   background: transparent;
