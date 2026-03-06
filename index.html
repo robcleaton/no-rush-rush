@@ -57,7 +57,7 @@
   <style type="text/tailwindcss">
     /* ── Component classes used in JS-generated HTML ── */
     .btn {
-      @apply bg-[#f4d03f] text-[#1a1a1a] border-none px-[22px] py-[9px] text-[0.9rem] font-bold font-serif rounded-md cursor-pointer transition-all duration-100;
+      @apply bg-[#f4d03f] text-[#1a1a1a] border-none px-[22px] py-[9px] text-[0.9rem] font-bold rounded-md cursor-pointer transition-all duration-100;
     }
     .btn:hover  { @apply bg-[#f7dc6f] -translate-y-px; }
     .btn:active { @apply translate-y-0; }
@@ -76,7 +76,7 @@
 
     .center-row  { @apply flex justify-center items-start gap-8 py-2; }
     .pile-block  { @apply text-center; }
-    .pile-label  { @apply text-[11px] font-sans text-white/60 uppercase tracking-[1px] mb-[5px]; }
+    .pile-label  { @apply text-[11px] text-white/60 uppercase tracking-[1px] mb-[5px]; }
     .pile-count  { @apply text-[11px] text-white/50 mt-1 font-sans; }
 
     .message-box  { @apply bg-black/30 rounded-lg px-4 py-[10px] text-center text-[0.95rem] min-h-[42px] leading-relaxed; }
@@ -110,7 +110,7 @@
 
 <!-- ── SPLASH SCREEN ─────────────────────────────────────── -->
 <div class="flex flex-col items-center gap-6 mt-8" id="splashScreen">
-  <h2 class="font-tusker text-[clamp(1.4rem,8vw,8rem)] leading-[clamp(2.2rem,8vw,8rem)] max-w-[1400px] uppercase">Card game for and your shit mates!</h2>
+  <h2 class="font-tusker text-[clamp(3.4rem,8vw,8rem)] leading-[clamp(3.6rem,8vw,8rem)] max-w-[1400px] uppercase">Card game for and your shit mates!</h2>
   <p class="text-white/50 uppercase">2–4 players</p>
   <button class="btn text-xl px-12 py-4 tracking-widest" onclick="showHomeScreen()">Let's Play</button>
 </div>
@@ -120,7 +120,7 @@
   <div class="flex flex-col gap-1.5">
     <label for="nameInput" class="text-[0.8rem] text-white/60 uppercase tracking-widest font-sans">Your Name</label>
     <input id="nameInput" type="text" placeholder="Enter your name" maxlength="20" autocomplete="off"
-           class="bg-white/10 border border-white/25 rounded-md text-white text-base font-serif px-3 py-2 outline-none focus:border-[#f4d03f] focus:bg-white/15 placeholder:text-white/30">
+           class="bg-white/10 border border-white/25 rounded-md text-white text-base px-3 py-2 outline-none focus:border-[#f4d03f] focus:bg-white/15 placeholder:text-white/30">
   </div>
 
   <button class="btn" id="createBtn">Create Game</button>
@@ -545,15 +545,15 @@ function renderGame(v) {
           ${!opp.connected ? '<span style="color:#e74c3c;font-size:0.7rem">[offline]</span>' : ''}
         </div>
         <div class="card-groups">
-          <div class="card-group">
+          <div class="card-group face-down">
             <div class="group-label">Face Down</div>
             <div class="cards-row">${faceDownCards}</div>
           </div>
-          <div class="card-group">
+          <div class="card-group face-up">
             <div class="group-label">Face Up</div>
             <div class="cards-row">${faceUpCards}</div>
           </div>
-          <div class="card-group">
+          <div class="card-group hand">
             <div class="group-label">Hand</div>
             <div class="cards-row">${handCards}</div>
           </div>
