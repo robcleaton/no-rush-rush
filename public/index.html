@@ -67,7 +67,7 @@
 
     .center-row  { @apply flex justify-center items-start gap-8 py-2; }
     .pile-block  { @apply text-center; }
-    .pile-label  { @apply text-[11px] font-sans text-white/60 uppercase tracking-[1px] mb-[5px]; }
+    .pile-label  { @apply text-[11px] text-white/60 uppercase tracking-[1px] mb-[5px]; }
     .pile-count  { @apply text-[11px] text-white/50 mt-1 font-sans; }
 
     .message-box  { @apply bg-black/30 rounded-lg px-4 py-[10px] text-center text-[0.95rem] min-h-[42px] leading-relaxed; }
@@ -85,14 +85,14 @@
 </head>
 <body style="background: var(--shithead-cream); overflow: hidden; height: 100dvh;">
 
-  <header class="w-full flex items-center justify-between px-2">
-    <h1><img src="https://shithead.warface.co.uk/assets/logo.svg" alt="Shithead" class="h-8"></h1>
+  <header class="w-full flex items-center justify-between px-2 mt-4">
+    <h1><a href="#" onclick="showSplash(); return false;"><img src="https://shithead.warface.co.uk/assets/logo.svg" alt="Shithead" class="h-6"></a></h1>
     <ul class="flex gap-4 list-none p-0 m-0">
       <li>
-        <button class="text-[0.78rem] font-sans text-white/45 underline cursor-pointer tracking-widest uppercase bg-transparent border-0 p-0 hover:text-white/75" onclick="showRules()">Rules</button>
+        <button class="text-[0.78rem] text-black/45 underline cursor-pointer tracking-widest uppercase bg-transparent border-0 p-0 hover:text-black/75" onclick="showRules()">Rules</button>
       </li>
       <li>
-        <button class="text-[0.78rem] font-sans text-white/45 underline cursor-pointer tracking-widest uppercase bg-transparent border-0 p-0 hover:text-white/75 hidden" id="exitBtn" onclick="confirmLeave(event)">Exit Game</button>
+        <button class="text-[0.78rem] text-black/45 underline cursor-pointer tracking-widest uppercase bg-transparent border-0 p-0 hover:text-black/75 hidden" id="exitBtn" onclick="confirmLeave(event)">Exit Game</button>
       </li>
     </ul>
   </header>
