@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="80" height="40" viewBox="0 0 80 40">
+  <rect width="80" height="40" fill="#F8331E"/>
+  <!-- Upper flowing wave -->
+  <path d="M0,20 C10,5 30,5 40,20 C50,35 70,35 80,20 L80,0 L0,0 Z" fill="#FEFFF1"/>
+  <!-- Lower flowing wave -->
+  <path d="M0,20 C10,35 30,35 40,20 C50,5 70,5 80,20 L80,40 L0,40 Z" fill="#FEFFF1"/>
+</svg>

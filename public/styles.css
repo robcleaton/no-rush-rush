@@ -58,22 +58,8 @@
 .card .badge.window { background: #16a085; }
 .card.back {
   background-color: var(--shithead-red);
-  background-image:
-    repeating-linear-gradient(
-      45deg,
-      var(--shithead-cream) 0px,
-      var(--shithead-cream) 1px,
-      transparent 1px,
-      transparent 50%
-    ),
-    repeating-linear-gradient(
-      -45deg,
-      var(--shithead-cream) 0px,
-      var(--shithead-cream) 1px,
-      transparent 1px,
-      transparent 50%
-    );
-  background-size: 10px 10px;
+  background-image: url('/card-back.svg');
+  background-size: 40px 20px;
   border-color: var(--shithead-dark-red);
 }
 .card.empty-slot {
