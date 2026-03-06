@@ -1,3 +1,15 @@
+@font-face {
+  font-family: 'TuskerGrotesk';
+  src: url('/fonts/TuskerGrotesk-9800Super.woff2') format('woff2');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+.font-tusker {
+  font-family: 'TuskerGrotesk', sans-serif;
+}
+
 :root {
   --shithead-cream: #FEFFF1;
   --shithead-red: #F8331E;
@@ -19,8 +31,11 @@
   align-items: center;
   padding: 1rem;
   gap: 0.75rem;
-  font-family: serif;
   color: var(--shithead-black);
+}
+
+.font-tusker {
+  font-family: 'TuskerGrotesk,sans-serif';
 }
 
 footer {
