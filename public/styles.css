@@ -8,6 +8,8 @@
 /* ── App frame ──────────────────────────────────────────── */
 #appFrame {
   position: fixed;
+  margin-top: 40px;
+  margin-bottom: 20px;
   inset: 12px;
   background: var(--shithead-red);
   border-radius: 16px;
@@ -19,6 +21,18 @@
   gap: 0.75rem;
   font-family: serif;
   color: var(--shithead-black);
+}
+
+footer {
+  position: absolute;
+  bottom: 0.5rem;
+  right: 1rem;
+}
+
+#logPanel {
+  position: sticky;
+  bottom: 0;
+  margin-top: auto;
 }
 
 /* ── Cards (fixed-dimension visual components) ─────────── */
