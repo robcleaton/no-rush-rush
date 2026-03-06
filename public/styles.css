@@ -34,10 +34,6 @@
   color: var(--shithead-black);
 }
 
-.font-tusker {
-  font-family: 'TuskerGrotesk,sans-serif';
-}
-
 footer {
   position: absolute;
   bottom: 0.5rem;
@@ -115,3 +111,11 @@ footer {
   display: inline-block;
 }
 @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.3} }
+
+/* ── Custom cursor ──────────────────────────────────────────── */
+body {
+  cursor: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='110' height='44'><polygon points='0,0 0,28 7,21 11,33 17,31 13,19 22,19' fill='%231E1E1E' stroke='white' stroke-width='1.5' stroke-linejoin='round'/><text x='26' y='21' font-family='Arial,sans-serif' font-size='13' font-weight='900' fill='%23F8331E' stroke='white' stroke-width='3' paint-order='stroke'>lets play</text></svg>") 0 0, default;
+}
+.card.selectable {
+  cursor: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='110' height='44'><polygon points='0,0 0,28 7,21 11,33 17,31 13,19 22,19' fill='%231E1E1E' stroke='white' stroke-width='1.5' stroke-linejoin='round'/><text x='26' y='21' font-family='Arial,sans-serif' font-size='13' font-weight='900' fill='%23F8331E' stroke='white' stroke-width='3' paint-order='stroke'>lets play</text></svg>") 0 0, pointer;
+}
