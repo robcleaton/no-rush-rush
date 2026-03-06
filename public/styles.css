@@ -9,7 +9,7 @@
 #appFrame {
   position: fixed;
   inset: 12px;
-  background: var(--shithead-cream);
+  background: var(--shithead-red);
   border-radius: 16px;
   overflow-y: auto;
   display: flex;
