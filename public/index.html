@@ -48,7 +48,7 @@
   <style type="text/tailwindcss">
     /* ── Component classes used in JS-generated HTML ── */
     .btn {
-      @apply bg-[#f4d03f] text-[#1a1a1a] border-none px-[22px] py-[9px] text-[0.9rem] font-bold font-serif rounded-md cursor-pointer transition-all duration-100;
+      @apply bg-[#f4d03f] text-[#1a1a1a] border-none px-[22px] py-[9px] text-[0.9rem] font-bold rounded-md cursor-pointer transition-all duration-100;
     }
     .btn:hover  { @apply bg-[#f7dc6f] -translate-y-px; }
     .btn:active { @apply translate-y-0; }
@@ -85,8 +85,8 @@
 </head>
 <body style="background: var(--shithead-cream); overflow: hidden; height: 100dvh;">
 
-  <header>
-    <h1><img src="https://shithead.warface.co.uk/assets/logo.svg" alt="Shithead" class="h-12"></h1>
+  <header class="w-full flex items-center justify-between px-2">
+    <h1><img src="https://shithead.warface.co.uk/assets/logo.svg" alt="Shithead" class="h-8"></h1>
     <ul class="flex gap-4 list-none p-0 m-0">
       <li>
         <button class="text-[0.78rem] font-sans text-white/45 underline cursor-pointer tracking-widest uppercase bg-transparent border-0 p-0 hover:text-white/75" onclick="showRules()">Rules</button>
@@ -125,7 +125,7 @@
     <div class="flex flex-col gap-1.5">
       <label for="codeInput" class="text-[0.8rem] text-white/60 uppercase tracking-widest font-sans">Room Code</label>
       <input id="codeInput" type="text" placeholder="e.g. BOLLOCKS" maxlength="12" autocomplete="off"
-            style="text-transform:uppercase;letter-spacing:2px;font-family:'Courier New',monospace"
+            style="text-transform:uppercase;letter-spacing:2px;"
             class="bg-white/10 border border-white/25 rounded-md text-white text-base px-3 py-2 outline-none focus:border-[#f4d03f] focus:bg-white/15 placeholder:text-white/30">
     </div>
 
@@ -143,7 +143,7 @@
       <div class="pile-label" style="margin-bottom:6px">Room Code</div>
       <div class="flex items-center gap-2 bg-black/30 rounded-lg p-3">
         <div class="text-[2.4rem] tracking-[10px] text-[#f4d03f] font-bold flex-1 text-center"
-            style="font-family:'Courier New',monospace" id="lobbyCode"></div>
+            id="lobbyCode"></div>
         <button onclick="copyRoomCode()" title="Copy code"
                 class="text-white/40 hover:text-white/80 transition-colors bg-transparent border-0 cursor-pointer p-1 shrink-0"
                 id="copyCodeBtn">

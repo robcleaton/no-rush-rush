@@ -87,16 +87,17 @@
 <div id="appFrame">
 
 
-<h1><img src="https://shithead.warface.co.uk/assets/logo.svg" alt="Shithead" class="h-12"></h1>
-
-<ul class="flex gap-4 list-none p-0 m-0">
-  <li>
-    <button class="text-[0.78rem] font-sans text-white/45 underline cursor-pointer tracking-widest uppercase bg-transparent border-0 p-0 hover:text-white/75" onclick="showRules()">Rules</button>
-  </li>
-  <li>
-    <button class="text-[0.78rem] font-sans text-white/45 underline cursor-pointer tracking-widest uppercase bg-transparent border-0 p-0 hover:text-white/75 hidden" id="exitBtn" onclick="confirmLeave(event)">Exit Game</button>
-  </li>
-</ul>
+<header class="w-full flex items-center justify-between px-2">
+  <h1><img src="https://shithead.warface.co.uk/assets/logo.svg" alt="Shithead" class="h-8"></h1>
+  <ul class="flex gap-4 list-none p-0 m-0">
+    <li>
+      <button class="text-[0.78rem] font-sans text-white/45 underline cursor-pointer tracking-widest uppercase bg-transparent border-0 p-0 hover:text-white/75" onclick="showRules()">Rules</button>
+    </li>
+    <li>
+      <button class="text-[0.78rem] font-sans text-white/45 underline cursor-pointer tracking-widest uppercase bg-transparent border-0 p-0 hover:text-white/75 hidden" id="exitBtn" onclick="confirmLeave(event)">Exit Game</button>
+    </li>
+  </ul>
+</header>
 
 <!-- ── SPLASH SCREEN ─────────────────────────────────────── -->
 <div class="flex flex-col items-center gap-6 mt-8" id="splashScreen">
