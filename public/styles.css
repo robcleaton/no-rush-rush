@@ -157,7 +157,8 @@ body {
     }
     .card {
       flex-shrink: 0;
-      width: clamp(44px, 13vw, 80px);
+      width: clamp(44px, 24vw, 160px);
+      height: clamp(100px,19.2vw,184px);
     }
   }
 }
