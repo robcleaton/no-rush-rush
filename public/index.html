@@ -108,7 +108,7 @@
   </div>
 
   <!-- ── HOME SCREEN ──────────────────────────────────────── -->
-  <div class="w-full max-w-[480px] bg-black/25 rounded-xl px-8 py-7 flex flex-col gap-4 hidden" id="homeScreen">
+  <div class="w-full m-auto max-w-[480px] bg-black/25 rounded-xl px-8 py-7 flex flex-col gap-4 hidden" id="homeScreen">
     <div class="flex flex-col gap-1.5">
       <label for="nameInput" class="text-[0.8rem] text-white/60 uppercase tracking-widest font-sans">Your Name</label>
       <input id="nameInput" type="text" placeholder="Enter your name" maxlength="20" autocomplete="off"
@@ -137,7 +137,7 @@
 
 
   <!-- ── LOBBY SCREEN ─────────────────────────────────────── -->
-  <div class="w-full max-w-[480px] bg-black/25 rounded-xl px-8 py-7 flex flex-col gap-4 hidden" id="lobbyScreen">
+  <div class="w-full m-auto max-w-[480px] bg-black/25 rounded-xl px-8 py-7 flex flex-col gap-4 hidden" id="lobbyScreen">
     <h2 class="text-[1.3rem] text-[#f4d03f] mb-1">Waiting for players…</h2>
 
     <div>
@@ -565,7 +565,7 @@ function renderGame(v) {
             <div class="cards-row">${faceUpCards}</div>
           </div>
           <div class="card-group hand">
-            <div class="group-label">Hand</div>
+            <div class="group-label">Hand (${opp.handCount})</div>
             <div class="cards-row">${handCards}</div>
           </div>
         </div>
@@ -684,7 +684,7 @@ function renderGame(v) {
             <div class="cards-row">${myFaceUpCards}</div>
           </div>
           <div class="card-group hand">
-            <div class="group-label">Hand</div>
+            <div class="group-label">Hand (${v.myHand.length})</div>
             <div class="cards-row">${myHandCards}</div>
           </div>
         </div>

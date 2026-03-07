@@ -137,7 +137,7 @@ body {
   }
   .face-down .card, .face-up .card  {
     width: clamp(44px,33.33%,134px);
-    height: clamp(100px,18.2vw,184px);
+    height: clamp(100px,19.2vw,184px);
     width: 32.6%;
 
     .corner {
