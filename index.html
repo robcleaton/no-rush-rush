@@ -507,6 +507,15 @@ function getMyName() {
   return document.getElementById('nameInput').value.trim() || 'Me';
 }
 
+function personalise(str) {
+  const myName = getMyName();
+  if (!myName || myName === 'Me') return str;
+  const esc = myName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  return str
+    .replace(new RegExp(`\\b${esc}'s\\b`, 'g'), 'Your')
+    .replace(new RegExp(`\\b${esc}\\b`, 'g'), 'You');
+}
+
 function getSeatForName(v, name) {
   if (name === 'You (' + getMyName() + ')') return v.seatIndex;
   const opp = v.opponents.find(o => o.name === name);
@@ -654,7 +663,7 @@ function renderGame(v) {
       </div>
     </div>
 
-    <div class="message-box">${v.msg}</div>
+    <div class="message-box">${personalise(v.msg)}</div>
 
     ${actions}
 
@@ -688,7 +697,7 @@ function renderGame(v) {
     logEl.classList.add('hidden');
   } else {
     logEl.classList.remove('hidden');
-    logEl.innerHTML = (v.log || []).slice().reverse().join('<br>');
+    logEl.innerHTML = (v.log || []).slice().reverse().map(personalise).join('<br>');
   }
 }
 
