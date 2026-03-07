@@ -103,8 +103,30 @@
   <!-- ── SPLASH SCREEN ─────────────────────────────────────── -->
   <div class="flex flex-col items-center gap-6 mt-8" id="splashScreen">
     <h2 class="font-tusker text-[clamp(3.4rem,8vw,8rem)] leading-[clamp(3.6rem,8vw,8rem)] max-w-[1400px] uppercase">Card game for and your shit mates!</h2>
-    <p class="text-white/50 uppercase">2–4 players</p>
     <button class="btn text-xl px-12 py-4 tracking-widest" onclick="showHomeScreen()">Let's Play</button>
+    
+    <div class="scrolling-shit">
+      Shithead!
+    </div>
+    <div class="card-group">
+      <div class="cards-row pt-2">
+        <div class="card black selectable">
+          <div class="corner">Q♠</div>
+          <div class="center-suit">♠</div>
+          <div class="corner bot">Q♠</div>
+        </div>
+        <div class="card red selectable">
+          <div class="corner">8♥</div>
+          <div class="center-suit">♥</div>
+          <div class="corner bot">8♥</div>
+        </div>
+        <div class="card black selectable">
+          <div class="corner">9♣</div>
+          <div class="center-suit">♣</div>
+          <div class="corner bot">9♣</div>
+        </div>
+      </div>
+    </div>
   </div>
 
   <!-- ── HOME SCREEN ──────────────────────────────────────── -->
@@ -548,7 +570,7 @@ function renderGame(v) {
     const faceDownCards = Array.from({ length: opp.faceDownCount }, () => cardEl(null, { back: true })).join('') || emptyCardEl();
 
     return `
-      <div class="player-zone" style="opacity:${isOppTurn ? 1 : 0.82}">
+      <div class="player-zone opponent-zone" style="opacity:${isOppTurn ? 1 : 0.82}">
         <div class="zone-title">
           ${isOppTurn && v.phase === 'playing' ? '<span class="turn-dot"></span>' : ''}
           ${opp.name}
@@ -556,13 +578,12 @@ function renderGame(v) {
           ${!opp.connected ? '<span style="color:#e74c3c;font-size:0.7rem">[offline]</span>' : ''}
         </div>
         <div class="card-groups">
-          <div class="card-group face-down">
-            <div class="group-label">Face Down</div>
-            <div class="cards-row">${faceDownCards}</div>
-          </div>
-          <div class="card-group face-up">
-            <div class="group-label">Face Up</div>
-            <div class="cards-row">${faceUpCards}</div>
+          <div class="card-group table-cards">
+            <div class="group-label">Table</div>
+            <div class="cards-stack">
+              <div class="cards-row">${faceDownCards}</div>
+              <div class="cards-row">${faceUpCards}</div>
+            </div>
           </div>
           <div class="card-group hand">
             <div class="group-label">Hand (${opp.handCount})</div>

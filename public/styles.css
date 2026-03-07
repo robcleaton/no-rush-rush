@@ -121,6 +121,38 @@ body {
   cursor: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='110' height='44'><polygon points='0,0 0,28 7,21 11,33 17,31 13,19 22,19' fill='%231E1E1E' stroke='white' stroke-width='1.5' stroke-linejoin='round'/><text x='26' y='21' font-family='Arial,sans-serif' font-size='13' font-weight='900' fill='%23F8331E' stroke='white' stroke-width='3' paint-order='stroke'>lets play</text></svg>") 0 0, pointer;
 }
 
+/* ── Opponent layout ────────────────────────────────────── */
+.opponent-zone .card-groups {
+  flex-wrap: nowrap;
+  align-items: flex-start;
+}
+
+/* face-down overlaid by face-up */
+.cards-stack {
+  position: relative;
+}
+.cards-stack .cards-row:last-child {
+  margin-top: -124px;
+  position: relative;
+  z-index: 1;
+}
+
+.opponent-zone {
+  .table-cards {
+    width: 49%;
+    
+    .card {
+      width: 30%;
+    }
+  }
+  .hand {
+      width: 49%;
+
+      .card {
+        width: 30%;
+      }
+  }
+}
 /* ── Your hand ──────────────────────────────────────────── */
 .your-hand {
   .card-groups {
