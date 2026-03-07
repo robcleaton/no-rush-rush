@@ -124,25 +124,40 @@ body {
 /* ── Your hand ──────────────────────────────────────────── */
 .your-hand {
   .card-groups {
-    gap: 0px;
+    gap: 2%;
     width: 100%;
 
     .cards-row {
-      gap: 0px;
+      gap: 1%;
     }
   }
   .card-group.face-down, .card-group.face-up {
     gap: 0px;
     width: 49%;
-    background: pink;
   }
   .face-down .card, .face-up .card  {
-    width: clamp(44px,11.6vw,100px);
-    height: clamp(40px,18.8vw,136px);
-    width: 33.33%;
+    width: clamp(44px,33.33%,134px);
+    height: clamp(100px,18.2vw,184px);
+    width: 32.6%;
 
     .corner {
       font-size: 14px;
+    }
+  }
+  .hand {
+    width: 100%;
+
+    .cards-row {
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      padding-bottom: 6px;
+      gap: 6px;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(255,255,255,0.2) transparent;
+    }
+    .card {
+      flex-shrink: 0;
+      width: clamp(44px, 13vw, 80px);
     }
   }
 }
