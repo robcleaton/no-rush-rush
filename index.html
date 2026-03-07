@@ -513,7 +513,13 @@ function personalise(str) {
   const esc = myName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
   return str
     .replace(new RegExp(`\\b${esc}'s\\b`, 'g'), 'Your')
-    .replace(new RegExp(`\\b${esc}\\b`, 'g'), 'You');
+    .replace(new RegExp(`\\b${esc}\\b`, 'g'), 'You')
+    .replace(/\bYou plays\b/g, 'You play')
+    .replace(/\bYou picks\b/g, 'You pick')
+    .replace(/\bYou goes\b/g, 'You go')
+    .replace(/\bYou flips\b/g, 'You flip')
+    .replace(/\bYou wins\b/g, 'You win')
+    .replace(/\bYou is ready\b/g, 'You are ready');
 }
 
 function getSeatForName(v, name) {
