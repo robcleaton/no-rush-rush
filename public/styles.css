@@ -99,12 +99,6 @@ footer {
   display: flex; align-items: center; justify-content: center;
   font-size: 11px; color: rgba(255,255,255,0.45); font-family: Arial, sans-serif;
 }
-.burn-icon {
-  width: 64px; height: 92px; border-radius: 7px;
-  background: rgba(231,76,60,0.2); border: 2px solid rgba(231,76,60,0.4);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 28px;
-}
 .turn-dot {
   width: 9px; height: 9px; border-radius: 50%;
   background: #4ade80;

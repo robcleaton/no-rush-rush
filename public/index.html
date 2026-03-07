@@ -601,9 +601,6 @@ function renderGame(v) {
   const drawEl  = v.deckCount
     ? cardEl(null, { back: true })
     : `<div class="card pile-placeholder">gone</div>`;
-  const burnEl  = v.burnCount
-    ? `<div class="burn-icon">🔥</div>`
-    : `<div class="card empty-slot"></div>`;
 
   // ── My zone ───────────────────────────────────────────────
   const canFlipDown     = isMyTurn && v.phase === 'playing' && phase === 'faceDown';
@@ -676,11 +673,6 @@ function renderGame(v) {
         <div class="pile-label">Pile (${v.pile.length})</div>
         ${pileEl}
         ${v.threeOn ? '<div class="pile-count warning">⚠ play a 3</div>' : v.sevenOn ? '<div class="pile-count warning">⚠ play ≤7</div>' : ''}
-      </div>
-      <div class="pile-block">
-        <div class="pile-label">Burned</div>
-        ${burnEl}
-        <div class="pile-count">${v.burnCount}</div>
       </div>
     </div>
 
