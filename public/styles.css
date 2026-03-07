@@ -123,9 +123,23 @@ body {
 
 /* ── Your hand ──────────────────────────────────────────── */
 .your-hand {
+  .card-groups {
+    gap: 0px;
+    width: 100%;
+
+    .cards-row {
+      gap: 0px;
+    }
+  }
+  .card-group.face-down, .card-group.face-up {
+    gap: 0px;
+    width: 49%;
+    background: pink;
+  }
   .face-down .card, .face-up .card  {
     width: clamp(44px,11.6vw,100px);
     height: clamp(40px,18.8vw,136px);
+    width: 33.33%;
 
     .corner {
       font-size: 14px;
