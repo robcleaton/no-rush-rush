@@ -62,7 +62,7 @@ footer {
 .card.selected { transform: translateY(-14px); box-shadow: 0 12px 20px rgba(0,0,0,0.55); outline: 3px solid #f4d03f; outline-offset: 1px; }
 .card.red   { color: #c0392b; }
 .card.black { color: #1a1a1a; }
-.card .corner     { font-family: 'TuskerGrotesk'; font-size: 18px; line-height: 1; }
+.card .corner     { font-family: 'TuskerGrotesk'; font-size: 18px; line-height: 1; text-align: left; }
 .card .corner.bot { transform: rotate(180deg); align-self: flex-end; }
 .card .center-suit { font-size: 28px; text-align: center; line-height: 1; }
 .card .badge {
