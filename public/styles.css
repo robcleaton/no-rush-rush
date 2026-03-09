@@ -6,6 +6,26 @@
   font-display: swap;
 }
 
+/* ── Splash carousel ────────────────────────────────────── */
+.splashCarousel {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.splashCarousel::-webkit-scrollbar { display: none; }
+.splashCarousel-item {
+  scroll-snap-align: start;
+  flex-shrink: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0.5rem 1rem 1rem;
+}
+
 .font-tusker {
   font-family: 'TuskerGrotesk', sans-serif;
 }

@@ -108,51 +108,75 @@
     <div class="scrolling-shit">
       Shithead!
     </div>
-    <div class="flex flex-col items-center gap-2 w-full">
-      <div style="width:100%;overflow:hidden;position:relative">
-        <div id="carouselTrack" style="display:flex;gap:12px;transition:transform 0.35s cubic-bezier(0.25,0.46,0.45,0.94)">
-          <div class="card black carousel-card" style="width:clamp(130px,36vw,160px);height:clamp(186px,51vw,230px);flex-shrink:0;cursor:pointer;transition:opacity 0.25s">
+    <div class="flex flex-col items-center gap-3 w-full">
+      <div id="carouselViewport" class="splashCarousel w-full">
+        <div class="splashCarousel-item" data-idx="0" id="cslide0">
+          <div class="card black" style="width:clamp(140px,40vw,200px);height:clamp(200px,57vw,285px)">
             <div class="corner">2♠</div>
             <div class="center-suit">♠</div>
             <div class="corner bot">2♠</div>
             <div class="badge wild">WILD</div>
           </div>
-          <div class="card red carousel-card" style="width:clamp(130px,36vw,160px);height:clamp(186px,51vw,230px);flex-shrink:0;cursor:pointer;transition:opacity 0.25s">
+          <div class="text-center mt-3">
+            <div class="font-tusker uppercase text-white" style="font-size:clamp(1.8rem,5vw,3rem);line-height:1.1">Wild</div>
+            <div class="text-white/65 font-sans mt-1 leading-relaxed" style="font-size:clamp(0.85rem,2.5vw,1rem);max-width:280px">Plays on anything and resets the pile. Play again.</div>
+          </div>
+        </div>
+        <div class="splashCarousel-item" data-idx="1" id="cslide1">
+          <div class="card red" style="width:clamp(140px,40vw,200px);height:clamp(200px,57vw,285px)">
             <div class="corner">3♥</div>
             <div class="center-suit">♥</div>
             <div class="corner bot">3♥</div>
             <div class="badge ghost">CHAIN</div>
           </div>
-          <div class="card black carousel-card" style="width:clamp(130px,36vw,160px);height:clamp(186px,51vw,230px);flex-shrink:0;cursor:pointer;transition:opacity 0.25s">
+          <div class="text-center mt-3">
+            <div class="font-tusker uppercase text-white" style="font-size:clamp(1.8rem,5vw,3rem);line-height:1.1">Chain</div>
+            <div class="text-white/65 font-sans mt-1 leading-relaxed" style="font-size:clamp(0.85rem,2.5vw,1rem);max-width:280px">Next player must play a 3 or pick up the pile. Chains until someone can't.</div>
+          </div>
+        </div>
+        <div class="splashCarousel-item" data-idx="2" id="cslide2">
+          <div class="card black" style="width:clamp(140px,40vw,200px);height:clamp(200px,57vw,285px)">
             <div class="corner">8♣</div>
             <div class="center-suit">♣</div>
             <div class="corner bot">8♣</div>
             <div class="badge window">WIN</div>
           </div>
-          <div class="card black carousel-card" style="width:clamp(130px,36vw,160px);height:clamp(186px,51vw,230px);flex-shrink:0;cursor:pointer;transition:opacity 0.25s">
+          <div class="text-center mt-3">
+            <div class="font-tusker uppercase text-white" style="font-size:clamp(1.8rem,5vw,3rem);line-height:1.1">Window</div>
+            <div class="text-white/65 font-sans mt-1 leading-relaxed" style="font-size:clamp(0.85rem,2.5vw,1rem);max-width:280px">Plays on anything. Next player plays on the card below the 8.</div>
+          </div>
+        </div>
+        <div class="splashCarousel-item" data-idx="3" id="cslide3">
+          <div class="card black" style="width:clamp(140px,40vw,200px);height:clamp(200px,57vw,285px)">
             <div class="corner">7♣</div>
             <div class="center-suit">♣</div>
             <div class="corner bot">7♣</div>
             <div class="badge lower">LOW</div>
           </div>
-          <div class="card red carousel-card" style="width:clamp(130px,36vw,160px);height:clamp(186px,51vw,230px);flex-shrink:0;cursor:pointer;transition:opacity 0.25s">
+          <div class="text-center mt-3">
+            <div class="font-tusker uppercase text-white" style="font-size:clamp(1.8rem,5vw,3rem);line-height:1.1">Lower</div>
+            <div class="text-white/65 font-sans mt-1 leading-relaxed" style="font-size:clamp(0.85rem,2.5vw,1rem);max-width:280px">Next player must play a card equal to or lower than 7.</div>
+          </div>
+        </div>
+        <div class="splashCarousel-item" data-idx="4" id="cslide4">
+          <div class="card red" style="width:clamp(140px,40vw,200px);height:clamp(200px,57vw,285px)">
             <div class="corner">10♥</div>
             <div class="center-suit">♥</div>
             <div class="corner bot">10♥</div>
             <div class="badge burn">BURN</div>
           </div>
+          <div class="text-center mt-3">
+            <div class="font-tusker uppercase text-white" style="font-size:clamp(1.8rem,5vw,3rem);line-height:1.1">Burn</div>
+            <div class="text-white/65 font-sans mt-1 leading-relaxed" style="font-size:clamp(0.85rem,2.5vw,1rem);max-width:280px">Plays on anything. Burn the pile and play again.</div>
+          </div>
         </div>
       </div>
-      <div class="text-center mt-2" style="min-height:72px">
-        <div id="carouselTitle" class="font-tusker uppercase text-white" style="font-size:clamp(1.6rem,5vw,2.8rem);line-height:1.1"></div>
-        <div id="carouselCopy" class="text-white/65 font-sans mt-1 leading-relaxed" style="font-size:clamp(0.8rem,2vw,1rem);max-width:300px;margin-left:auto;margin-right:auto"></div>
-      </div>
-      <div class="flex gap-2 mt-1">
-        <span class="carousel-dot w-2 h-2 rounded-full bg-white inline-block" style="cursor:pointer;transition:opacity 0.25s"></span>
-        <span class="carousel-dot w-2 h-2 rounded-full bg-white inline-block" style="cursor:pointer;transition:opacity 0.25s"></span>
-        <span class="carousel-dot w-2 h-2 rounded-full bg-white inline-block" style="cursor:pointer;transition:opacity 0.25s"></span>
-        <span class="carousel-dot w-2 h-2 rounded-full bg-white inline-block" style="cursor:pointer;transition:opacity 0.25s"></span>
-        <span class="carousel-dot w-2 h-2 rounded-full bg-white inline-block" style="cursor:pointer;transition:opacity 0.25s"></span>
+      <div class="flex gap-2">
+        <a href="#cslide0" class="carousel-dot w-2 h-2 rounded-full bg-white inline-block" style="transition:opacity 0.25s"></a>
+        <a href="#cslide1" class="carousel-dot w-2 h-2 rounded-full bg-white inline-block" style="transition:opacity 0.25s"></a>
+        <a href="#cslide2" class="carousel-dot w-2 h-2 rounded-full bg-white inline-block" style="transition:opacity 0.25s"></a>
+        <a href="#cslide3" class="carousel-dot w-2 h-2 rounded-full bg-white inline-block" style="transition:opacity 0.25s"></a>
+        <a href="#cslide4" class="carousel-dot w-2 h-2 rounded-full bg-white inline-block" style="transition:opacity 0.25s"></a>
       </div>
     </div>
   </div>
@@ -913,41 +937,40 @@ socket.on('playError', msg => {
 // initial connection and every auto-reconnect after a network drop.
 
 // ── Splash carousel ───────────────────────────────────────
-const CAROUSEL_DATA = [
-  { title: 'Wild',   copy: 'Plays on anything and resets the pile. Play again.' },
-  { title: 'Chain',  copy: 'Next player must play a 3 or pick up the pile. Chains until someone can\'t.' },
-  { title: 'Window', copy: 'Plays on anything. Next player plays on the card below the 8.' },
-  { title: 'Lower',  copy: 'Next player must play a card equal to or lower than 7.' },
-  { title: 'Burn',   copy: 'Plays on anything. Burn the pile and play again.' },
-];
 let carouselIdx = 0;
-let carouselTimer = setInterval(() => setCarouselSlide((carouselIdx + 1) % 5), 3000);
+let carouselTimer;
 
-function setCarouselSlide(idx, manual = false) {
-  if (manual) { clearInterval(carouselTimer); carouselTimer = setInterval(() => setCarouselSlide((carouselIdx + 1) % 5), 3000); }
-  carouselIdx = idx;
-  const track    = document.getElementById('carouselTrack');
-  const viewport = track.parentElement;
-  const cards    = document.querySelectorAll('.carousel-card');
-  const cardW    = cards[0].offsetWidth;
-  const gap      = 12;
-  const offset   = (viewport.offsetWidth / 2) - (cardW / 2) - idx * (cardW + gap);
-  track.style.transform = `translateX(${offset}px)`;
-  cards.forEach((el, i) => { el.style.opacity = i === idx ? '1' : '0.4'; });
-  document.getElementById('carouselTitle').textContent = CAROUSEL_DATA[idx].title;
-  document.getElementById('carouselCopy').textContent  = CAROUSEL_DATA[idx].copy;
+function updateCarouselDots(idx) {
   document.querySelectorAll('.carousel-dot').forEach((el, i) => {
     el.style.opacity = i === idx ? '1' : '0.3';
   });
 }
-// Wire up manual clicks on cards to reset the timer
-document.querySelectorAll('.carousel-card').forEach((el, i) => {
-  el.addEventListener('click', () => setCarouselSlide(i, true));
+
+function advanceCarousel() {
+  carouselIdx = (carouselIdx + 1) % 5;
+  document.getElementById(`cslide${carouselIdx}`).scrollIntoView({ behavior: 'smooth', inline: 'start', block: 'nearest' });
+}
+
+carouselTimer = setInterval(advanceCarousel, 3000);
+
+// Pause auto-advance on user interaction, resume after
+document.getElementById('carouselViewport').addEventListener('pointerdown', () => {
+  clearInterval(carouselTimer);
+  carouselTimer = setInterval(advanceCarousel, 4000);
 });
-document.querySelectorAll('.carousel-dot').forEach((el, i) => {
-  el.addEventListener('click', () => setCarouselSlide(i, true));
-});
-setCarouselSlide(0);
+
+// Use IntersectionObserver to sync dots with current slide
+const carouselObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      carouselIdx = parseInt(e.target.dataset.idx);
+      updateCarouselDots(carouselIdx);
+    }
+  });
+}, { root: document.getElementById('carouselViewport'), threshold: 0.5 });
+
+document.querySelectorAll('.splashCarousel-item').forEach(el => carouselObserver.observe(el));
+updateCarouselDots(0);
 </script>
 </body>
 </html>
