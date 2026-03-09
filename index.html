@@ -109,36 +109,38 @@
       Shithead!
     </div>
     <div class="flex flex-col items-center gap-2 w-full">
-      <div class="flex gap-2 items-center justify-center" id="carouselCards">
-        <div class="card black carousel-card" style="width:clamp(48px,12vw,76px);height:clamp(70px,17vw,108px);cursor:pointer;transition:transform 0.25s,opacity 0.25s">
-          <div class="corner" style="font-size:14px">2♠</div>
-          <div class="center-suit" style="font-size:20px">♠</div>
-          <div class="corner bot" style="font-size:14px">2♠</div>
-          <div class="badge wild">WILD</div>
-        </div>
-        <div class="card red carousel-card" style="width:clamp(48px,12vw,76px);height:clamp(70px,17vw,108px);cursor:pointer;transition:transform 0.25s,opacity 0.25s">
-          <div class="corner" style="font-size:14px">3♥</div>
-          <div class="center-suit" style="font-size:20px">♥</div>
-          <div class="corner bot" style="font-size:14px">3♥</div>
-          <div class="badge ghost">CHAIN</div>
-        </div>
-        <div class="card black carousel-card" style="width:clamp(48px,12vw,76px);height:clamp(70px,17vw,108px);cursor:pointer;transition:transform 0.25s,opacity 0.25s">
-          <div class="corner" style="font-size:14px">8♣</div>
-          <div class="center-suit" style="font-size:20px">♣</div>
-          <div class="corner bot" style="font-size:14px">8♣</div>
-          <div class="badge window">WIN</div>
-        </div>
-        <div class="card black carousel-card" style="width:clamp(48px,12vw,76px);height:clamp(70px,17vw,108px);cursor:pointer;transition:transform 0.25s,opacity 0.25s">
-          <div class="corner" style="font-size:14px">7♣</div>
-          <div class="center-suit" style="font-size:20px">♣</div>
-          <div class="corner bot" style="font-size:14px">7♣</div>
-          <div class="badge lower">LOW</div>
-        </div>
-        <div class="card red carousel-card" style="width:clamp(48px,12vw,76px);height:clamp(70px,17vw,108px);cursor:pointer;transition:transform 0.25s,opacity 0.25s">
-          <div class="corner" style="font-size:14px">10♥</div>
-          <div class="center-suit" style="font-size:20px">♥</div>
-          <div class="corner bot" style="font-size:14px">10♥</div>
-          <div class="badge burn">BURN</div>
+      <div style="width:100%;overflow:hidden;position:relative">
+        <div id="carouselTrack" style="display:flex;gap:12px;transition:transform 0.35s cubic-bezier(0.25,0.46,0.45,0.94)">
+          <div class="card black carousel-card" style="width:clamp(130px,36vw,160px);height:clamp(186px,51vw,230px);flex-shrink:0;cursor:pointer;transition:opacity 0.25s">
+            <div class="corner">2♠</div>
+            <div class="center-suit">♠</div>
+            <div class="corner bot">2♠</div>
+            <div class="badge wild">WILD</div>
+          </div>
+          <div class="card red carousel-card" style="width:clamp(130px,36vw,160px);height:clamp(186px,51vw,230px);flex-shrink:0;cursor:pointer;transition:opacity 0.25s">
+            <div class="corner">3♥</div>
+            <div class="center-suit">♥</div>
+            <div class="corner bot">3♥</div>
+            <div class="badge ghost">CHAIN</div>
+          </div>
+          <div class="card black carousel-card" style="width:clamp(130px,36vw,160px);height:clamp(186px,51vw,230px);flex-shrink:0;cursor:pointer;transition:opacity 0.25s">
+            <div class="corner">8♣</div>
+            <div class="center-suit">♣</div>
+            <div class="corner bot">8♣</div>
+            <div class="badge window">WIN</div>
+          </div>
+          <div class="card black carousel-card" style="width:clamp(130px,36vw,160px);height:clamp(186px,51vw,230px);flex-shrink:0;cursor:pointer;transition:opacity 0.25s">
+            <div class="corner">7♣</div>
+            <div class="center-suit">♣</div>
+            <div class="corner bot">7♣</div>
+            <div class="badge lower">LOW</div>
+          </div>
+          <div class="card red carousel-card" style="width:clamp(130px,36vw,160px);height:clamp(186px,51vw,230px);flex-shrink:0;cursor:pointer;transition:opacity 0.25s">
+            <div class="corner">10♥</div>
+            <div class="center-suit">♥</div>
+            <div class="corner bot">10♥</div>
+            <div class="badge burn">BURN</div>
+          </div>
         </div>
       </div>
       <div class="text-center mt-2" style="min-height:72px">
@@ -924,10 +926,14 @@ let carouselTimer = setInterval(() => setCarouselSlide((carouselIdx + 1) % 5), 3
 function setCarouselSlide(idx, manual = false) {
   if (manual) { clearInterval(carouselTimer); carouselTimer = setInterval(() => setCarouselSlide((carouselIdx + 1) % 5), 3000); }
   carouselIdx = idx;
-  document.querySelectorAll('.carousel-card').forEach((el, i) => {
-    el.style.transform = i === idx ? 'scale(1.12)' : 'scale(0.82)';
-    el.style.opacity   = i === idx ? '1' : '0.4';
-  });
+  const track    = document.getElementById('carouselTrack');
+  const viewport = track.parentElement;
+  const cards    = document.querySelectorAll('.carousel-card');
+  const cardW    = cards[0].offsetWidth;
+  const gap      = 12;
+  const offset   = (viewport.offsetWidth / 2) - (cardW / 2) - idx * (cardW + gap);
+  track.style.transform = `translateX(${offset}px)`;
+  cards.forEach((el, i) => { el.style.opacity = i === idx ? '1' : '0.4'; });
   document.getElementById('carouselTitle').textContent = CAROUSEL_DATA[idx].title;
   document.getElementById('carouselCopy').textContent  = CAROUSEL_DATA[idx].copy;
   document.querySelectorAll('.carousel-dot').forEach((el, i) => {
