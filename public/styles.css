@@ -37,6 +37,9 @@
   --shithead-black: #1E1E1E;
 }
 
+/* reset DaisyUI body background */
+html, body { background-color: transparent; }
+
 /* ── App frame ──────────────────────────────────────────── */
 #appFrame {
   position: fixed;
