@@ -108,23 +108,49 @@
     <div class="scrolling-shit">
       Shithead!
     </div>
-    <div class="card-group">
-      <div class="cards-row pt-2">
-        <div class="card black selectable">
-          <div class="corner">Q♠</div>
-          <div class="center-suit">♠</div>
-          <div class="corner bot">Q♠</div>
+    <div class="flex flex-col items-center gap-2 w-full">
+      <div class="flex gap-2 items-center justify-center" id="carouselCards">
+        <div class="card black carousel-card" style="width:clamp(48px,12vw,76px);height:clamp(70px,17vw,108px);cursor:pointer;transition:transform 0.25s,opacity 0.25s">
+          <div class="corner" style="font-size:14px">2♠</div>
+          <div class="center-suit" style="font-size:20px">♠</div>
+          <div class="corner bot" style="font-size:14px">2♠</div>
+          <div class="badge wild">WILD</div>
         </div>
-        <div class="card red selectable">
-          <div class="corner">8♥</div>
-          <div class="center-suit">♥</div>
-          <div class="corner bot">8♥</div>
+        <div class="card red carousel-card" style="width:clamp(48px,12vw,76px);height:clamp(70px,17vw,108px);cursor:pointer;transition:transform 0.25s,opacity 0.25s">
+          <div class="corner" style="font-size:14px">3♥</div>
+          <div class="center-suit" style="font-size:20px">♥</div>
+          <div class="corner bot" style="font-size:14px">3♥</div>
+          <div class="badge ghost">CHAIN</div>
         </div>
-        <div class="card black selectable">
-          <div class="corner">9♣</div>
-          <div class="center-suit">♣</div>
-          <div class="corner bot">9♣</div>
+        <div class="card black carousel-card" style="width:clamp(48px,12vw,76px);height:clamp(70px,17vw,108px);cursor:pointer;transition:transform 0.25s,opacity 0.25s">
+          <div class="corner" style="font-size:14px">8♣</div>
+          <div class="center-suit" style="font-size:20px">♣</div>
+          <div class="corner bot" style="font-size:14px">8♣</div>
+          <div class="badge window">WIN</div>
         </div>
+        <div class="card black carousel-card" style="width:clamp(48px,12vw,76px);height:clamp(70px,17vw,108px);cursor:pointer;transition:transform 0.25s,opacity 0.25s">
+          <div class="corner" style="font-size:14px">7♣</div>
+          <div class="center-suit" style="font-size:20px">♣</div>
+          <div class="corner bot" style="font-size:14px">7♣</div>
+          <div class="badge lower">LOW</div>
+        </div>
+        <div class="card red carousel-card" style="width:clamp(48px,12vw,76px);height:clamp(70px,17vw,108px);cursor:pointer;transition:transform 0.25s,opacity 0.25s">
+          <div class="corner" style="font-size:14px">10♥</div>
+          <div class="center-suit" style="font-size:20px">♥</div>
+          <div class="corner bot" style="font-size:14px">10♥</div>
+          <div class="badge burn">BURN</div>
+        </div>
+      </div>
+      <div class="text-center mt-2" style="min-height:72px">
+        <div id="carouselTitle" class="font-tusker uppercase text-white" style="font-size:clamp(1.6rem,5vw,2.8rem);line-height:1.1"></div>
+        <div id="carouselCopy" class="text-white/65 font-sans mt-1 leading-relaxed" style="font-size:clamp(0.8rem,2vw,1rem);max-width:300px;margin-left:auto;margin-right:auto"></div>
+      </div>
+      <div class="flex gap-2 mt-1">
+        <span class="carousel-dot w-2 h-2 rounded-full bg-white inline-block" style="cursor:pointer;transition:opacity 0.25s"></span>
+        <span class="carousel-dot w-2 h-2 rounded-full bg-white inline-block" style="cursor:pointer;transition:opacity 0.25s"></span>
+        <span class="carousel-dot w-2 h-2 rounded-full bg-white inline-block" style="cursor:pointer;transition:opacity 0.25s"></span>
+        <span class="carousel-dot w-2 h-2 rounded-full bg-white inline-block" style="cursor:pointer;transition:opacity 0.25s"></span>
+        <span class="carousel-dot w-2 h-2 rounded-full bg-white inline-block" style="cursor:pointer;transition:opacity 0.25s"></span>
       </div>
     </div>
   </div>
@@ -574,7 +600,6 @@ function renderGame(v) {
         <div class="zone-title">
           ${isOppTurn && v.phase === 'playing' ? '<span class="turn-dot"></span>' : ''}
           ${opp.name}
-          <span style="font-weight:normal;color:rgba(255,255,255,0.4)">(hand: ${opp.handCount})</span>
           ${!opp.connected ? '<span style="color:#e74c3c;font-size:0.7rem">[offline]</span>' : ''}
         </div>
         <div class="card-groups">
@@ -663,7 +688,7 @@ function renderGame(v) {
   board.innerHTML = `
     ${wrapStart}${opponentZones}${wrapEnd}
 
-    <div class="center-row">
+    <div class="center-row pile">
       <div class="pile-block">
         <div class="pile-label">Draw</div>
         ${drawEl}
@@ -884,6 +909,39 @@ socket.on('playError', msg => {
 
 // Init is handled by socket.on('connect') above, which fires on both
 // initial connection and every auto-reconnect after a network drop.
+
+// ── Splash carousel ───────────────────────────────────────
+const CAROUSEL_DATA = [
+  { title: 'Wild',   copy: 'Plays on anything and resets the pile. Play again.' },
+  { title: 'Chain',  copy: 'Next player must play a 3 or pick up the pile. Chains until someone can\'t.' },
+  { title: 'Window', copy: 'Plays on anything. Next player plays on the card below the 8.' },
+  { title: 'Lower',  copy: 'Next player must play a card equal to or lower than 7.' },
+  { title: 'Burn',   copy: 'Plays on anything. Burn the pile and play again.' },
+];
+let carouselIdx = 0;
+let carouselTimer = setInterval(() => setCarouselSlide((carouselIdx + 1) % 5), 3000);
+
+function setCarouselSlide(idx, manual = false) {
+  if (manual) { clearInterval(carouselTimer); carouselTimer = setInterval(() => setCarouselSlide((carouselIdx + 1) % 5), 3000); }
+  carouselIdx = idx;
+  document.querySelectorAll('.carousel-card').forEach((el, i) => {
+    el.style.transform = i === idx ? 'scale(1.12)' : 'scale(0.82)';
+    el.style.opacity   = i === idx ? '1' : '0.4';
+  });
+  document.getElementById('carouselTitle').textContent = CAROUSEL_DATA[idx].title;
+  document.getElementById('carouselCopy').textContent  = CAROUSEL_DATA[idx].copy;
+  document.querySelectorAll('.carousel-dot').forEach((el, i) => {
+    el.style.opacity = i === idx ? '1' : '0.3';
+  });
+}
+// Wire up manual clicks on cards to reset the timer
+document.querySelectorAll('.carousel-card').forEach((el, i) => {
+  el.addEventListener('click', () => setCarouselSlide(i, true));
+});
+document.querySelectorAll('.carousel-dot').forEach((el, i) => {
+  el.addEventListener('click', () => setCarouselSlide(i, true));
+});
+setCarouselSlide(0);
 </script>
 </body>
 </html>
