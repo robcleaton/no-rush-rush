@@ -56,12 +56,16 @@ html, body { background-color: transparent; }
 
 
 #splashScreen {
-  .carousel .card {
-    border-radius: 18px;
-    padding: 12px 14px;
+  .carousel 
+  .carousel-item {
+    
+    .card {
+      border-radius: 18px;
+      padding: 12px 14px;
 
-    .corner {
-      font-size: clamp(52px, 12vw, 84px);
+      .corner {
+        font-size: clamp(52px, 12vw, 84px);
+      }
     }
   }
 }
