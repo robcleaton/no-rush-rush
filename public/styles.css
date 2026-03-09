@@ -39,11 +39,21 @@ html, body { background-color: transparent; }
   gap: 0.75rem;
   color: var(--shithead-black);
 }
+
+/* ── Small screen ─────────── */
+@media (max-width: 640px) {
+  #cursor {
+    display: none;
+  }
+}
+/* ── Medium screen ─────────── */
 @media (min-width: 768px) {
   #appFrame {
       margin-top: 72px;
   }
 }
+
+
 
 #splashScreen {
   .carousel .card {
@@ -51,7 +61,7 @@ html, body { background-color: transparent; }
     padding: 12px 14px;
 
     .corner {
-      font-size: 50px;
+      font-size: clamp(52px, 12vw, 84px);
     }
   }
 }

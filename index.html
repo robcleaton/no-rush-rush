@@ -175,13 +175,18 @@
     </div>
     <div class="carousel-item">
       <img
-        src="https://img.daisyui.com/images/stock/photo-1494253109108-2e30c049369b.webp"
+        src="https://img.daisyui.com/images/stock/photo-1550258987-190a2d41a8ba.webp"
         class="rounded-box" />
     </div>
     <div class="carousel-item">
-      <img
-        src="https://img.daisyui.com/images/stock/photo-1550258987-190a2d41a8ba.webp"
-        class="rounded-box" />
+      <div class="carousel-item rounded-box" style="background-color: rgb(84, 203, 254); width: clamp(200px,57vw,285px);">
+        <div class="card black" style="margin: auto; width:clamp(140px,40vw,200px);height:clamp(200px,57vw,285px)">
+          <div class="corner">7♠</div>
+          <div class="center-suit">♠</div>
+          <div class="corner bot">7♠</div>
+          <div class="badge wild">WILD</div>
+        </div>
+      </div>
     </div>
     <div class="carousel-item">
       <img
@@ -189,91 +194,117 @@
         class="rounded-box" />
     </div>
     <div class="carousel-item">
+      <div class="carousel-item rounded-box" style="background-color: rgb(84, 203, 254); width: clamp(200px,57vw,285px);">
+        <div class="card red" style="margin: auto; width:clamp(140px,40vw,200px);height:clamp(200px,57vw,285px)">
+          <div class="corner">10♠</div>
+          <div class="center-suit">♠</div>
+          <div class="corner bot">10♠</div>
+          <div class="badge wild">WILD</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="carousel-item">
       <img
-        src="https://img.daisyui.com/images/stock/photo-1601004890684-d8cbf643f5f2.webp"
+        src="https://img.daisyui.com/images/stock/photo-1559181567-c3190ca9959b.webp"
         class="rounded-box" />
     </div>
-    </div>
 
+    <div class="carousel-item">
+      <div class="carousel-item rounded-box" style="background-color: rgb(163, 84, 254); width: clamp(200px,57vw,285px);">
+        <div class="card black" style="margin: auto; width:clamp(140px,40vw,200px);height:clamp(200px,57vw,285px)">
+          <div class="corner">8♠</div>
+          <div class="center-suit">♠</div>
+          <div class="corner bot">8♠</div>
+          <div class="badge wild">WILD</div>
+        </div>
+      </div>
+    </div>
+    
+    </div>
   </div>
+
+</div>
 
   <!-- ── HOME SCREEN ──────────────────────────────────────── -->
-  <div class="w-full m-auto max-w-[480px] bg-black/25 rounded-xl px-8 py-7 flex flex-col gap-4 hidden" id="homeScreen">
-    <div class="flex flex-col gap-1.5">
-      <label for="nameInput" class="text-[0.8rem] text-white/60 uppercase tracking-widest font-sans">Your Name</label>
-      <input id="nameInput" type="text" placeholder="Enter your name" maxlength="20" autocomplete="off"
-            class="bg-white/10 border border-white/25 rounded-md text-white text-base px-3 py-2 outline-none focus:border-[#f4d03f] focus:bg-white/15 placeholder:text-white/30">
+  <div class="px-2 w-full m-auto max-w-[480px]">
+    <div class="w-full m-auto max-w-[480px] bg-black/25 rounded-xl px-8 py-7 flex flex-col gap-4 hidden" id="homeScreen">
+      <div class="flex flex-col gap-1.5">
+        <label for="nameInput" class="text-[0.8rem] text-white/60 uppercase tracking-widest font-sans">Your Name</label>
+        <input id="nameInput" type="text" placeholder="Enter your name" maxlength="20" autocomplete="off"
+              class="bg-white/10 border border-white/25 rounded-md text-white text-base px-3 py-2 outline-none focus:border-[#f4d03f] focus:bg-white/15 placeholder:text-white/30">
+      </div>
+
+      <button class="btn" id="createBtn">Create Game</button>
+
+      <div id="createDivider" class="flex items-center gap-2.5 text-white/30 text-[0.8rem] font-sans">
+        <div class="flex-1 border-t border-white/15"></div>
+        or join existing game
+        <div class="flex-1 border-t border-white/15"></div>
+      </div>
+
+      <div class="flex flex-col gap-1.5">
+        <label for="codeInput" class="text-[0.8rem] text-white/60 uppercase tracking-widest font-sans">Room Code</label>
+        <input id="codeInput" type="text" placeholder="e.g. BOLLOCKS" maxlength="12" autocomplete="off"
+              style="text-transform:uppercase;letter-spacing:2px;"
+              class="bg-white/10 border border-white/25 rounded-md text-white text-base px-3 py-2 outline-none focus:border-[#f4d03f] focus:bg-white/15 placeholder:text-white/30">
+      </div>
+
+      <button class="btn" id="joinBtn">Join Game</button>
+
+      <div class="text-[#e74c3c] text-[0.85rem] font-sans min-h-5 text-center" id="homeError"></div>
     </div>
-
-    <button class="btn" id="createBtn">Create Game</button>
-
-    <div id="createDivider" class="flex items-center gap-2.5 text-white/30 text-[0.8rem] font-sans">
-      <div class="flex-1 border-t border-white/15"></div>
-      or join existing game
-      <div class="flex-1 border-t border-white/15"></div>
-    </div>
-
-    <div class="flex flex-col gap-1.5">
-      <label for="codeInput" class="text-[0.8rem] text-white/60 uppercase tracking-widest font-sans">Room Code</label>
-      <input id="codeInput" type="text" placeholder="e.g. BOLLOCKS" maxlength="12" autocomplete="off"
-            style="text-transform:uppercase;letter-spacing:2px;"
-            class="bg-white/10 border border-white/25 rounded-md text-white text-base px-3 py-2 outline-none focus:border-[#f4d03f] focus:bg-white/15 placeholder:text-white/30">
-    </div>
-
-    <button class="btn" id="joinBtn">Join Game</button>
-
-    <div class="text-[#e74c3c] text-[0.85rem] font-sans min-h-5 text-center" id="homeError"></div>
-  </div>
 
 
   <!-- ── LOBBY SCREEN ─────────────────────────────────────── -->
-  <div class="w-full m-auto max-w-[480px] bg-black/25 rounded-xl px-8 py-7 flex flex-col gap-4 hidden" id="lobbyScreen">
-    <h2 class="text-[1.3rem] text-[#f4d03f] mb-1">Waiting for players…</h2>
+    <div class="w-full m-auto max-w-[480px] bg-black/25 rounded-xl px-8 py-7 flex flex-col gap-4 hidden" id="lobbyScreen">
+      <h2 class="text-[1.3rem] text-[#f4d03f] mb-1">Waiting for players…</h2>
+
+      <div>
+        <div class="pile-label" style="margin-bottom:6px">Room Code</div>
+        <div class="flex items-center gap-2 bg-black/30 rounded-lg p-3">
+          <div class="text-[2.4rem] tracking-[10px] text-[#f4d03f] font-bold flex-1 text-center"
+              id="lobbyCode"></div>
+          <button onclick="copyRoomCode()" title="Copy code"
+                  class="text-white/40 hover:text-white/80 transition-colors bg-transparent border-0 cursor-pointer p-1 shrink-0"
+                  id="copyCodeBtn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+            </svg>
+          </button>
+        </div>
+      </div>
 
     <div>
-      <div class="pile-label" style="margin-bottom:6px">Room Code</div>
-      <div class="flex items-center gap-2 bg-black/30 rounded-lg p-3">
-        <div class="text-[2.4rem] tracking-[10px] text-[#f4d03f] font-bold flex-1 text-center"
-            id="lobbyCode"></div>
-        <button onclick="copyRoomCode()" title="Copy code"
+      <div class="pile-label" style="margin-bottom:6px">Invite Link</div>
+      <div class="flex items-center gap-2 bg-black/30 rounded-lg px-3 py-2">
+        <div class="text-[0.75rem] font-sans text-white/50 flex-1 truncate" id="shareLink"></div>
+        <button onclick="copyShareLink()" title="Copy link"
                 class="text-white/40 hover:text-white/80 transition-colors bg-transparent border-0 cursor-pointer p-1 shrink-0"
-                id="copyCodeBtn">
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                id="copyLinkBtn">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
           </svg>
         </button>
       </div>
     </div>
 
-  <div>
-    <div class="pile-label" style="margin-bottom:6px">Invite Link</div>
-    <div class="flex items-center gap-2 bg-black/30 rounded-lg px-3 py-2">
-      <div class="text-[0.75rem] font-sans text-white/50 flex-1 truncate" id="shareLink"></div>
-      <button onclick="copyShareLink()" title="Copy link"
-              class="text-white/40 hover:text-white/80 transition-colors bg-transparent border-0 cursor-pointer p-1 shrink-0"
-              id="copyLinkBtn">
-        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
-        </svg>
-      </button>
+    <div class="text-center">
+      <div class="pile-label" style="margin-bottom:8px">Scan to Join</div>
+      <div class="bg-white rounded-lg p-2.5 inline-block">
+        <div id="qrCode"></div>
+      </div>
     </div>
-  </div>
 
-  <div class="text-center">
-    <div class="pile-label" style="margin-bottom:8px">Scan to Join</div>
-    <div class="bg-white rounded-lg p-2.5 inline-block">
-      <div id="qrCode"></div>
+    <div>
+      <div class="pile-label" style="margin-bottom:6px">Players (<span id="lobbyCount">0</span>/4)</div>
+      <div class="flex flex-col gap-1.5" id="lobbyPlayerList"></div>
     </div>
-  </div>
 
-  <div>
-    <div class="pile-label" style="margin-bottom:6px">Players (<span id="lobbyCount">0</span>/4)</div>
-    <div class="flex flex-col gap-1.5" id="lobbyPlayerList"></div>
+    <button class="btn" id="startBtn" disabled>Start Game (need 2+)</button>
+    <button class="btn red-btn" onclick="confirmLeave(event)">Leave Game</button>
+    <div class="text-[#e74c3c] text-[0.85rem] font-sans min-h-5 text-center" id="lobbyError"></div>
   </div>
-
-  <button class="btn" id="startBtn" disabled>Start Game (need 2+)</button>
-  <button class="btn red-btn" onclick="confirmLeave(event)">Leave Game</button>
-  <div class="text-[#e74c3c] text-[0.85rem] font-sans min-h-5 text-center" id="lobbyError"></div>
 </div>
 
 <!-- ── GAME BOARD ────────────────────────────────────────── -->
