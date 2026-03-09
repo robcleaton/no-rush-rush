@@ -56,9 +56,7 @@ html, body { background-color: transparent; }
 
 
 #splashScreen {
-  .carousel 
-  .carousel-item {
-    
+  .carousel .carousel-item {
     .card {
       border-radius: 18px;
       padding: 12px 14px;
