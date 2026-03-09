@@ -45,6 +45,17 @@ html, body { background-color: transparent; }
   }
 }
 
+#splashScreen {
+  .carousel .card {
+    border-radius: 18px;
+    padding: 12px 14px;
+
+    .corner {
+      font-size: 50px;
+    }
+  }
+}
+
 footer {
   position: absolute;
   bottom: 0.5rem;
