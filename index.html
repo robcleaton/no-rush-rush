@@ -86,7 +86,7 @@
 </head>
 <body style="background: var(--shithead-cream); overflow: hidden; height: 100dvh;">
 
-  <header class="w-full flex items-center justify-between px-2 mt-4">
+  <header class="w-full flex items-center justify-between px-2 pt-4">
     <h1><a href="#" onclick="showSplash(); return false;"><img src="https://shithead.warface.co.uk/assets/logo.svg" alt="Shithead" class="h-6 hover:opacity-80"></a></h1>
     <ul class="flex gap-4 list-none p-0 m-0">
       <li>
@@ -111,8 +111,8 @@
     </div>
 
     <div class="flex flex-col items-center gap-3 w-full">
-      <div id="carouselViewport" class="splashCarousel w-full">
-        <div class="splashCarousel-item" data-idx="0" id="cslide0">
+      <div id="carouselViewport" class="carousel w-full">
+        <div class="carousel-item w-full flex-col items-center justify-center gap-0 py-2 px-4" data-idx="0" id="cslide0">
           <div class="card black" style="width:clamp(140px,40vw,200px);height:clamp(200px,57vw,285px)">
             <div class="corner">2♠</div>
             <div class="center-suit">♠</div>
@@ -124,7 +124,7 @@
             <div class="text-white/65 font-sans mt-1 leading-relaxed" style="font-size:clamp(0.85rem,2.5vw,1rem);max-width:280px">Plays on anything and resets the pile. Play again.</div>
           </div>
         </div>
-        <div class="splashCarousel-item" data-idx="1" id="cslide1">
+        <div class="carousel-item w-full flex-col items-center justify-center gap-0 py-2 px-4" data-idx="1" id="cslide1">
           <div class="card red" style="width:clamp(140px,40vw,200px);height:clamp(200px,57vw,285px)">
             <div class="corner">3♥</div>
             <div class="center-suit">♥</div>
@@ -136,7 +136,7 @@
             <div class="text-white/65 font-sans mt-1 leading-relaxed" style="font-size:clamp(0.85rem,2.5vw,1rem);max-width:280px">Next player must play a 3 or pick up the pile. Chains until someone can't.</div>
           </div>
         </div>
-        <div class="splashCarousel-item" data-idx="2" id="cslide2">
+        <div class="carousel-item w-full flex-col items-center justify-center gap-0 py-2 px-4" data-idx="2" id="cslide2">
           <div class="card black" style="width:clamp(140px,40vw,200px);height:clamp(200px,57vw,285px)">
             <div class="corner">8♣</div>
             <div class="center-suit">♣</div>
@@ -148,7 +148,7 @@
             <div class="text-white/65 font-sans mt-1 leading-relaxed" style="font-size:clamp(0.85rem,2.5vw,1rem);max-width:280px">Plays on anything. Next player plays on the card below the 8.</div>
           </div>
         </div>
-        <div class="splashCarousel-item" data-idx="3" id="cslide3">
+        <div class="carousel-item w-full flex-col items-center justify-center gap-0 py-2 px-4" data-idx="3" id="cslide3">
           <div class="card black" style="width:clamp(140px,40vw,200px);height:clamp(200px,57vw,285px)">
             <div class="corner">7♣</div>
             <div class="center-suit">♣</div>
@@ -160,7 +160,7 @@
             <div class="text-white/65 font-sans mt-1 leading-relaxed" style="font-size:clamp(0.85rem,2.5vw,1rem);max-width:280px">Next player must play a card equal to or lower than 7.</div>
           </div>
         </div>
-        <div class="splashCarousel-item" data-idx="4" id="cslide4">
+        <div class="carousel-item w-full flex-col items-center justify-center gap-0 py-2 px-4" data-idx="4" id="cslide4">
           <div class="card red" style="width:clamp(140px,40vw,200px);height:clamp(200px,57vw,285px)">
             <div class="corner">10♥</div>
             <div class="center-suit">♥</div>
@@ -971,7 +971,7 @@ const carouselObserver = new IntersectionObserver((entries) => {
   });
 }, { root: document.getElementById('carouselViewport'), threshold: 0.5 });
 
-document.querySelectorAll('.splashCarousel-item').forEach(el => carouselObserver.observe(el));
+document.querySelectorAll('#carouselViewport .carousel-item').forEach(el => carouselObserver.observe(el));
 updateCarouselDots(0);
 </script>
 </body>
