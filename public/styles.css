@@ -62,6 +62,7 @@ footer {
 
 
 /* ── Cards (fixed-dimension visual components) ─────────── */
+/* overflow:visible overrides DaisyUI's .card which sets overflow:hidden */
 .card {
   width: clamp(40px,25vw,100px);
   height: clamp(40px,36vw,142px);
@@ -76,6 +77,7 @@ footer {
   transition: transform 0.12s, box-shadow 0.12s;
   flex-shrink: 0;
   user-select: none;
+  overflow: visible;
 }
 .card.selectable { cursor: pointer; }
 .card.selectable:hover { transform: translateY(-6px); box-shadow: 1px 8px 14px rgba(0,0,0,0.5); }
