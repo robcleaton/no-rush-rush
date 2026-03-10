@@ -1043,16 +1043,20 @@ function updateCarouselDots(idx) {
 
 function advanceCarousel() {
   carouselIdx = (carouselIdx + 1) % 5;
-  document.getElementById(`cslide${carouselIdx}`).scrollIntoView({ behavior: 'smooth', inline: 'start', block: 'nearest' });
+  const slide = document.getElementById(`cslide${carouselIdx}`);
+  if (slide) slide.scrollIntoView({ behavior: 'smooth', inline: 'start', block: 'nearest' });
 }
 
 carouselTimer = setInterval(advanceCarousel, 3000);
 
 // Pause auto-advance on user interaction, resume after
-document.getElementById('carouselViewport').addEventListener('pointerdown', () => {
-  clearInterval(carouselTimer);
-  carouselTimer = setInterval(advanceCarousel, 4000);
-});
+const carouselVp = document.getElementById('carouselViewport');
+if (carouselVp) {
+  carouselVp.addEventListener('pointerdown', () => {
+    clearInterval(carouselTimer);
+    carouselTimer = setInterval(advanceCarousel, 4000);
+  });
+}
 
 // Use IntersectionObserver to sync dots with current slide
 const carouselObserver = new IntersectionObserver((entries) => {
