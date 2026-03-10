@@ -87,7 +87,7 @@
 </head>
 <body style="background: var(--shithead-cream); overflow: hidden; height: 100dvh;">
 
-  <header class="w-full flex items-center justify-between px-2 pt-4">
+  <header class="w-full flex items-center justify-between px-2 pt-4 ml-3">
     <h1><a href="#" onclick="showSplash(); return false;"><img src="https://shithead.warface.co.uk/assets/logo.svg" alt="Shithead" class="h-6 md:h-12 hover:opacity-80"></a></h1>
     <ul class="flex gap-4 list-none p-0 m-0">
       <li>
@@ -143,7 +143,7 @@
   <div class="flex flex-col items-center gap-6 mt-8 w-full" id="splashScreen">
     <div class="p-4 md:p-8 lg:p-12">
       <h2 class="font-tusker text-[clamp(3.2rem,10vw,8rem)] leading-[clamp(3.3rem,10.2vw,8rem)] max-w-[1400px] uppercase">Card game for and your shit mates!</h2>
-      <button class="btn text-xl px-12 py-4 tracking-widest" onclick="showHomeScreen()">Let's Play</button>
+      <button class="btn px-12 py-4" onclick="showHomeScreen()">Let's Play</button>
     </div>
     <div class="scrolling-shit">
       Shithead!
@@ -155,7 +155,7 @@
             <div class="corner">2♠&#xFE0E;</div>
             <div class="center-suit">♠&#xFE0E;</div>
             <div class="corner bot">2♠&#xFE0E;</div>
-            <div class="badge wild">WILD</div>
+            <div class="badge wild">reset</div>
           </div>
       </div>
       <!-- <div class="carousel-item rounded-box" style="background-color: pink;">
@@ -168,7 +168,7 @@
             <div class="corner">3♦</div>
             <div class="center-suit">♦</div>
             <div class="corner bot">3♦</div>
-            <div class="badge wild">WILD</div>
+            <div class="badge wild">Killer</div>
           </div>
       </div>
       <!-- <div class="carousel-item rounded-box" style="background-color: pink; width: clamp(200px,57vw,285px);">
@@ -181,7 +181,7 @@
           <div class="corner">7♣</div>
           <div class="center-suit">♣</div>
           <div class="corner bot">7♣</div>
-          <div class="badge wild">WILD</div>
+          <div class="badge wild">Below</div>
         </div>
       </div>
       <!-- <div class="carousel-item rounded-box" style="background-color: pink; width: clamp(200px,57vw,285px);">
@@ -194,7 +194,7 @@
           <div class="corner">8♥</div>
           <div class="center-suit">♥</div>
           <div class="corner bot">8♥</div>
-          <div class="badge wild">WILD</div>
+          <div class="badge wild">Window</div>
         </div>
       </div>
       <!-- <div class="carousel-item rounded-box" style="background-color: pink; width: clamp(200px,57vw,285px);">
@@ -207,8 +207,16 @@
           <div class="corner">10♠</div>
           <div class="center-suit">♠</div>
           <div class="corner bot">10♠</div>
-          <div class="badge wild">WILD</div>
+          <div class="badge wild">Burn</div>
         </div>
+      </div>
+      <div class="carousel-item rounded-box py-8" style="background-color:#5dc386;">
+        <div class="card red" style="margin: auto;">
+            <div class="corner">A♦</div>
+            <div class="center-suit">♦</div>
+            <div class="corner bot">A♦</div>
+            <div class="badge wild">High</div>
+          </div>
       </div>
 
     </div>
@@ -225,22 +233,29 @@
               class="bg-white/10 border border-white/25 rounded-md text-white text-base px-3 py-2 outline-none focus:border-[#f4d03f] focus:bg-white/15 placeholder:text-white/30">
       </div>
 
-      <button class="btn" id="createBtn">Create Game</button>
-
-      <div id="createDivider" class="flex items-center gap-2.5 text-white/30 text-[0.8rem] font-sans">
-        <div class="flex-1 border-t border-white/15"></div>
-        or join existing game
-        <div class="flex-1 border-t border-white/15"></div>
+      <!-- Segmented control -->
+      <div class="flex rounded-lg bg-black/30 p-1 gap-1">
+        <button id="tabCreate" onclick="switchHomeTab('create')"
+          class="flex-1 rounded-md py-2 text-sm font-sans font-semibold transition-colors bg-white text-black">Create Game</button>
+        <button id="tabJoin" onclick="switchHomeTab('join')"
+          class="flex-1 rounded-md py-2 text-sm font-sans font-semibold transition-colors text-white/60">Join Game</button>
       </div>
 
-      <div class="flex flex-col gap-1.5">
-        <label for="codeInput" class="text-[0.8rem] text-white/60 uppercase tracking-widest font-sans">Room Code</label>
-        <input id="codeInput" type="text" placeholder="e.g. BOLLOCKS" maxlength="12" autocomplete="off"
-              style="text-transform:uppercase;letter-spacing:2px;"
-              class="bg-white/10 border border-white/25 rounded-md text-white text-base px-3 py-2 outline-none focus:border-[#f4d03f] focus:bg-white/15 placeholder:text-white/30">
+      <!-- Create panel -->
+      <div id="createPanel">
+        <button class="btn w-full" id="createBtn">Create Game</button>
       </div>
 
-      <button class="btn" id="joinBtn">Join Game</button>
+      <!-- Join panel -->
+      <div id="joinPanel" class="hidden flex-col gap-4">
+        <div class="flex flex-col gap-1.5">
+          <label for="codeInput" class="text-[0.8rem] text-white/60 uppercase tracking-widest font-sans">Room Code</label>
+          <input id="codeInput" type="text" placeholder="e.g. BOLLOCKS" maxlength="12" autocomplete="off"
+                style="text-transform:uppercase;letter-spacing:2px;"
+                class="bg-white/10 border border-white/25 rounded-md text-white text-base px-3 py-2 outline-none focus:border-[#f4d03f] focus:bg-white/15 placeholder:text-white/30">
+        </div>
+        <button class="btn w-full" id="joinBtn">Join Game</button>
+      </div>
 
       <div class="text-[#e74c3c] text-[0.85rem] font-sans min-h-5 text-center" id="homeError"></div>
     </div>
@@ -420,6 +435,15 @@ function showSplash() {
   document.getElementById('logPanel').classList.add('hidden');
   document.getElementById('overlay').classList.add('hidden');
   document.getElementById('exitBtn').classList.add('hidden');
+}
+
+function switchHomeTab(tab) {
+  const isCreate = tab === 'create';
+  document.getElementById('createPanel').classList.toggle('hidden', !isCreate);
+  document.getElementById('joinPanel').classList.toggle('hidden', isCreate);
+  document.getElementById('joinPanel').classList.toggle('flex', !isCreate);
+  document.getElementById('tabCreate').className = `flex-1 rounded-md py-2 text-sm font-sans font-semibold transition-colors ${isCreate ? 'bg-white text-black' : 'text-white/60'}`;
+  document.getElementById('tabJoin').className    = `flex-1 rounded-md py-2 text-sm font-sans font-semibold transition-colors ${!isCreate ? 'bg-white text-black' : 'text-white/60'}`;
 }
 
 function showHomeScreen() {
