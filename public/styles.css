@@ -57,9 +57,15 @@ html, body { background-color: transparent; }
 
 #splashScreen {
   .carousel .carousel-item {
+    width: clamp(200px,57vw,285px);
+    padding: 4vw;
+
     .card {
+      width: clamp(180px,42vw,288px);
+      height: clamp(200px, 57vw, 400px);
       border-radius: 18px;
       padding: 12px 14px;
+      border: none;
 
       .corner {
         font-size: clamp(52px, 12vw, 84px);
