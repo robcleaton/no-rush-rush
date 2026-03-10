@@ -84,6 +84,10 @@
     .sub       { @apply text-[#a8d5b5] text-[0.85rem]; }
     #shareLink a { @apply text-[#a8d5b5]; }
   </style>
+  <style>
+    .remote-cursor { position: fixed; pointer-events: none; z-index: 9999; will-change: left, top; }
+    .remote-cursor-label { position: absolute; left: 14px; top: 3px; background: rgba(0,0,0,0.75); color: #fff; font-size: 11px; font-family: sans-serif; padding: 2px 7px; border-radius: 4px; white-space: nowrap; }
+  </style>
 </head>
 <body style="background: var(--shithead-cream); overflow: hidden; height: 100dvh;">
 
@@ -453,6 +457,7 @@ function emptyCardEl() {
 //  HOME SCREEN
 // ─────────────────────────────────────────────────────────────
 function showSplash() {
+  clearRemoteCursors();
   document.getElementById('splashScreen').classList.remove('hidden');
   document.getElementById('homeScreen').classList.add('hidden');
   document.getElementById('lobbyScreen').classList.add('hidden');
@@ -494,6 +499,7 @@ function showLobby() {
 }
 
 function showGame() {
+  clearRemoteCursors();
   document.getElementById('splashScreen').classList.add('hidden');
   document.getElementById('homeScreen').classList.add('hidden');
   document.getElementById('lobbyScreen').classList.add('hidden');
@@ -1060,6 +1066,37 @@ const carouselObserver = new IntersectionObserver((entries) => {
 
 document.querySelectorAll('.splashCarousel-item').forEach(el => carouselObserver.observe(el));
 updateCarouselDots(0);
+
+// ── Lobby cursors ──────────────────────────────────────────
+const remoteCursors = {};
+
+function clearRemoteCursors() {
+  Object.values(remoteCursors).forEach(el => el.remove());
+  Object.keys(remoteCursors).forEach(k => delete remoteCursors[k]);
+}
+
+let cursorThrottle = null;
+document.addEventListener('mousemove', e => {
+  if (document.getElementById('lobbyScreen').classList.contains('hidden')) return;
+  if (cursorThrottle) return;
+  cursorThrottle = setTimeout(() => { cursorThrottle = null; }, 50);
+  socket.emit('cursorMove', { x: e.clientX / window.innerWidth, y: e.clientY / window.innerHeight });
+});
+
+socket.on('cursorUpdate', ({ seatIndex, x, y, name }) => {
+  if (document.getElementById('lobbyScreen').classList.contains('hidden')) return;
+  let el = remoteCursors[seatIndex];
+  if (!el) {
+    el = document.createElement('div');
+    el.className = 'remote-cursor';
+    el.innerHTML = `<svg width="13" height="18" viewBox="0 0 13 18" fill="none"><path d="M1 1 L1 15 L4.5 11 L7 17.5 L9 16.5 L6.5 10 L11.5 10 Z" fill="white" stroke="black" stroke-width="1.2" stroke-linejoin="round"/></svg><div class="remote-cursor-label"></div>`;
+    document.body.appendChild(el);
+    remoteCursors[seatIndex] = el;
+  }
+  el.querySelector('.remote-cursor-label').textContent = name;
+  el.style.left = (x * window.innerWidth) + 'px';
+  el.style.top  = (y * window.innerHeight) + 'px';
+});
 </script>
 </body>
 </html>

@@ -584,6 +584,13 @@ io.on('connection', socket => {
     broadcastState(room);
   });
 
+  socket.on('cursorMove', ({ x, y }) => {
+    if (!currentRoom || seatIndex === null) return;
+    if (currentRoom.state.phase !== 'lobby') return;
+    const name = currentRoom.state.players[seatIndex]?.name || 'Player';
+    socket.to(currentRoom.code).emit('cursorUpdate', { seatIndex, x, y, name });
+  });
+
   socket.on('leaveRoom', () => {
     if (!currentRoom || seatIndex === null) return;
     const room = currentRoom;
