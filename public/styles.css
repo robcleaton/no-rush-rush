@@ -71,8 +71,10 @@ html, body { background-color: transparent; }
       padding: clamp(12px, 1.8vw, 20px);
       border: none;
       box-shadow: 1px 2px 5px rgba(0,0,0,0.15);
-      font-variant-emoji: text; /* suppresses emoji rendering */
 
+      .suit {
+        font-variant-emoji: text; /* suppresses emoji rendering */
+      }
       .corner {
         font-size: clamp(52px, 12vw, 84px);
       }
