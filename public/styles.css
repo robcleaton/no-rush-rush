@@ -233,6 +233,21 @@ body {
       }
   }
 }
+/* ── Pile ──────────────────────────────────────────── */
+.center-row.pile {
+  gap: 0px;
+  padding: 16px 40px;
+
+  .pile-block {
+    width: 100%;
+  }
+  .card {
+    height: clamp(120px, 40vw, 300px);
+    width: clamp(120px, 70%, 240px);
+    margin: auto;
+  }
+
+}
 /* ── Your hand ──────────────────────────────────────────── */
 .your-hand {
   .card-groups {

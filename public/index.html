@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#000000">
+  <meta name="theme-color" content="#f8331e">
   <meta name="description" content="Play Shithead online with your shit mates. A free multiplayer card game for 2–4 players with special cards like Burn, Wild, and Chain.">
   
   <!-- Google tag (gtag.js) -->
@@ -287,7 +287,7 @@
         <button class="btn w-full" id="joinBtn">Join Game</button>
       </div>
 
-      <div class="text-[#e74c3c] text-[0.85rem] font-sans min-h-5 text-center" id="homeError"></div>
+      <div class="text-[#e74c3c] text-[0.85rem] font-sans text-center hidden" id="homeError"></div>
     </div>
 
 
@@ -485,6 +485,9 @@ function showHomeScreen() {
   document.getElementById('logPanel').classList.add('hidden');
   document.getElementById('overlay').classList.add('hidden');
   document.getElementById('exitBtn').classList.add('hidden');
+  const homeErr = document.getElementById('homeError');
+  homeErr.textContent = '';
+  homeErr.classList.add('hidden');
 }
 
 function showLobby() {
@@ -573,7 +576,9 @@ document.getElementById('codeInput').addEventListener('keydown', e => {
 });
 
 function showHomeError(msg) {
-  document.getElementById('homeError').textContent = msg;
+  const el = document.getElementById('homeError');
+  el.textContent = msg;
+  el.classList.remove('hidden');
 }
 
 document.getElementById('startBtn').addEventListener('click', () => {
