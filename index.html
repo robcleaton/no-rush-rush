@@ -28,11 +28,11 @@
   <meta property="og:type" content="website">
   <meta property="og:title" content="Shithead Card Game">
   <meta property="og:description" content="Play Shithead online with your shit mates — create a room and share the code.">
-  <meta property="og:image" content="public/WhatsApp-image.png">
+  <meta property="og:image" content="/WhatsApp-image.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:image" content="public/WhatsApp-image.png">
+  <meta name="twitter:image" content="/WhatsApp-image.png">
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -142,14 +142,11 @@
   <!-- ── SPLASH SCREEN ─────────────────────────────────────── -->
   <div class="flex flex-col items-center gap-6 mt-8 w-full" id="splashScreen">
     <div class="p-4 md:p-8 lg:p-12">
-      <h2 class="font-tusker text-[clamp(3.2rem,10vw,8rem)] leading-[clamp(3.3rem,10.2vw,8rem)] max-w-[1400px] uppercase">Card game for and your shit mates!</h2>
+      <h2 class="font-tusker text-[clamp(3.2rem,10vw,8rem)] leading-[clamp(3.3rem,10.2vw,8rem)] max-w-[1400px] uppercase">Card game for you and your shit mates!</h2>
       <button class="btn px-12 py-4" onclick="showHomeScreen()">Let's Play</button>
     </div>
-    <div class="scrolling-shit">
-      Shithead!
-    </div>
 
-    <div class="carousel carousel-center space-x-4 p-4 lg:p-12 w-full">
+    <div class="carousel carousel-center space-x-4 p-4 mt-2 lg:p-12 w-full">
       <div class="carousel-item rounded-box py-8" style="background-color: #CEE7EE;">
         <div class="card black" style="margin: auto;">
             <div class="corner">2<span class="suit">♠&#xFE0E;</span></div>
@@ -191,9 +188,9 @@
       </div> -->
       <div class="carousel-item rounded-box" style="background-color: #CEE7EE; width: clamp(200px,57vw,285px);">
         <div class="card red" style="margin: auto;">
-          <div class="corner">8♥<span class="suit"></span>&#xFE0E;</span></div>
+          <div class="corner">8<span class="suit"></span>♥&#xFE0E;</span></div>
           <div class="center-suit">♥&#xFE0E;</div>
-          <div class="corner bot">8♥<span class="suit"></span>&#xFE0E;</span></div>
+          <div class="corner bot">8<span class="suit"></span>♥&#xFE0E;</span></div>
           <div class="badge wild">Window</div>
         </div>
       </div>
@@ -220,6 +217,34 @@
       </div>
 
     </div>
+
+    <div class="demo w-full px-12">
+      <div class="p-12 rounded-2xl" style="background: pink; height: 80vh;">
+        <h3>Shithead!</h3>
+        <div class="card-group table-cards">
+          <div class="cards-stack">
+            <div class="cards-row"><div class="card back"></div><div class="card back"></div><div class="card back"></div></div>
+            <div class="cards-row">
+            <div class="card red">
+              <div class="corner">7♥︎</div>
+              <div class="center-suit">♥︎</div>
+              <div class="corner bot">7♥︎</div>
+            </div>
+            <div class="card black">
+              <div class="corner">8♣︎</div>
+              <div class="center-suit">♣︎</div>
+              <div class="corner bot">8♣︎</div>
+            </div>
+            <div class="card black">
+              <div class="corner">K♣︎</div>
+              <div class="center-suit">♣︎</div>
+              <div class="corner bot">K♣︎</div>
+            </div></div>
+            </div>
+          </div>
+      </div>
+    </div>
+
   </div>
 
 
@@ -227,18 +252,18 @@
   <!-- ── HOME SCREEN ──────────────────────────────────────── -->
   <div class="px-2 w-full m-auto max-w-[480px]">
     <div class="w-full m-auto max-w-[480px] bg-black/25 rounded-xl px-8 py-7 flex flex-col gap-4 hidden" id="homeScreen">
-      <div class="flex flex-col gap-1.5">
-        <label for="nameInput" class="text-[0.8rem] text-white/60 uppercase tracking-widest font-sans">Your Name</label>
-        <input id="nameInput" type="text" placeholder="Enter your name" maxlength="20" autocomplete="off"
-              class="bg-white/10 border border-white/25 rounded-md text-white text-base px-3 py-2 outline-none focus:border-[#f4d03f] focus:bg-white/15 placeholder:text-white/30">
-      </div>
-
       <!-- Segmented control -->
       <div class="flex rounded-lg bg-black/30 p-1 gap-1">
         <button id="tabCreate" onclick="switchHomeTab('create')"
           class="flex-1 rounded-md py-2 text-sm font-sans font-semibold transition-colors bg-white text-black">Create Game</button>
         <button id="tabJoin" onclick="switchHomeTab('join')"
           class="flex-1 rounded-md py-2 text-sm font-sans font-semibold transition-colors text-white/60">Join Game</button>
+      </div>
+
+      <div class="flex flex-col gap-1.5">
+        <label for="nameInput" class="text-[0.8rem] text-white/60 uppercase tracking-widest font-sans">Your Name</label>
+        <input id="nameInput" type="text" placeholder="Enter your name" maxlength="20" autocomplete="off"
+              class="bg-white/10 border border-white/25 rounded-md text-white text-base px-3 py-2 outline-none focus:border-[#f4d03f] focus:bg-white/15 placeholder:text-white/30">
       </div>
 
       <!-- Create panel -->
@@ -546,12 +571,11 @@ document.getElementById('startBtn').addEventListener('click', () => {
   socket.emit('startGame');
 });
 
-// Pre-fill room code from URL ?room=XXXX
+// Pre-fill room code from URL ?room=XXXX and switch to Join tab
 const urlCode = new URLSearchParams(window.location.search).get('room');
 if (urlCode) {
   document.getElementById('codeInput').value = urlCode.toUpperCase();
-  document.getElementById('createBtn').classList.add('hidden');
-  document.getElementById('createDivider').classList.add('hidden');
+  switchHomeTab('join');
 }
 
 // ─────────────────────────────────────────────────────────────
