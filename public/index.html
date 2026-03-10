@@ -333,7 +333,7 @@
 
     <button class="btn" id="startBtn" disabled>Start Game (need 2+)</button>
     <button class="btn red-btn" onclick="confirmLeave(event)">Leave Game</button>
-    <div class="text-[#e74c3c] text-[0.85rem] font-sans min-h-5 text-center" id="lobbyError"></div>
+    <div class="text-[#e74c3c] text-[0.85rem] font-sans text-center hidden" id="lobbyError"></div>
   </div>
 </div>
 
@@ -488,7 +488,9 @@ function showLobby() {
   document.getElementById('board').classList.add('hidden');
   document.getElementById('logPanel').classList.add('hidden');
   document.getElementById('exitBtn').classList.remove('hidden');
-  document.getElementById('lobbyError').textContent = '';
+  const lobbyErr = document.getElementById('lobbyError');
+  lobbyErr.textContent = '';
+  lobbyErr.classList.add('hidden');
 }
 
 function showGame() {
@@ -975,7 +977,9 @@ socket.on('stateUpdate', v => {
 
 socket.on('joinError', msg => {
   showHomeError(msg);
-  document.getElementById('lobbyError').textContent = msg;
+  const lobbyErr = document.getElementById('lobbyError');
+  lobbyErr.textContent = msg;
+  lobbyErr.classList.remove('hidden');
 });
 
 socket.on('reconnectFailed', () => {
