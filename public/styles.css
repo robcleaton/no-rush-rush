@@ -56,19 +56,28 @@ html, body { background-color: transparent; }
 
 
 #splashScreen {
+  .btn {
+    font-family: 'TuskerGrotesk', sans-serif;
+    font-size: 20px;
+  }
   .carousel .carousel-item {
     width: clamp(200px,57vw,285px);
-    padding: 4vw;
+    padding: clamp(24px,5vw,285px);
 
     .card {
       width: clamp(180px,42vw,288px);
-      height: clamp(200px, 57vw, 400px);
+      height: clamp(200px, 62vw, 400px);
       border-radius: 18px;
-      padding: 12px 14px;
+      padding: clamp(12px, 1.8vw, 20px);
       border: none;
+      box-shadow: 1px 2px 5px rgba(0,0,0,0.15);
 
       .corner {
         font-size: clamp(52px, 12vw, 84px);
+      }
+      .badge {
+        font-size: clamp(11px, 1.8vw, 16px);
+        padding: 14px 12px;      
       }
     }
   }
@@ -113,6 +122,7 @@ footer {
   font-size: 9px; font-family: Arial, sans-serif; font-weight: 900;
   padding: 2px 4px; border-radius: 8px;
   pointer-events: none; letter-spacing: 0.5px;
+  text-transform: uppercase;
 }
 .card .badge.wild   { background: #8e44ad; }
 .card .badge.burn   { background: #e74c3c; }
