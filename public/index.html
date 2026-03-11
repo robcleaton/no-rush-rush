@@ -98,10 +98,10 @@
     <h1><a href="#" onclick="showSplash(); return false;"><img src="https://shithead.warface.co.uk/assets/logo.svg" alt="Shithead" class="h-6 md:h-12 hover:opacity-80"></a></h1>
     <ul class="flex gap-4 list-none p-0 m-0">
       <li>
-        <button class="border py-3 px-4 rounded-lg flex items-center gap-1 text-[0.78rem] text-black/45 cursor-pointer tracking-widest uppercase bg-transparent border-0 p-0 hover:text-black/100" onclick="showRules()"><i data-lucide="book" class="w-4 h-4"></i>Rules</button>
+        <button class="border py-3 px-4 rounded-lg flex items-center gap-1 text-[0.78rem] text-black/45 cursor-pointer tracking-widest uppercase bg-transparent p-0 hover:text-black/100" onclick="showRules()"><i data-lucide="book" class="w-4 h-4"></i>Rules</button>
       </li>
       <li>
-        <button class="border py-3 px-4 rounded-lg text-[0.78rem] text-black/45 cursor-pointer tracking-widest uppercase bg-transparent border-0 p-0 hover:text-black/100 hidden" id="exitBtn" onclick="confirmLeave(event)">Exit Game</button>
+        <button class="border py-3 px-4 rounded-lg text-[0.78rem] text-black/45 cursor-pointer tracking-widest uppercase bg-transparent p-0 hover:text-black/100 hidden" id="exitBtn" onclick="confirmLeave(event)">Exit Game</button>
       </li>
     </ul>
   </header>
@@ -147,7 +147,7 @@
 <div id="appFrame">
     
   <!-- ── SPLASH SCREEN ─────────────────────────────────────── -->
-  <div class="flex flex-col items-center gap-6 mt-8 w-full" id="splashScreen">
+  <div class="flex flex-col items-center gap-6 mt-8 mb-12 w-full" id="splashScreen">
     <div class="p-4 md:p-8 lg:p-12">
       <h2 class="font-tusker text-[clamp(3.2rem,10vw,8rem)] leading-[clamp(3.3rem,10.2vw,8rem)] max-w-[1400px] uppercase">Card game for you and your shit mates!</h2>
       <button class="btn px-12 py-4 mt-2" onclick="showHomeScreen()">Play</button>
@@ -225,27 +225,26 @@
 
     </div>
 
-    <div class="demo w-full px-12">
-      <div class="p-12 rounded-2xl" style="background: pink; height: 80vh;">
-        <h3>Shithead!</h3>
-        <div class="card-group table-cards">
-          <div class="cards-stack">
+    <div class="demo w-full px-4 md:px-12">
+      <div class="p-20 rounded-2xl" style="background: pink;">
+        <div class="card-group table-cards py-12">
+          <div class="cards-stack m-auto">
             <div class="cards-row"><div class="card back"></div><div class="card back"></div><div class="card back"></div></div>
             <div class="cards-row">
             <div class="card red">
-              <div class="corner">7♥︎</div>
-              <div class="center-suit">♥︎</div>
-              <div class="corner bot">7♥︎</div>
+              <div class="corner">7<span class="suit">♦&#xFE0E;</span></div>
+              <div class="center-suit"><span class="suit">♦&#xFE0E;</span></div>
+              <div class="corner bot">7<span class="suit">♦&#xFE0E;</span></div>
             </div>
             <div class="card black">
-              <div class="corner">8♣︎</div>
-              <div class="center-suit">♣︎</div>
-              <div class="corner bot">8♣︎</div>
+              <div class="corner">Q<span class="suit">♦&#xFE0E;</span></div>
+              <div class="center-suit"><span class="suit">♦&#xFE0E;</span></div>
+              <div class="corner bot">Q<span class="suit">♦&#xFE0E;</span></div>
             </div>
-            <div class="card black">
-              <div class="corner">K♣︎</div>
-              <div class="center-suit">♣︎</div>
-              <div class="corner bot">K♣︎</div>
+            <div class="card red">
+              <div class="corner">K<span class="suit">♦&#xFE0E;</span></div>
+              <div class="center-suit"><span class="suit">♦&#xFE0E;</span></div>
+              <div class="corner bot">K<span class="suit">♦&#xFE0E;</span></div>
             </div></div>
             </div>
           </div>
