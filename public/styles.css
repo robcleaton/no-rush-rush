@@ -43,11 +43,14 @@ html, body { background-color: transparent; }
 
 .demo {
   .cards-stack .cards-row:last-child {
-    margin-top: -22vw;
+    margin-top: clamp(-350px, -22vw, -100px);
+  }
+  .cards-row {
+    gap: 1vw;
   }
   .card {
-    width:clamp(40px,25vw,280px);
-    height: clamp(40px,25vw,380px);
+    width:clamp(40px,24vw,280px);
+    height: clamp(40px,24vw,380px);
   }
 }
 
