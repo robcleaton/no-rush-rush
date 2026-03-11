@@ -94,14 +94,14 @@
 </head>
 <body style="background: var(--shithead-cream); overflow: hidden; height: 100dvh;">
 
-  <header class="w-full flex items-center justify-between px-2 pt-4 ml-3">
+  <header class="w-full flex items-center justify-between px-2 pt-2 ml-3 md:pt-5">
     <h1><a href="#" onclick="showSplash(); return false;"><img src="https://shithead.warface.co.uk/assets/logo.svg" alt="Shithead" class="h-6 md:h-12 hover:opacity-80"></a></h1>
-    <ul class="flex gap-4 list-none p-0 m-0">
+    <ul class="flex list-none p-0 mx-5">
       <li>
-        <button class="border py-3 px-4 rounded-lg flex items-center gap-1 text-[0.78rem] text-black/45 cursor-pointer tracking-widest uppercase bg-transparent p-0 hover:text-black/100" onclick="showRules()"><i data-lucide="book" class="w-4 h-4"></i>Rules</button>
+        <button class="border py-2.5 px-2.5 md:py-3 md:px-4 rounded-lg flex items-center gap-1 text-[0.78rem] text-black/45 cursor-pointer tracking-widest uppercase bg-transparent p-0 hover:text-black/100" onclick="showRules()"><i data-lucide="book" class="w-4 h-4"></i><span class="hidden md:inline">Rules</span></button>
       </li>
       <li>
-        <button class="border py-3 px-4 rounded-lg text-[0.78rem] text-black/45 cursor-pointer tracking-widest uppercase bg-transparent p-0 hover:text-black/100 hidden" id="exitBtn" onclick="confirmLeave(event)">Exit Game</button>
+        <button class="ml-2 border py-2.5 px-2.5 md:py-3 md:px-4 rounded-lg flex items-center gap-1 text-[0.78rem] text-black/45 cursor-pointer tracking-widest uppercase bg-transparent p-0 hover:text-black/100 hidden" id="exitBtn" onclick="confirmLeave(event)"><i data-lucide="log-out" class="w-4 h-4"></i><span class="hidden md:inline">Exit Game</span></button>
       </li>
     </ul>
   </header>
@@ -159,7 +159,7 @@
             <div class="corner">2<span class="suit">♠&#xFE0E;</span></div>
             <div class="center-suit">♠&#xFE0E;</div>
             <div class="corner bot">2<span class="suit">♠&#xFE0E;</span></div>
-            <div class="badge wild">reset</div>
+            <div class="badge reset">reset</div>
           </div>
       </div>
       <!-- <div class="carousel-item rounded-box" style="background-color: pink;">
@@ -172,7 +172,7 @@
             <div class="corner">3<span class="suit">♦&#xFE0E;</span></div>
             <div class="center-suit">♦&#xFE0E;</div>
             <div class="corner bot">3<span class="suit">♦&#xFE0E;</span></div>
-            <div class="badge wild">Killer</div>
+            <div class="badge killer">Killer</div>
           </div>
       </div>
       <!-- <div class="carousel-item rounded-box" style="background-color: pink; width: clamp(200px,57vw,285px);">
@@ -185,7 +185,7 @@
           <div class="corner">7<span class="suit">♣&#xFE0E;</span></div>
           <div class="center-suit">♣&#xFE0E;</div>
           <div class="corner bot">7<span class="suit">♣&#xFE0E;</span></div>
-          <div class="badge wild">Below</div>
+          <div class="badge below">Below</div>
         </div>
       </div>
       <!-- <div class="carousel-item rounded-box" style="background-color: pink; width: clamp(200px,57vw,285px);">
@@ -198,7 +198,7 @@
           <div class="corner">8<span class="suit"></span>♥&#xFE0E;</span></div>
           <div class="center-suit">♥&#xFE0E;</div>
           <div class="corner bot">8<span class="suit"></span>♥&#xFE0E;</span></div>
-          <div class="badge wild">Window</div>
+          <div class="badge window">Window</div>
         </div>
       </div>
       <!-- <div class="carousel-item rounded-box" style="background-color: pink; width: clamp(200px,57vw,285px);">
@@ -211,7 +211,7 @@
           <div class="corner">10<span class="suit">♠&#xFE0E;</span></div>
           <div class="center-suit">♠&#xFE0E;</div>
           <div class="corner bot">10<span class="suit">♠&#xFE0E;</span></div>
-          <div class="badge wild">Burn</div>
+          <div class="badge burn">Burn</div>
         </div>
       </div>
       <div class="carousel-item rounded-box py-8" style="background-color:#F8BEB0;">
@@ -219,7 +219,7 @@
             <div class="corner">A<span class="suit">♦&#xFE0E;</span></div>
             <div class="center-suit">♦&#xFE0E;</div>
             <div class="corner bot">A<span class="suit">♦&#xFE0E;</span></div>
-            <div class="badge wild">High</div>
+            <div class="badge high">High</div>
           </div>
       </div>
 
@@ -304,9 +304,7 @@
           <button onclick="copyRoomCode()" title="Copy code"
                   class="text-white/40 hover:text-white/80 transition-colors bg-transparent border-0 cursor-pointer p-1 shrink-0"
                   id="copyCodeBtn">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
-            </svg>
+                  <i data-lucide="copy" class="w-6 h-6"></i>
           </button>
         </div>
       </div>
@@ -318,9 +316,7 @@
         <button onclick="copyShareLink()" title="Copy link"
                 class="text-white/40 hover:text-white/80 transition-colors bg-transparent border-0 cursor-pointer p-1 shrink-0"
                 id="copyLinkBtn">
-          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
-          </svg>
+                  <i data-lucide="copy" class="w-6 h-6"></i>
         </button>
       </div>
     </div>
@@ -360,7 +356,7 @@
       <details class="border-b border-black/10 group"><summary class="py-2 px-2 cursor-pointer list-none flex justify-between items-center"><span class="text-[#c9b46a] font-bold">2 — Reset</span><span class="text-black/30 text-xs group-open:rotate-180 transition-transform"><i data-lucide="chevron-down" class="w-4 h-4"></i></span></summary><p class="px-2 pb-2.5 text-black/60">Plays on anything, resets the pile. Play again.</p></details>
       <details class="border-b border-black/10 group"><summary class="py-2 px-2 cursor-pointer list-none flex justify-between items-center"><span class="text-[#2980b9] font-bold">3 — Killer</span><span class="text-black/30 text-xs group-open:rotate-180 transition-transform"><i data-lucide="chevron-down" class="w-4 h-4"></i></span></summary><p class="px-2 pb-2.5 text-black/60">Plays on anything. Next player must play a 3 or pick up the pile. Chains until someone can't.</p></details>
       <details class="border-b border-black/10 group"><summary class="py-2 px-2 cursor-pointer list-none flex justify-between items-center"><span class="text-[#16a085] font-bold">8 — Window</span><span class="text-black/30 text-xs group-open:rotate-180 transition-transform"><i data-lucide="chevron-down" class="w-4 h-4"></i></span></summary><p class="px-2 pb-2.5 text-black/60">Plays on anything. Next player plays on the card below the 8 (or anything if pile is empty below).</p></details>
-      <details class="border-b border-black/10 group"><summary class="py-2 px-2 cursor-pointer list-none flex justify-between items-center"><span class="text-[#e67e22] font-bold">7 — Lay below</span><span class="text-black/30 text-xs group-open:rotate-180 transition-transform"><i data-lucide="chevron-down" class="w-4 h-4"></i></span></summary><p class="px-2 pb-2.5 text-black/60">Plays on anything except a 3. Next player must play 7 or lower.</p></details>
+      <details class="border-b border-black/10 group"><summary class="py-2 px-2 cursor-pointer list-none flex justify-between items-center"><span class="text-[#e67e22] font-bold">7 — Below</span><span class="text-black/30 text-xs group-open:rotate-180 transition-transform"><i data-lucide="chevron-down" class="w-4 h-4"></i></span></summary><p class="px-2 pb-2.5 text-black/60">Plays on anything except a 3. Next player must play 7 or lower.</p></details>
       <details class="border-b border-black/10 group"><summary class="py-2 px-2 cursor-pointer list-none flex justify-between items-center"><span class="text-[#e74c3c] font-bold">10 — Burn</span><span class="text-black/30 text-xs group-open:rotate-180 transition-transform"><i data-lucide="chevron-down" class="w-4 h-4"></i></span></summary><p class="px-2 pb-2.5 text-black/60">Plays on anything. Burn the pile. Play again.</p></details>
       <details class="group"><summary class="py-2 px-2 cursor-pointer list-none flex justify-between items-center"><span class="font-bold">Four of a kind</span><span class="text-black/30 text-xs group-open:rotate-180 transition-transform"><i data-lucide="chevron-down" class="w-4 h-4"></i></span></summary><p class="px-2 pb-2.5 text-black/60">Four of the same value on top of the pile burns it. Play again.</p></details>
     </div>
@@ -384,8 +380,8 @@
 
 <!-- ── LEAVE CONFIRMATION MODAL ───────────────────────── -->
 <div class="fixed inset-0 bg-black/[0.72] flex items-center justify-center z-[300] hidden" id="leaveOverlay">
-  <div class="bg-[#1b4332] border-[3px] border-[#f4d03f] rounded-2xl px-10 py-8 text-center max-w-[420px] w-[90%] flex flex-col gap-5">
-    <p class="text-white text-[1.05rem] leading-relaxed">Are you sure you want to leave? This will remove you from the game.</p>
+  <div class="bg-[var(--shithead-cream)] border-[3px] border-[#f4d03f] rounded-2xl px-10 py-8 text-center max-w-[420px] w-[90%] flex flex-col gap-5">
+    <p class="text-black text-[1.05rem] leading-relaxed">Are you sure you want to leave? This will remove you from the game.</p>
     <div class="flex gap-3 justify-center flex-wrap">
       <button class="btn red-btn" onclick="leaveGame()">Leave Game</button>
       <button class="btn" onclick="closeLeaveModal()">Keep Playing</button>

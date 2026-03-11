@@ -1,16 +1,3 @@
-@font-face {
-  font-family: 'TuskerGrotesk';
-  src: url('fonts/TuskerGrotesk-9800Super.woff2') format('woff2');
-  font-weight: 900;
-  font-style: normal;
-  font-display: swap;
-}
-
-
-.font-tusker {
-  font-family: 'TuskerGrotesk', sans-serif;
-}
-
 :root {
   --shithead-cream: #FEFFF1;
   --accent1: #ff3cac;
@@ -20,6 +7,23 @@
   --shithead-dark-red: #540800;
   --shithead-black: #1E1E1E;
 }
+
+@font-face {
+  font-family: 'TuskerGrotesk';
+  src: url('fonts/TuskerGrotesk-9800Super.woff2') format('woff2');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+.font-tusker {
+  font-family: 'TuskerGrotesk', sans-serif;
+}
+
+h1, h2, h3, h4, h5 {
+  font-family: 'TuskerGrotesk';
+}
+
 
 /* reset DaisyUI body background */
 html, body { background-color: transparent; }
@@ -43,14 +47,16 @@ html, body { background-color: transparent; }
 
 .demo {
   .cards-stack .cards-row:last-child {
-    margin-top: clamp(-350px, -22vw, -100px);
+    margin-top: clamp(-350px, -22vw, -192px);
   }
   .cards-row {
     gap: 1vw;
   }
   .card {
-    width:clamp(40px,24vw,280px);
-    height: clamp(40px,24vw,380px);
+    width: clamp(40px,24vw,280px);
+    height: clamp(40px,30vw,380px);
+    border-radius: 16px;;
+    padding: clamp(12px,1vw,20px);
   }
 }
 
@@ -142,12 +148,14 @@ footer {
   padding: 2px 4px; border-radius: 8px;
   pointer-events: none; letter-spacing: 0.5px;
   text-transform: uppercase;
+  border: none;
 }
-.card .badge.wild   { background: #8e44ad; }
-.card .badge.burn   { background: #e74c3c; }
-.card .badge.lower  { background: #e67e22; }
-.card .badge.ghost  { background: #2980b9; }
-.card .badge.window { background: #16a085; }
+.card .badge.reset   { background: blue; }
+.card .badge.burn   { background: #df1804; }
+.card .badge.below  { background: blueviolet; }
+.card .badge.killer  { background: darkorange; }
+.card .badge.high  { background: black; color:white; }
+.card .badge.window { background: #cee6ee; color: black; border: 1px solid black;}
 .card.back {
   background-image: repeating-linear-gradient(
     45deg,
