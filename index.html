@@ -346,8 +346,11 @@
 <div class="w-full max-w-[860px] flex flex-col gap-2.5 hidden" id="board"></div>
 
 <!-- ── RULES MODAL ────────────────────────────────────────── -->
-<div class="fixed inset-0 bg-black/[0.72] flex items-center justify-center z-[200] hidden" id="rulesOverlay" onclick="closeRules(event)">
-  <div class="bg-[var(--shithead-cream)] border-[3px] border-[#f4d03f] rounded-2xl px-11 py-9 max-w-[500px] w-[90%] text-left max-h-[90vh] overflow-y-auto">
+<dialog id="rulesModal" class="modal">
+  <div class="modal-box bg-[var(--shithead-cream)] border-[3px] border-[#f4d03f] max-w-[500px] text-left">
+    <form method="dialog">
+      <button class="btn btn-sm btn-circle btn-ghost absolute right-3 top-3 text-black/40 hover:text-black">✕</button>
+    </form>
     <h2 class="text-center mb-5 text-[#f4d03f] text-[1.8rem]">Rules</h2>
     <div class="text-[0.88rem] font-sans">
       <details class="border-b border-black/10 group"><summary class="py-2 px-2 cursor-pointer list-none flex justify-between items-center">Play<span class="text-black/30 text-xs group-open:rotate-180 transition-transform">▼</span></summary><p class="px-2 pb-2.5 text-black/60">Play a card equal to or higher than the top pile card.</p></details>
@@ -358,11 +361,10 @@
       <details class="border-b border-black/10 group"><summary class="py-2 px-2 cursor-pointer list-none flex justify-between items-center"><span class="text-[#e74c3c] font-bold">10 — Burn</span><span class="text-black/30 text-xs group-open:rotate-180 transition-transform">▼</span></summary><p class="px-2 pb-2.5 text-black/60">Plays on anything. Burn the pile. Play again.</p></details>
       <details class="group"><summary class="py-2 px-2 cursor-pointer list-none flex justify-between items-center"><span class="font-bold">Four of a kind</span><span class="text-black/30 text-xs group-open:rotate-180 transition-transform">▼</span></summary><p class="px-2 pb-2.5 text-black/60">Four of the same value on top of the pile burns it. Play again.</p></details>
     </div>
-    <p class="text-white/50 text-[0.8rem] mt-3.5 leading-relaxed">Play from Hand first, then Face-up, then Face-down (blind flip). If you can't play, pick up the pile. First player to empty all cards wins.</p>
-    <br>
-    <div class="text-center"><button class="btn" onclick="closeRules()">Close</button></div>
+    <p class="text-black/40 text-[0.8rem] mt-3.5 leading-relaxed">Play from Hand first, then Face-up, then Face-down (blind flip). If you can't play, pick up the pile. First player to empty all cards wins.</p>
   </div>
-</div>
+  <form method="dialog" class="modal-backdrop"><button>close</button></form>
+</dialog>
 
 <div class="max-w-[860px] w-full bg-black/20 rounded-lg px-3 py-2 text-[11px] font-sans text-white/55 leading-[1.8] hidden" id="logPanel"></div>
 
@@ -540,12 +542,11 @@ function leaveGame() {
 }
 
 function showRules() {
-  document.getElementById('rulesOverlay').classList.remove('hidden');
+  document.getElementById('rulesModal').showModal();
 }
 
-function closeRules(e) {
-  if (e && e.target !== document.getElementById('rulesOverlay')) return;
-  document.getElementById('rulesOverlay').classList.add('hidden');
+function closeRules() {
+  document.getElementById('rulesModal').close();
 }
 
 // ─────────────────────────────────────────────────────────────
