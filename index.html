@@ -2,8 +2,9 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <title>Shithead Card Game – Free Multiplayer Online Card Game</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#f8331e">
+  <meta name="theme-color" content="var(--shithead-cream)">
   <meta name="description" content="Play Shithead online with your shit mates. A free multiplayer card game for 2–4 players with special cards like Burn, Wild, and Chain.">
   
   <!-- Google tag (gtag.js) -->
@@ -19,23 +20,42 @@
   <title>Shithead Card Game</title>
 
   <!-- Favicons -->
-  <link rel="icon" type="image/svg+xml" href="public/favicon.svg">
-  <link rel="icon" type="image/png" sizes="32x32" href="public/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="public/favicon-16x16.png">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180x180.png">
   <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png">
 
   <!-- Open Graph / WhatsApp -->
-  <meta property="og:type" content="website">
-  <meta property="og:title" content="Shithead Card Game">
-  <meta property="og:description" content="Play Shithead online with your shit mates — create a room and share the code.">
+  <meta property="og:title" content="Shithead Card Game – Play Online with Friends">
+  <meta property="og:description" content="Free multiplayer card game. Play with friends online, no download needed.">
   <meta property="og:image" content="/WhatsApp-image.png">
+  <meta property="og:url" content="https://robcleaton.github.io/no-rush-rush/">
+  <meta property="og:type" content="website">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:image" content="/WhatsApp-image.png">
+
+  <link rel="canonical" href="https://robcleaton.github.io/no-rush-rush/">
+  <!-- JSON-LD Schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Shithead Card Game",
+    "applicationCategory": "Game",
+    "description": "Free multiplayer Shithead card game you can play online with friends.",
+    "url": "https://robcleaton.github.io/no-rush-rush/",
+    "offers": { "@type": "Offer", "price": "0" }
+  }
+  </script>
+
+  
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+
+  
   <script>
     tailwind.config = {
       theme: {
@@ -48,7 +68,7 @@
   </script>
   <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/daisyui@4/dist/full.min.css" rel="stylesheet" type="text/css" />
-  <link rel="stylesheet" href="public/styles.css">
+  <link rel="stylesheet" href="/styles.css">
   <style type="text/tailwindcss">
     /* ── Component classes used in JS-generated HTML ── */
     .btn {
@@ -224,6 +244,10 @@
 
     </div>
 
+    <div>
+      <p>Shithead is a popular card game for 2–4 players. Create a room, share the link with friends, and play online for free — no account needed.</p>
+    </div>
+
     <div class="demo w-full px-4 lg:px-12">
       <div class="p-2 md:p-20 rounded-2xl" style="background: pink;">
         <div class="card-group table-cards py-12">
@@ -397,7 +421,7 @@
 </footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-<script src="https://no-rush-rush.onrender.com/socket.io/socket.io.js"></script>
+<script src="/socket.io/socket.io.js"></script>
 <script>
 // ─────────────────────────────────────────────────────────────
 //  CONSTANTS
