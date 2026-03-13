@@ -47,7 +47,7 @@ html, body { background-color: transparent; }
 
 .demo {
   .cards-stack .cards-row:last-child {
-    margin-top: clamp(-350px, -22vw, -192px);
+    margin-top: clamp(-350px, -27vw, -132px);
   }
   .cards-row {
     gap: 1vw;
@@ -56,7 +56,12 @@ html, body { background-color: transparent; }
     width: clamp(40px,24vw,280px);
     height: clamp(40px,30vw,380px);
     border-radius: 16px;;
-    padding: clamp(12px,1vw,20px);
+    padding: clamp(10px,1.2vw,20px);
+    border: none;
+
+    .corner {
+      font-size: clamp(28px, 7vw, 72px);
+    }
   }
 }
 
