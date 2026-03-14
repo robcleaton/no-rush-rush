@@ -53,7 +53,7 @@ html, body { background-color: transparent; }
     gap: 1vw;
   }
   .card {
-    width: clamp(40px,24vw,280px);
+    width: clamp(40px,23vw,280px);
     height: clamp(40px,30vw,380px);
     border-radius: 16px;;
     padding: clamp(10px,1.2vw,20px);
@@ -62,6 +62,9 @@ html, body { background-color: transparent; }
     .corner {
       font-size: clamp(28px, 7vw, 72px);
     }
+  }
+  .card.back {
+    border: clamp(3px,1vw,12px) solid #fff;
   }
 }
 
