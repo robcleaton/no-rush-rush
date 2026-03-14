@@ -5,9 +5,16 @@ const path = require('path');
 
 const app = express();
 const server = http.createServer(app);
+const ALLOWED_ORIGINS = ['https://robcleaton.github.io', 'https://shithead.warface.co.uk'];
 const io = new Server(server, {
   cors: {
-    origin: ['https://robcleaton.github.io', 'https://shithead.warface.co.uk', 'http://localhost:3000'],
+    origin: (origin, cb) => {
+      if (!origin || ALLOWED_ORIGINS.includes(origin) || /^http:\/\/localhost(:\d+)?$/.test(origin)) {
+        cb(null, true);
+      } else {
+        cb(new Error('Not allowed by CORS'));
+      }
+    },
     methods: ['GET', 'POST'],
   },
 });
