@@ -7,7 +7,7 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: ['https://robcleaton.github.io', 'http://localhost:3000'],
+    origin: ['https://robcleaton.github.io', 'https://shithead.warface.co.uk', 'http://localhost:3000'],
     methods: ['GET', 'POST'],
   },
 });
