@@ -281,7 +281,7 @@
 
 
   <!-- ── HOME SCREEN ──────────────────────────────────────── -->
-  <div class="px-2 w-full m-auto max-w-[480px]">
+  <div class="px-2 w-full m-auto max-w-[480px]" id="homeScreenWrapper">
     <div class="w-full m-auto max-w-[480px] bg-black/25 rounded-xl px-8 py-7 flex flex-col gap-4 hidden" id="homeScreen">
       <!-- Segmented control -->
       <div class="flex rounded-lg bg-black/30 p-1 gap-1">
@@ -501,6 +501,7 @@ function emptyCardEl() {
 function showSplash() {
   clearRemoteCursors();
   document.getElementById('splashScreen').classList.remove('hidden');
+  document.getElementById('homeScreenWrapper').classList.remove('hidden');
   document.getElementById('homeScreen').classList.add('hidden');
   document.getElementById('lobbyScreen').classList.add('hidden');
   document.getElementById('deckSelectScreen').classList.add('hidden');
@@ -521,6 +522,7 @@ function switchHomeTab(tab) {
 
 function showHomeScreen() {
   document.getElementById('splashScreen').classList.add('hidden');
+  document.getElementById('homeScreenWrapper').classList.remove('hidden');
   document.getElementById('homeScreen').classList.remove('hidden');
   document.getElementById('lobbyScreen').classList.add('hidden');
   document.getElementById('deckSelectScreen').classList.add('hidden');
@@ -535,6 +537,7 @@ function showHomeScreen() {
 
 function showLobby() {
   document.getElementById('splashScreen').classList.add('hidden');
+  document.getElementById('homeScreenWrapper').classList.remove('hidden');
   document.getElementById('homeScreen').classList.add('hidden');
   document.getElementById('lobbyScreen').classList.remove('hidden');
   document.getElementById('deckSelectScreen').classList.add('hidden');
@@ -548,8 +551,7 @@ function showLobby() {
 
 function showDeckSelect() {
   document.getElementById('splashScreen').classList.add('hidden');
-  document.getElementById('homeScreen').classList.add('hidden');
-  document.getElementById('lobbyScreen').classList.add('hidden');
+  document.getElementById('homeScreenWrapper').classList.add('hidden');
   document.getElementById('deckSelectScreen').classList.remove('hidden');
   document.getElementById('board').classList.add('hidden');
   document.getElementById('logPanel').classList.add('hidden');
@@ -585,8 +587,7 @@ function chooseDeck(deckStyle) {
 function showGame() {
   clearRemoteCursors();
   document.getElementById('splashScreen').classList.add('hidden');
-  document.getElementById('homeScreen').classList.add('hidden');
-  document.getElementById('lobbyScreen').classList.add('hidden');
+  document.getElementById('homeScreenWrapper').classList.add('hidden');
   document.getElementById('deckSelectScreen').classList.add('hidden');
   document.getElementById('board').classList.remove('hidden');
   document.getElementById('logPanel').classList.remove('hidden');
