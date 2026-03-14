@@ -320,3 +320,94 @@ body {
     }
   }
 }
+
+/* ── Deck select screen ─────────────────────────────────── */
+.deck-option {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  background: rgba(0,0,0,0.2);
+  border: 2px solid rgba(255,255,255,0.15);
+  border-radius: 12px;
+  padding: 14px 8px;
+  cursor: default;
+  transition: border-color 0.15s, background 0.15s;
+  width: 100%;
+}
+.deck-option--host {
+  cursor: pointer;
+}
+.deck-option--host:hover {
+  border-color: #f4d03f;
+  background: rgba(0,0,0,0.35);
+}
+.deck-option__cards {
+  display: flex;
+  gap: 5px;
+  align-items: flex-start;
+}
+.deck-option__back {
+  width: 38px;
+  height: 56px;
+  border-radius: 5px;
+  border: 2px solid #fff;
+  flex-shrink: 0;
+}
+.deck-option__face {
+  width: 38px;
+  height: 56px;
+  border-radius: 5px;
+  background: #fff;
+  border: 1px solid #bbb;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 3px 4px;
+  color: #1a1a1a;
+  box-shadow: 1px 2px 4px rgba(0,0,0,0.25);
+  flex-shrink: 0;
+}
+.deck-option__corner {
+  font-size: 13px;
+  font-weight: bold;
+  line-height: 1;
+  display: block;
+}
+.deck-option__suit {
+  font-size: 16px;
+  text-align: center;
+  line-height: 1;
+  display: block;
+}
+.deck-option__name {
+  font-family: Arial, sans-serif;
+  font-size: 0.7rem;
+  color: rgba(255,255,255,0.65);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+/* ── Deck B: Midnight ───────────────────────────────────── */
+#board[data-deck="b"] .card.back {
+  background-image: repeating-linear-gradient(
+    90deg,
+    #0f3460 0px,
+    #0f3460 8px,
+    #1a4080 8px,
+    #1a4080 16px
+  );
+}
+#board[data-deck="b"] .card .corner { font-family: 'Fredoka One', cursive; }
+
+/* ── Deck C: Forest ─────────────────────────────────────── */
+#board[data-deck="c"] .card.back {
+  background-image: repeating-linear-gradient(
+    45deg,
+    #1b4332 0px,
+    #1b4332 8px,
+    #40916c 8px,
+    #40916c 16px
+  );
+}
+#board[data-deck="c"] .card .corner { font-family: Georgia, serif; }

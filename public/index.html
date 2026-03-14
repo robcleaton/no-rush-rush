@@ -364,6 +364,16 @@
   </div>
 </div>
 
+<!-- ── DECK SELECT ───────────────────────────────────────── -->
+<div class="w-full m-auto max-w-[480px] bg-black/25 rounded-xl px-8 py-7 flex flex-col gap-5 hidden" id="deckSelectScreen">
+  <div>
+    <h2 class="text-[1.3rem] text-[#f4d03f] mb-1">Choose a Deck</h2>
+    <p class="text-white/60 text-[0.85rem] font-sans" id="deckSelectSubtitle"></p>
+  </div>
+  <div class="grid grid-cols-3 gap-3" id="deckOptions"></div>
+  <button class="btn red-btn" onclick="confirmLeave(event)">Leave Game</button>
+</div>
+
 <!-- ── GAME BOARD ────────────────────────────────────────── -->
 <div class="w-full max-w-[860px] flex flex-col gap-2.5 hidden" id="board"></div>
 
@@ -454,6 +464,12 @@ let view = null;
 let selected = [];
 let intentionallyLeft = false;
 
+const DECK_STYLES = {
+  a: { name: 'Classic',  backA: '#6b21a8', backB: '#a855f7', font: "'TuskerGrotesk', sans-serif" },
+  b: { name: 'Midnight', backA: '#0f3460', backB: '#1a4080', font: "'Fredoka One', cursive"       },
+  c: { name: 'Forest',   backA: '#1b4332', backB: '#40916c', font: 'Georgia, serif'               },
+};
+
 // ─────────────────────────────────────────────────────────────
 //  CARD RENDERING
 // ─────────────────────────────────────────────────────────────
@@ -487,6 +503,7 @@ function showSplash() {
   document.getElementById('splashScreen').classList.remove('hidden');
   document.getElementById('homeScreen').classList.add('hidden');
   document.getElementById('lobbyScreen').classList.add('hidden');
+  document.getElementById('deckSelectScreen').classList.add('hidden');
   document.getElementById('board').classList.add('hidden');
   document.getElementById('logPanel').classList.add('hidden');
   document.getElementById('overlay').classList.add('hidden');
@@ -506,6 +523,7 @@ function showHomeScreen() {
   document.getElementById('splashScreen').classList.add('hidden');
   document.getElementById('homeScreen').classList.remove('hidden');
   document.getElementById('lobbyScreen').classList.add('hidden');
+  document.getElementById('deckSelectScreen').classList.add('hidden');
   document.getElementById('board').classList.add('hidden');
   document.getElementById('logPanel').classList.add('hidden');
   document.getElementById('overlay').classList.add('hidden');
@@ -519,6 +537,7 @@ function showLobby() {
   document.getElementById('splashScreen').classList.add('hidden');
   document.getElementById('homeScreen').classList.add('hidden');
   document.getElementById('lobbyScreen').classList.remove('hidden');
+  document.getElementById('deckSelectScreen').classList.add('hidden');
   document.getElementById('board').classList.add('hidden');
   document.getElementById('logPanel').classList.add('hidden');
   document.getElementById('exitBtn').classList.remove('hidden');
@@ -527,11 +546,48 @@ function showLobby() {
   lobbyErr.classList.add('hidden');
 }
 
+function showDeckSelect() {
+  document.getElementById('splashScreen').classList.add('hidden');
+  document.getElementById('homeScreen').classList.add('hidden');
+  document.getElementById('lobbyScreen').classList.add('hidden');
+  document.getElementById('deckSelectScreen').classList.remove('hidden');
+  document.getElementById('board').classList.add('hidden');
+  document.getElementById('logPanel').classList.add('hidden');
+  document.getElementById('exitBtn').classList.remove('hidden');
+}
+
+function renderDeckSelect(v) {
+  const isHost = v.seatIndex === v.hostSeatIndex;
+  document.getElementById('deckSelectSubtitle').textContent = isHost
+    ? 'Pick a card design for this game.'
+    : 'Waiting for the host to choose a deck…';
+  document.getElementById('deckOptions').innerHTML = Object.entries(DECK_STYLES).map(([key, d]) => `
+    <button class="deck-option${isHost ? ' deck-option--host' : ''}"
+            ${isHost ? `onclick="chooseDeck('${key}')"` : ''}
+            aria-label="${d.name} deck">
+      <div class="deck-option__cards">
+        <div class="deck-option__back" style="background-image:repeating-linear-gradient(45deg,${d.backA} 0px,${d.backA} 8px,${d.backB} 8px,${d.backB} 16px)"></div>
+        <div class="deck-option__face" style="font-family:${d.font}">
+          <span class="deck-option__corner">A<span style="font-size:0.7em">♠&#xFE0E;</span></span>
+          <span class="deck-option__suit">♠&#xFE0E;</span>
+          <span class="deck-option__corner" style="transform:rotate(180deg);align-self:flex-end">A<span style="font-size:0.7em">♠&#xFE0E;</span></span>
+        </div>
+      </div>
+      <span class="deck-option__name">${d.name}</span>
+    </button>
+  `).join('');
+}
+
+function chooseDeck(deckStyle) {
+  socket.emit('selectDeck', { deckStyle });
+}
+
 function showGame() {
   clearRemoteCursors();
   document.getElementById('splashScreen').classList.add('hidden');
   document.getElementById('homeScreen').classList.add('hidden');
   document.getElementById('lobbyScreen').classList.add('hidden');
+  document.getElementById('deckSelectScreen').classList.add('hidden');
   document.getElementById('board').classList.remove('hidden');
   document.getElementById('logPanel').classList.remove('hidden');
   document.getElementById('exitBtn').classList.remove('hidden');
@@ -1000,7 +1056,11 @@ socket.on('stateUpdate', v => {
   if (v.phase === 'lobby') {
     showLobby();
     renderLobby(v);
+  } else if (v.phase === 'deckSelect') {
+    showDeckSelect();
+    renderDeckSelect(v);
   } else {
+    document.getElementById('board').dataset.deck = v.deckStyle || 'a';
     showGame();
     renderGame(v);
     if (v.phase === 'gameover') {

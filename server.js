@@ -331,6 +331,7 @@ function stateView(room, pidx) {
     hostSeatIndex,
     allReady,
     playerCount: gs.players.length,
+    deckStyle: gs.deckStyle || 'a',
   };
 }
 
@@ -440,6 +441,18 @@ io.on('connection', socket => {
       return;
     }
 
+    room.state.phase = 'deckSelect';
+    room.state.deckStyle = 'a';
+    broadcastState(room);
+  });
+
+  socket.on('selectDeck', ({ deckStyle }) => {
+    if (!currentRoom) return;
+    const hostPlayer = currentRoom.players.find(p => p.playerId === currentRoom.hostId);
+    if (!hostPlayer || hostPlayer.id !== socket.id) return;
+    const room = currentRoom;
+    if (room.state.phase !== 'deckSelect') return;
+    room.state.deckStyle = ['a', 'b', 'c'].includes(deckStyle) ? deckStyle : 'a';
     room.state.phase = 'setup';
     dealCards(room);
     broadcastState(room);
