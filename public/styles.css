@@ -47,7 +47,7 @@ html, body { background-color: transparent; }
 
 .demo {
   .cards-stack .cards-row:last-child {
-    margin-top: clamp(-350px, -27vw, -132px);
+    margin-top: clamp(-350px, -27vw, -104px);
   }
   .cards-row {
     gap: 1vw;
@@ -243,24 +243,41 @@ body {
   position: relative;
 }
 .cards-stack .cards-row:last-child {
-  margin-top: -124px;
+  margin-top: clamp(-124x,-21vw,142px);
   position: relative;
   z-index: 1;
 }
 
 .opponent-zone {
+  .card-groups {
+    gap: 2%;
+  }
   .table-cards {
-    width: 49%;
+    width: 58%;
     
     .card {
-      width: 30%;
+      width: clamp(20px, 30%, 100px);
+      height: clamp(40px,24vw,142px);
     }
   }
   .hand {
-      width: 49%;
+      width: 40%;
+
+      .group-label {
+        justify-content: end;
+        display: flex;
+      }
+
+      .cards-row {
+        justify-content: end;
+      }
 
       .card {
-        width: 30%;
+        width: clamp(20px, 44%, 94px);
+        height: clamp(40px,26vw,142px);
+      }
+      .card:nth-child(2), .card:nth-child(3) {
+        margin-left: clamp(-52px, -8vw, -40px);
       }
   }
 }

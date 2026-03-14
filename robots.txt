@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://shithead.warface.co.uk/sitemap.xml
