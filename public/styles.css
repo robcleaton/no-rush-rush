@@ -243,11 +243,14 @@ body {
   position: relative;
 }
 .cards-stack .cards-row:last-child {
-  margin-top: clamp(-124x,-21vw,142px);
+  margin-top: clamp(-124px,-21vw,142px);
   position: relative;
   z-index: 1;
 }
 
+.opponents-row {
+  flex-direction: column;
+}
 .opponent-zone {
   .card-groups {
     gap: 2%;
