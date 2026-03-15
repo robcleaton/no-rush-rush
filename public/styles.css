@@ -248,9 +248,6 @@ body {
   z-index: 1;
 }
 
-.opponents-row {
-  flex-direction: column;
-}
 .opponent-zone {
   .card-groups {
     gap: 2%;
