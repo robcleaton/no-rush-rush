@@ -243,12 +243,13 @@ body {
   position: relative;
 }
 .cards-stack .cards-row:last-child {
-  margin-top: clamp(-124px,-21vw,142px);
+  margin-top: clamp(-124px,-21vw,-30px);
   position: relative;
   z-index: 1;
 }
 
 .opponents-row {
+  display: contents !important;
   flex-direction: column;
 }
 .opponent-zone {
@@ -259,7 +260,7 @@ body {
     width: 58%;
     
     .card {
-      width: clamp(20px, 30%, 100px);
+      width: clamp(20px,30%,100px);
       height: clamp(40px,24vw,142px);
     }
   }
@@ -276,11 +277,11 @@ body {
       }
 
       .card {
-        width: clamp(20px, 44%, 94px);
+        width: clamp(20px,44%,94px);
         height: clamp(40px,26vw,142px);
       }
       .card:nth-child(2), .card:nth-child(3) {
-        margin-left: clamp(-52px, -8vw, -40px);
+        margin-left: clamp(-52px,-8vw,-40px);
       }
   }
 }
@@ -293,8 +294,8 @@ body {
     width: 100%;
   }
   .card {
-    height: clamp(120px, 40vw, 300px);
-    width: clamp(120px, 70%, 240px);
+    height: clamp(120px,40vw,300px);
+    width: clamp(120px,70%,240px);
     margin: auto;
   }
 
@@ -335,7 +336,7 @@ body {
     }
     .card {
       flex-shrink: 0;
-      width: clamp(44px, 24vw, 160px);
+      width: clamp(44px,24vw,160px);
       height: clamp(100px,19.2vw,184px);
     }
   }
