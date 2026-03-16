@@ -89,7 +89,7 @@ html, body { background-color: transparent; }
     font-size: 20px;
     text-transform: uppercase;
   }
-  .carousel .carousel-item {
+  .specialCards.carousel .carousel-item {
     width: clamp(200px,57vw,285px);
     padding: clamp(24px,5vw,285px);
 

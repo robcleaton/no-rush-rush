@@ -170,7 +170,7 @@
       <button class="btn btn-xl rounded-2xl mt-2" onclick="showHomeScreen()">Play</button>
     </div>
 
-    <div class="carousel carousel-center space-x-4 p-4 mt-2 lg:p-12 w-full">
+    <div class="specialCards carousel carousel-center space-x-4 p-4 mt-2 lg:p-12 w-full">
       <div class="carousel-item rounded-box py-8" style="background-color: #CEE7EE;">
         <div class="card black" style="margin: auto;">
             <div class="corner">2<span class="suit">♠&#xFE0E;</span></div>
@@ -179,11 +179,7 @@
             <div class="badge reset">reset</div>
           </div>
       </div>
-      <!-- <div class="carousel-item rounded-box" style="background-color: pink;">
-        <img
-          src="https://img.daisyui.com/images/stock/photo-1565098772267-60af42b81ef2.webp"
-          class="rounded-box" />
-      </div> -->
+
       <div class="carousel-item rounded-box py-8" style="background-color: #5D3FB9;">
         <div class="card red" style="margin: auto;">
             <div class="corner">3<span class="suit">♦&#xFE0E;</span></div>
@@ -192,12 +188,8 @@
             <div class="badge killer">Killer</div>
           </div>
       </div>
-      <!-- <div class="carousel-item rounded-box" style="background-color: pink; width: clamp(200px,57vw,285px);">
-        <img
-          src="https://img.daisyui.com/images/stock/photo-1550258987-190a2d41a8ba.webp"
-          class="rounded-box" />
-      </div> -->
-      <div class="carousel-item rounded-box py-8" style="background-color: #F8BEB0; width: clamp(200px,57vw,285px);">
+
+      <div class="carousel-item rounded-box py-8" style="background-color: #F8BEB0;">
         <div class="card black" style="margin: auto;">
           <div class="corner">7<span class="suit">♣&#xFE0E;</span></div>
           <div class="center-suit">♣&#xFE0E;</div>
@@ -205,12 +197,8 @@
           <div class="badge below">Below</div>
         </div>
       </div>
-      <!-- <div class="carousel-item rounded-box" style="background-color: pink; width: clamp(200px,57vw,285px);">
-        <img
-          src="https://img.daisyui.com/images/stock/photo-1559181567-c3190ca9959b.webp"
-          class="rounded-box" />
-      </div> -->
-      <div class="carousel-item rounded-box" style="background-color: #CEE7EE; width: clamp(200px,57vw,285px);">
+
+      <div class="carousel-item rounded-box" style="background-color: #CEE7EE;">
         <div class="card red" style="margin: auto;">
           <div class="corner">8<span class="suit"></span>♥&#xFE0E;</span></div>
           <div class="center-suit">♥&#xFE0E;</div>
@@ -218,12 +206,8 @@
           <div class="badge window">Window</div>
         </div>
       </div>
-      <!-- <div class="carousel-item rounded-box" style="background-color: pink; width: clamp(200px,57vw,285px);">
-        <img
-          src="https://img.daisyui.com/images/stock/photo-1559181567-c3190ca9959b.webp"
-          class="rounded-box" />
-      </div> -->
-      <div class="carousel-item rounded-box py-8" style="background-color: pink; width: clamp(200px,57vw,285px);">
+
+      <div class="carousel-item rounded-box py-8" style="background-color: pink;">
         <div class="card black" style="margin: auto;">
           <div class="corner">10<span class="suit">♠&#xFE0E;</span></div>
           <div class="center-suit">♠&#xFE0E;</div>
@@ -242,37 +226,95 @@
 
     </div>
 
-    <div>
-      <p>Shithead is a popular card game for 2–4 players. Create a room, share the link with friends, and play online for free — no account needed.</p>
-      <h2>How to Play Shithead</h2>
-      <p>The aim is to be the first player to get rid of all your cards. Each player starts with 3 hand cards, 3 face-up cards, and 3 face-down cards.</p>
-    </div>
+    <!-- Game Play -->
+    <div class="carousel w-full" id="my-carousel">
 
-    <div class="demo w-full px-4 lg:px-12">
-      <div class="p-2 md:p-20 rounded-2xl" style="background: pink;">
-        <div class="card-group table-cards py-12">
-          <div class="cards-stack m-auto">
-            <div class="cards-row"><div class="card back"></div><div class="card back"></div><div class="card back"></div></div>
-            <div class="cards-row">
-            <div class="card red">
-              <div class="corner">7<span class="suit">♦&#xFE0E;</span></div>
-              <div class="center-suit"><span class="suit">♦&#xFE0E;</span></div>
-              <div class="corner bot">7<span class="suit">♦&#xFE0E;</span></div>
-            </div>
-            <div class="card black">
-              <div class="corner">Q<span class="suit">♠&#xFE0E;</span></div>
-              <div class="center-suit"><span class="suit">♠&#xFE0E;</span></div>
-              <div class="corner bot">Q<span class="suit">♠&#xFE0E;</span></div>
-            </div>
-            <div class="card red">
-              <div class="corner">K<span class="suit">♦&#xFE0E;</span></div>
-              <div class="center-suit"><span class="suit">♦&#xFE0E;</span></div>
-              <div class="corner bot">K<span class="suit">♦&#xFE0E;</span></div>
-            </div></div>
-            </div>
+      <div id="item1" class="carousel-item w-full">
+        <div class="demo w-full px-4 lg:px-12">
+          <div class="p-2 md:p-20 rounded-2xl" style="background: pink;">
+            <div class="card-group table-cards py-12">
+              <div class="cards-stack m-auto">
+                <div class="cards-row"><div class="card back"></div><div class="card back"></div><div class="card back"></div></div>
+                <div class="cards-row">
+                <div class="card red">
+                  <div class="corner">7<span class="suit">♦&#xFE0E;</span></div>
+                  <div class="center-suit"><span class="suit">♦&#xFE0E;</span></div>
+                  <div class="corner bot">7<span class="suit">♦&#xFE0E;</span></div>
+                </div>
+                <div class="card black">
+                  <div class="corner">Q<span class="suit">♠&#xFE0E;</span></div>
+                  <div class="center-suit"><span class="suit">♠&#xFE0E;</span></div>
+                  <div class="corner bot">Q<span class="suit">♠&#xFE0E;</span></div>
+                </div>
+                <div class="card red">
+                  <div class="corner">K<span class="suit">♦&#xFE0E;</span></div>
+                  <div class="center-suit"><span class="suit">♦&#xFE0E;</span></div>
+                  <div class="corner bot">K<span class="suit">♦&#xFE0E;</span></div>
+                </div></div>
+                </div>
+              </div>
           </div>
+        </div>
+      </div>
+
+      <div id="item2" class="carousel-item w-full">
+        <div class="demo w-full px-4 lg:px-12">
+          <div class="p-2 md:p-20 rounded-2xl" style="background: pink;">
+            <p>Shithead is a popular card game for 2–4 players. Create a room, share the link with friends, and play online for free — no account needed.</p>
+            <h2>How to Play Shithead</h2>
+            <p>The aim is to be the first player to get rid of all your cards. Each player starts with 3 hand cards, 3 face-up cards, and 3 face-down cards.</p>
+          </div>
+        </div>
+      </div>
+
+      <div id="item3" class="carousel-item w-full">
+        <div class="demo w-full px-4 lg:px-12">
+          <div class="p-2 md:p-20 rounded-2xl" style="background: pink;">
+            <div class="card-group table-cards py-12">
+              <div class="cards-stack m-auto">
+                <div class="cards-row"><div class="card back"></div><div class="card back"></div><div class="card back"></div></div>
+                <div class="cards-row">
+                <div class="card red">
+                  <div class="corner">7<span class="suit">♦&#xFE0E;</span></div>
+                  <div class="center-suit"><span class="suit">♦&#xFE0E;</span></div>
+                  <div class="corner bot">7<span class="suit">♦&#xFE0E;</span></div>
+                </div>
+                <div class="card black">
+                  <div class="corner">Q<span class="suit">♠&#xFE0E;</span></div>
+                  <div class="center-suit"><span class="suit">♠&#xFE0E;</span></div>
+                  <div class="corner bot">Q<span class="suit">♠&#xFE0E;</span></div>
+                </div>
+                <div class="card red">
+                  <div class="corner">K<span class="suit">♦&#xFE0E;</span></div>
+                  <div class="center-suit"><span class="suit">♦&#xFE0E;</span></div>
+                  <div class="corner bot">K<span class="suit">♦&#xFE0E;</span></div>
+                </div></div>
+                </div>
+              </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="item4" class="carousel-item w-full">
+        <img src="https://img.daisyui.com/images/stock/photo-1609621838510-5ad474b7d25d.webp" class="w-full" />
       </div>
     </div>
+
+    <div class="flex w-full justify-center gap-2 py-2">
+      <button class="btn btn-xs" onclick="goToSlide('item1')">1</button>
+      <button class="btn btn-xs" onclick="goToSlide('item2')">2</button>
+      <button class="btn btn-xs" onclick="goToSlide('item3')">3</button>
+      <button class="btn btn-xs" onclick="goToSlide('item4')">4</button>
+    </div>
+
+
+    <script>
+      function goToSlide(id) {
+        const carousel = document.getElementById('my-carousel');
+        const slide = document.getElementById(id);
+        carousel.scrollTo({ left: slide.offsetLeft, behavior: 'smooth' });
+      }
+    </script>
 
     <p>Shithead (also known as Palace, Karma, or Switch) is a classic card game popular in the UK. This free online version lets you play with friends remotely — just create a room and share the link.</p>
 
