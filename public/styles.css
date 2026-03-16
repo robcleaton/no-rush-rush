@@ -280,7 +280,7 @@ body {
         width: clamp(20px,44%,94px);
         height: clamp(40px,26vw,142px);
       }
-      .card:nth-child(2), .card:nth-child(3) {
+      .card:nth-child(2), .card:nth-child(3), .card:nth-child(4), .card:nth-child(5), .card:nth-child(6) {
         margin-left: clamp(-52px,-8vw,-40px);
       }
   }
@@ -292,11 +292,21 @@ body {
 
   .pile-block {
     width: 100%;
+
+    .card .corner {
+      font-size: clamp(28px, 8vw, 62px);
+    }
   }
+
   .card {
-    height: clamp(120px,40vw,300px);
+    height: clamp(120px,42vw,340px);
     width: clamp(120px,70%,240px);
+    padding: clamp(8px, 2vw, 16px);
     margin: auto;
+    border-radius: clamp(14px, 4vw, 20px);
+  }
+  .card.back {
+    border: clamp(12px, 4vw, 20px);
   }
 
 }
@@ -337,7 +347,7 @@ body {
     .card {
       flex-shrink: 0;
       width: clamp(44px,24vw,160px);
-      height: clamp(100px,19.2vw,184px);
+      height: clamp(124px,30vw,212px);
     }
   }
 }
