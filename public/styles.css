@@ -80,6 +80,12 @@ html, body { background-color: transparent; }
   }
 }
 
+/* ── Active turn border ─────────────────────────────────── */
+.player-zone.is-turn {
+  outline: 4px solid #f4d03f;
+  outline-offset: -2px;
+}
+
 /* ── Small screen ─────────── */
 @media (max-width: 640px) {
   #cursor {
@@ -318,7 +324,7 @@ body {
     border-radius: clamp(14px, 4vw, 20px);
   }
   .card.back {
-    border: clamp(12px, 4vw, 20px);
+    border: 8px solid white;
   }
 
 }

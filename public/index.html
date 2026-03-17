@@ -861,7 +861,7 @@ function renderGame(v) {
     const faceDownCards = Array.from({ length: opp.faceDownCount }, () => cardEl(null, { back: true })).join('') || emptyCardEl();
 
     return `
-      <div class="player-zone opponent-zone" style="opacity:${isOppTurn ? 1 : 0.82}">
+      <div class="player-zone opponent-zone${isOppTurn ? ' is-turn' : ''}" style="opacity:${isOppTurn ? 1 : 0.82}">
         <div class="zone-title">
           ${isOppTurn && v.phase === 'playing' ? '<span class="turn-dot"></span>' : ''}
           ${opp.name}
@@ -970,7 +970,7 @@ function renderGame(v) {
 
     ${actions}
 
-    <div class="player-zone" style="opacity:${isMyTurn && v.phase === 'playing' ? 1 : 0.82}">
+    <div class="player-zone${isMyTurn && v.phase === 'playing' ? ' is-turn' : ''}" style="opacity:${isMyTurn && v.phase === 'playing' ? 1 : 0.82}">
       <div class="zone-title">
         ${isMyTurn && v.phase === 'playing' ? '<span class="turn-dot"></span>' : ''}
         ${myTitle}
