@@ -45,6 +45,18 @@ html, body { background-color: transparent; }
   color: var(--shithead-black);
 }
 
+/* ── Special cards carousel entrance animation ─────────── */
+@keyframes cardSlideIn {
+  from { opacity: 0; transform: translateX(-40px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+.specialCards .carousel-item {
+  opacity: 0;
+}
+.specialCards .carousel-item.visible {
+  animation: cardSlideIn 0.4s ease forwards;
+}
+
 .demo {
   .cards-stack .cards-row:last-child {
     margin-top: clamp(-350px, -27vw, -104px);

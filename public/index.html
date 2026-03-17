@@ -225,6 +225,23 @@
       </div>
 
     </div>
+    <script>
+      (function() {
+        const items = document.querySelectorAll('.specialCards .carousel-item');
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              items.forEach((item, i) => {
+                item.style.animationDelay = (i * 0.12) + 's';
+                item.classList.add('visible');
+              });
+              observer.disconnect();
+            }
+          });
+        }, { threshold: 0.2 });
+        observer.observe(document.querySelector('.specialCards'));
+      })();
+    </script>
 
     <!-- Game Play -->
     <div class="carousel w-full" id="my-carousel">
