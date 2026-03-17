@@ -226,21 +226,21 @@
 
     </div>
     <script>
-      (function() {
+      document.addEventListener('DOMContentLoaded', function() {
         const items = document.querySelectorAll('.specialCards .carousel-item');
         const observer = new IntersectionObserver((entries) => {
           entries.forEach(entry => {
             if (entry.isIntersecting) {
               items.forEach((item, i) => {
-                item.style.animationDelay = (i * 0.12) + 's';
+                item.style.animationDelay = (i * 0.15) + 's';
                 item.classList.add('visible');
               });
               observer.disconnect();
             }
           });
-        }, { threshold: 0.2 });
+        }, { threshold: 0.3, rootMargin: '0px 0px -60px 0px' });
         observer.observe(document.querySelector('.specialCards'));
-      })();
+      });
     </script>
 
     <!-- Game Play -->
