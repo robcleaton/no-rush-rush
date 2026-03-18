@@ -313,7 +313,12 @@
       </div>
 
       <div id="item4" class="carousel-item w-full">
-        <img src="https://img.daisyui.com/images/stock/photo-1609621838510-5ad474b7d25d.webp" class="w-full" />
+        <div class="demo w-full px-4 lg:px-12">
+          <div class="p-2 md:p-20 rounded-2xl" style="background: pink;">
+            <p>Shithead (also known as Palace, Karma, or Switch) is a classic card game popular in the UK. This free online version lets you play with friends remotely — just create a room and share the link.</p>
+      
+          </div>
+        </div>
       </div>
     </div>
 
@@ -333,8 +338,6 @@
         carousel.scrollTo({ left: slide.offsetLeft, behavior: 'smooth' });
       }
     </script>
-
-    <p>Shithead (also known as Palace, Karma, or Switch) is a classic card game popular in the UK. This free online version lets you play with friends remotely — just create a room and share the link.</p>
 
   </div>
 
@@ -382,6 +385,18 @@
       <h2 class="text-[1.3rem] mb-1">Waiting for players…</h2>
 
       <div>
+        <div class="pile-label" style="margin-bottom:6px">Invite Link</div>
+        <div class="flex items-center gap-2 bg-black/30 rounded-lg px-3 py-2">
+          <div class="text-[0.75rem] font-sans text-white/50 flex-1 truncate" id="shareLink"></div>
+          <button onclick="copyShareLink()" title="Copy link"
+            class="text-white/40 hover:text-white/80 transition-colors bg-transparent border-0 cursor-pointer p-1 shrink-0"
+            id="copyLinkBtn">
+              <i data-lucide="copy" class="w-6 h-6"></i>
+          </button>
+        </div>
+      </div>
+
+      <div>
         <div class="pile-label" style="margin-bottom:6px">Room Code</div>
         <div class="flex items-center gap-2 bg-black/30 rounded-lg p-3">
           <div class="text-[2.4rem] tracking-[10px] font-bold flex-1 text-center"
@@ -394,17 +409,6 @@
         </div>
       </div>
 
-    <div>
-      <div class="pile-label" style="margin-bottom:6px">Invite Link</div>
-      <div class="flex items-center gap-2 bg-black/30 rounded-lg px-3 py-2">
-        <div class="text-[0.75rem] font-sans text-white/50 flex-1 truncate" id="shareLink"></div>
-        <button onclick="copyShareLink()" title="Copy link"
-                class="text-white/40 hover:text-white/80 transition-colors bg-transparent border-0 cursor-pointer p-1 shrink-0"
-                id="copyLinkBtn">
-                  <i data-lucide="copy" class="w-6 h-6"></i>
-        </button>
-      </div>
-    </div>
 
     <div class="text-center">
       <div class="pile-label" style="margin-bottom:8px">Scan to Join</div>
@@ -954,10 +958,12 @@ function renderGame(v) {
     ${wrapStart}${opponentZones}${wrapEnd}
 
     <div class="center-row pile">
-      <div class="pile-block">
-        <div class="pile-label">Draw</div>
+      <div class="pile-block flex justify-end">
+        <div class="flex">
+          <div class="pile-label">Draw</div>
+          <div class="pile-count">${v.deckCount}</div>
+        </div>
         ${drawEl}
-        <div class="pile-count">${v.deckCount}</div>
       </div>
       <div class="pile-block">
         <div class="pile-label">Pile (${v.pile.length})</div>

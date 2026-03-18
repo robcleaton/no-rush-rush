@@ -104,8 +104,10 @@ html, body { background-color: transparent; }
 #splashScreen {
   .btn {
     font-family: 'TuskerGrotesk', sans-serif;
-    font-size: 20px;
+    font-size: clamp(20px, 2.4vw, 62px);
     text-transform: uppercase;
+    height: auto;
+    padding: clamp(16px, 1.4vw, 120px);
   }
   .specialCards.carousel .carousel-item {
     width: clamp(200px,57vw,285px);
@@ -250,6 +252,12 @@ body {
   cursor: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='22' height='34'><polygon points='0,0 0,28 7,21 11,33 17,31 13,19 22,19' fill='%231E1E1E' stroke='white' stroke-width='1.5' stroke-linejoin='round'/></svg>") 0 0, pointer;
 }
 
+/* ── Lobby ────────────────────────────────────── */
+
+#lobbyScreen {
+  color: wheat;
+}
+
 /* ── Opponent layout ────────────────────────────────────── */
 .opponent-zone .card-groups {
   flex-wrap: nowrap;
@@ -305,11 +313,15 @@ body {
 }
 /* ── Pile ──────────────────────────────────────────── */
 .center-row.pile {
-  gap: 0px;
+  gap: 2vw;
   padding: 16px 40px;
 
   .pile-block {
     width: 100%;
+
+    .card {
+      margin: 0px;
+    }
 
     .card .corner {
       font-size: clamp(28px, 8vw, 62px);
