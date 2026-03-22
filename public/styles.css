@@ -365,6 +365,7 @@ body {
   }
   .hand {
     width: 100%;
+    gap: 0px;
 
     .cards-row {
       flex-wrap: nowrap;
