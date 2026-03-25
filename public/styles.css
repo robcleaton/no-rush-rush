@@ -336,7 +336,9 @@ body {
     border-radius: clamp(14px, 4vw, 20px);
   }
   .card.back {
-    border: 8px solid white;
+    border-width: clamp(4px, 0.6vw, 20px);
+    border-style: solid;
+    border-color: white;
   }
 
 }

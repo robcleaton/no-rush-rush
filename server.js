@@ -131,7 +131,13 @@ function isGameOver(gs, pidx) {
 
 function dealCards(room) {
   const gs = room.state;
-  const deck = shuffle(makeDeck());
+  const cardsNeeded = gs.players.length * 9;
+  let deckSource = makeDeck();
+  if (cardsNeeded > deckSource.length) {
+    const second = makeDeck().map(c => ({ ...c, id: c.id + 52 }));
+    deckSource = [...deckSource, ...second];
+  }
+  const deck = shuffle(deckSource);
   let di = 0;
 
   gs.deck = deck;
@@ -394,7 +400,7 @@ io.on('connection', socket => {
 
     if (!room) { socket.emit('joinError', 'Room not found.'); return; }
     if (room.state.phase !== 'lobby') { socket.emit('joinError', 'Game already in progress.'); return; }
-    if (room.players.length >= 4) { socket.emit('joinError', 'Room is full (max 4 players).'); return; }
+    if (room.players.length >= 6) { socket.emit('joinError', 'Room is full (max 6 players).'); return; }
 
     const pidx = room.players.length;
     room.players.push({ id: socket.id, playerId: playerId || socket.id, name: playerName, connected: true });
