@@ -311,16 +311,23 @@ body {
       }
   }
 }
+.message-box {
+  color: white;
+}
 /* ── Pile ──────────────────────────────────────────── */
 .center-row.pile {
-  gap: 2vw;
+  gap: 0px;
   padding: 16px 40px;
 
   .pile-block {
     width: 100%;
 
+    .pile-label {
+      margin: auto;
+    }
+
     .card {
-      margin: 0px;
+      margin: auto;
     }
 
     .card .corner {
@@ -330,7 +337,7 @@ body {
 
   .card {
     height: clamp(120px,42vw,340px);
-    width: clamp(120px,70%,240px);
+    width: clamp(120px,78%,240px);
     padding: clamp(8px, 2vw, 16px);
     margin: auto;
     border-radius: clamp(14px, 4vw, 20px);
@@ -339,6 +346,7 @@ body {
     border-width: clamp(4px, 0.6vw, 20px);
     border-style: solid;
     border-color: white;
+    margin: auto;
   }
 
 }
@@ -362,7 +370,7 @@ body {
     width: 32.6%;
 
     .corner {
-      font-size: 14px;
+      font-size: clamp(18px, 2.6vw, 32px)
     }
   }
   .hand {
@@ -381,6 +389,9 @@ body {
       flex-shrink: 0;
       width: clamp(44px,24vw,160px);
       height: clamp(124px,30vw,212px);
+    }
+    .corner {
+      font-size: clamp(24px, 2.8vw, 40px);
     }
   }
 }

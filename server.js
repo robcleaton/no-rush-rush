@@ -365,6 +365,8 @@ function broadcastState(room) {
 io.on('connection', socket => {
   let currentRoom = null;
   let seatIndex = null;
+  const setSeatIndex = (v) => { seatIndex = v; };
+  const clearRoom = () => { currentRoom = null; seatIndex = null; };
 
   socket.on('createRoom', ({ name, playerId }) => {
     if (!name || typeof name !== 'string') return;
@@ -374,7 +376,7 @@ io.on('connection', socket => {
     const room = {
       code,
       hostId: playerId || socket.id,
-      players: [{ id: socket.id, playerId: playerId || socket.id, name: playerName, connected: true }],
+      players: [{ id: socket.id, playerId: playerId || socket.id, name: playerName, connected: true, setSeatIndex, clearRoom }],
       state: {
         deck: [], pile: [], burned: [], sevenOn: false, threeOn: false,
         winner: null, phase: 'lobby', current: 0, msg: '', log: [],
@@ -403,7 +405,7 @@ io.on('connection', socket => {
     if (room.players.length >= 6) { socket.emit('joinError', 'Room is full (max 6 players).'); return; }
 
     const pidx = room.players.length;
-    room.players.push({ id: socket.id, playerId: playerId || socket.id, name: playerName, connected: true });
+    room.players.push({ id: socket.id, playerId: playerId || socket.id, name: playerName, connected: true, setSeatIndex, clearRoom });
     room.state.players.push({ name: playerName, hand: [], faceUp: [], faceDown: [], ready: false });
 
     socket.join(roomCode);
@@ -430,6 +432,8 @@ io.on('connection', socket => {
 
     room.players[pidx].id = socket.id;
     room.players[pidx].connected = true;
+    room.players[pidx].setSeatIndex = setSeatIndex;
+    room.players[pidx].clearRoom = clearRoom;
     socket.join(roomCode.toUpperCase());
     currentRoom = room;
     seatIndex = pidx;
@@ -615,6 +619,38 @@ io.on('connection', socket => {
     if (currentRoom.state.phase !== 'lobby') return;
     const name = currentRoom.state.players[seatIndex]?.name || 'Player';
     socket.to(currentRoom.code).emit('cursorUpdate', { seatIndex, x, y, name });
+  });
+
+  socket.on('removePlayer', ({ seatIndex: targetSeat }) => {
+    console.log('[removePlayer] targetSeat=%s seatIndex=%s phase=%s', targetSeat, seatIndex, currentRoom?.state?.phase);
+    if (!currentRoom) { console.log('[removePlayer] no currentRoom'); return; }
+    const room = currentRoom;
+    const hostPlayer = room.players.find(p => p.playerId === room.hostId);
+    if (!hostPlayer || hostPlayer.id !== socket.id) { console.log('[removePlayer] not host'); return; }
+    if (room.state.phase !== 'lobby') { console.log('[removePlayer] not lobby'); return; }
+    if (typeof targetSeat !== 'number' || targetSeat === seatIndex) { console.log('[removePlayer] invalid targetSeat or self'); return; }
+    if (targetSeat < 0 || targetSeat >= room.players.length) { console.log('[removePlayer] out of range'); return; }
+
+    const removed = room.players[targetSeat];
+    if (!removed) { console.log('[removePlayer] no player at that seat'); return; }
+    console.log('[removePlayer] removing %s from seat %s', removed.name, targetSeat);
+
+    // Notify the removed player and clear their server-side room state
+    io.to(removed.id).emit('removedFromRoom');
+    if (removed.clearRoom) removed.clearRoom();
+    const removedSocket = io.sockets.sockets.get(removed.id);
+    if (removedSocket) removedSocket.leave(room.code);
+
+    // Remove from room arrays
+    room.players.splice(targetSeat, 1);
+    room.state.players.splice(targetSeat, 1);
+
+    // Update each remaining player's server-side seatIndex closure
+    room.players.forEach((p, i) => {
+      if (p.setSeatIndex) p.setSeatIndex(i);
+    });
+
+    broadcastState(room);
   });
 
   socket.on('leaveRoom', () => {

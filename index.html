@@ -768,19 +768,21 @@ function renderLobby(v) {
   const all = [];
   for (let i = 0; i < (1 + v.opponents.length); i++) {
     if (i === v.seatIndex) {
-      all.push({ name: 'You (' + getMyName() + ')', ready: v.myReady, connected: true, self: true });
+      all.push({ name: 'You (' + getMyName() + ')', ready: v.myReady, connected: true, self: true, seatIndex: i });
     } else {
       const opp = v.opponents.find(o => o.seatIndex === i);
-      if (opp) all.push({ name: opp.name, ready: opp.ready, connected: opp.connected, self: false });
+      if (opp) all.push({ name: opp.name, ready: opp.ready, connected: opp.connected, self: false, seatIndex: i });
     }
   }
 
-  document.getElementById('lobbyPlayerList').innerHTML = all.map(p => `
+  const isHostView = v.seatIndex === v.hostSeatIndex;
+  document.getElementById('lobbyPlayerList').innerHTML = all.map((p, i) => `
     <div class="flex items-center gap-2 text-[0.9rem] px-2.5 py-1.5 bg-black/20 rounded-md">
       <div class="w-2 h-2 rounded-full shrink-0 ${p.connected ? 'bg-[#f4d03f]' : 'bg-[#666]'}"></div>
       <span>${p.name}</span>
-      ${v.seatIndex === v.hostSeatIndex && p.self ? '<span class="text-[#f4d03f] text-[0.75rem] ml-auto">HOST</span>' : ''}
+      ${isHostView && p.self ? '<span class="text-[#f4d03f] text-[0.75rem] ml-auto">HOST</span>' : ''}
       ${v.hostSeatIndex === getSeatForName(v, p.name) && !p.self ? '<span class="text-[#f4d03f] text-[0.75rem] ml-auto">HOST</span>' : ''}
+      ${isHostView && !p.self ? `<button onclick="removePlayer(${p.seatIndex})" class="ml-auto text-[0.7rem] px-2 py-0.5 rounded bg-red-700/60 hover:bg-red-600 text-white leading-none">Remove</button>` : ''}
     </div>
   `).join('');
 
@@ -801,6 +803,10 @@ function copyShareLink() {
       btn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>`;
     }, 2000);
   });
+}
+
+function removePlayer(targetSeatIndex) {
+  socket.emit('removePlayer', { seatIndex: targetSeatIndex });
 }
 
 function copyRoomCode() {
@@ -982,7 +988,7 @@ function renderGame(v) {
         ${myTitle}
       </div>
       
-      <div class="flex gap-4 your-hand">
+      <div class="flex gap-4 your-hand pb-3">
         <div class="card-groups">
           <div class="card-group hand">
             <div class="group-label mt-4">Hand (${v.myHand.length})</div>
@@ -1148,6 +1154,13 @@ socket.on('reconnectFailed', () => {
   localStorage.removeItem('shithead_room');
   document.getElementById('reconnectingBanner').classList.add('hidden');
   showSplash();
+});
+
+socket.on('removedFromRoom', () => {
+  localStorage.removeItem('shithead_room');
+  intentionallyLeft = true;
+  showSplash();
+  showHomeError('You were removed from the lobby by the host.');
 });
 
 socket.on('disconnect', () => {
