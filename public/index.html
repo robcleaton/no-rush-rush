@@ -381,7 +381,25 @@
 
   <!-- ── LOBBY SCREEN ─────────────────────────────────────── -->
     <div class="w-full m-auto max-w-[480px] bg-black/25 rounded-xl px-8 py-7 flex flex-col gap-4 hidden" id="lobbyScreen">
-      <h2 class="text-[1.3rem] mb-1">Waiting for players…</h2>
+      <div>
+        <div class="pile-label" style="margin-bottom:6px">Waiting for Players (<span id="lobbyCount">0</span>/6)</div>
+        <div class="flex flex-col gap-1.5" id="lobbyPlayerList"></div>
+      </div>
+
+      <div>
+        <div class="pile-label" style="margin-bottom:6px">Room</div>
+        <div class="flex items-center gap-2 bg-black/30 rounded-lg p-3">
+          <div class="text-[2rem] tracking-[10px] font-bold flex-1 text-center"
+              id="lobbyCode"></div>
+        </div>
+      </div>
+      
+      <div class="text-center">
+        <div class="pile-label" style="margin-bottom:8px">Scan to Join</div>
+        <div class="bg-white rounded-lg p-2.5 inline-block">
+          <div id="qrCode"></div>
+        </div>
+      </div>
 
       <div>
         <div class="pile-label" style="margin-bottom:6px">Invite Link</div>
@@ -394,31 +412,6 @@
           </button>
         </div>
       </div>
-
-      <div>
-        <div class="pile-label" style="margin-bottom:6px">Room Code</div>
-        <div class="flex items-center gap-2 bg-black/30 rounded-lg p-3">
-          <div class="text-[2.4rem] tracking-[10px] font-bold flex-1 text-center"
-              id="lobbyCode"></div>
-          <button onclick="copyRoomCode()" title="Copy code"
-                  class="text-white/40 hover:text-white/80 transition-colors bg-transparent border-0 cursor-pointer p-1 shrink-0"
-                  id="copyCodeBtn">
-                  <i data-lucide="copy" class="w-6 h-6"></i>
-          </button>
-        </div>
-      </div>
-
-    <div class="text-center">
-      <div class="pile-label" style="margin-bottom:8px">Scan to Join</div>
-      <div class="bg-white rounded-lg p-2.5 inline-block">
-        <div id="qrCode"></div>
-      </div>
-    </div>
-
-    <div>
-      <div class="pile-label" style="margin-bottom:6px">Players (<span id="lobbyCount">0</span>/6)</div>
-      <div class="flex flex-col gap-1.5" id="lobbyPlayerList"></div>
-    </div>
 
     <button class="btn" id="startBtn" disabled>Start Game (need 2+)</button>
     <button class="btn red-btn" onclick="confirmLeave(event)">Leave Game</button>
@@ -757,6 +750,27 @@ function renderLobby(v) {
       colorLight: '#ffffff',
     });
     qrRoomCode = v.roomCode;
+    // Overlay favicon in centre of QR canvas
+    setTimeout(() => {
+      const canvas = qrContainer.querySelector('canvas');
+      const imgEl  = qrContainer.querySelector('img');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      const logo = new Image();
+      logo.onload = () => {
+        const frameSize = 54;
+        const graphicSize = 28;
+        const fx = (160 - frameSize) / 2;
+        const fy = (160 - frameSize) / 2;
+        const gx = (160 - graphicSize) / 2;
+        const gy = (160 - graphicSize) / 2;
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(fx, fy, frameSize, frameSize);
+        ctx.drawImage(logo, gx, gy, graphicSize, graphicSize);
+        if (imgEl) imgEl.src = canvas.toDataURL();
+      };
+      logo.src = '/logo-mark-red.svg';
+    }, 0);
   }
 
   const playerCount = 1 + v.opponents.length;
