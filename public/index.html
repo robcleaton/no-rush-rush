@@ -430,7 +430,7 @@
 </div>
 
 <!-- ── GAME BOARD ────────────────────────────────────────── -->
-<div class="w-full max-w-[860px] flex flex-col gap-1 px-2 mt-2 md:mt-4 hidden" id="board"></div>
+<div class="w-full flex flex-col gap-1 px-2 mt-2 md:gap-4 md:mt-4 hidden" id="board"></div>
 
 <!-- ── RULES MODAL ────────────────────────────────────────── -->
 <dialog id="rulesModal" class="modal">
@@ -976,43 +976,45 @@ function renderGame(v) {
   board.innerHTML = `
     ${wrapStart}${opponentZones}${wrapEnd}
 
-    <div class="center-row pile">
-      <div class="pile-block">
-        <div class="flex">
-          <div class="pile-label">Deck (${v.deckCount})</div>
+    <div class="w-full">
+      <div class="center-row pile">
+        <div class="pile-block">
+          <div class="flex">
+            <div class="pile-label">Deck (${v.deckCount})</div>
+          </div>
+          ${drawEl}
         </div>
-        ${drawEl}
+        <div class="pile-block">
+          <div class="pile-label">Pile (${v.pile.length})</div>
+          ${pileEl}
+          ${v.threeOn ? '<div class="pile-count warning">⚠ play a 3</div>' : v.sevenOn ? '<div class="pile-count warning">⚠ play ≤7</div>' : ''}
+        </div>
       </div>
-      <div class="pile-block">
-        <div class="pile-label">Pile (${v.pile.length})</div>
-        ${pileEl}
-        ${v.threeOn ? '<div class="pile-count warning">⚠ play a 3</div>' : v.sevenOn ? '<div class="pile-count warning">⚠ play ≤7</div>' : ''}
-      </div>
-    </div>
 
-    <div class="message-box">${personalise(v.msg)}</div>
+      <div class="message-box">${personalise(v.msg)}</div>
 
-    ${actions}
+      ${actions}
 
-    <div class="player-zone${isMyTurn && v.phase === 'playing' ? ' is-turn' : ''}" style="opacity:${isMyTurn && v.phase === 'playing' ? 1 : 0.82}">
-      <div class="zone-title">
-        ${isMyTurn && v.phase === 'playing' ? '<span class="turn-dot"></span>' : ''}
-        ${myTitle}
-      </div>
-      
-      <div class="flex gap-4 your-hand">
-        <div class="card-groups">
-          <div class="card-group hand">
-            <div class="group-label mt-4">Hand (${v.myHand.length})</div>
-            <div class="cards-row pt-2">${myHandCards}</div>
-          </div>
-          <div class="card-group face-down">
-            <div class="group-label">Face Down</div>
-            <div class="cards-row">${myFaceDownCards}</div>
-          </div>
-          <div class="card-group face-up">
-            <div class="group-label">Face Up</div>
-            <div class="cards-row">${myFaceUpCards}</div>
+      <div class="player-zone${isMyTurn && v.phase === 'playing' ? ' is-turn' : ''}" style="opacity:${isMyTurn && v.phase === 'playing' ? 1 : 0.82}">
+        <div class="zone-title">
+          ${isMyTurn && v.phase === 'playing' ? '<span class="turn-dot"></span>' : ''}
+          ${myTitle}
+        </div>
+        
+        <div class="flex gap-4 your-hand">
+          <div class="card-groups">
+            <div class="card-group hand">
+              <div class="group-label mt-4">Hand (${v.myHand.length})</div>
+              <div class="cards-row pt-2">${myHandCards}</div>
+            </div>
+            <div class="card-group face-down">
+              <div class="group-label">Face Down</div>
+              <div class="cards-row">${myFaceDownCards}</div>
+            </div>
+            <div class="card-group face-up">
+              <div class="group-label">Face Up</div>
+              <div class="cards-row">${myFaceUpCards}</div>
+            </div>
           </div>
         </div>
       </div>

@@ -24,6 +24,10 @@ h1, h2, h3, h4, h5 {
   font-family: 'TuskerGrotesk';
 }
 
+::selection {
+  background-color: var(--shithead-black);
+  color: var(--shithead-cream);
+}
 
 /* reset DaisyUI body background */
 html, body { background-color: transparent; }
@@ -100,16 +104,36 @@ html, body { background-color: transparent; }
   outline-offset: -2px;
 }
 
+
+
+
 /* ── Small screen ─────────── */
 @media (max-width: 640px) {
   #cursor {
     display: none;
   }
 }
+
 /* ── Medium screen ─────────── */
 @media (min-width: 768px) {
   #appFrame {
-      margin-top: 72px;
+    margin-top: 72px;
+  }
+  #board {
+    flex-direction: row-reverse;
+
+    .center-row {
+      width: 100%;
+    }
+    .opponents-row {
+      width: 40%;
+      display: block;
+      gap: 12px;
+
+      .opponent-zone {
+        margin-bottom: 4px;
+      }
+    }
   }
 }
 
