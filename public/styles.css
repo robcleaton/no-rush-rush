@@ -48,6 +48,10 @@ html, body { background-color: transparent; }
   align-items: center;
   gap: 0.75rem;
   color: var(--shithead-black);
+  transition: background 0.4s ease;
+}
+#appFrame.is-my-turn {
+  background: var(--accent2);
 }
 
 /* ── Splash hero entrance animation ────────────────────── */

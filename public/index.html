@@ -984,7 +984,7 @@ function renderGame(v) {
       ${wrapStart}${opponentZones}${wrapEnd}
     </div>
 
-    <div class="w-full">
+    <div class="w-full md:w-[70%]">
       <div class="center-row pile">
         <div class="pile-block">
           <div class="flex">
@@ -1155,6 +1155,10 @@ socket.on('stateUpdate', v => {
     document.getElementById('board').dataset.deck = v.deckStyle || 'a';
     showGame();
     renderGame(v);
+    document.getElementById('appFrame').classList.toggle(
+      'is-my-turn',
+      v.phase === 'playing' && v.current === v.seatIndex
+    );
     if (v.phase === 'gameover') {
       showGameOver(v);
     } else {
