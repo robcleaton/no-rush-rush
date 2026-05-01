@@ -92,7 +92,7 @@
     .pile-label  { @apply text-[11px] text-white/60 uppercase tracking-[1px] mb-[5px]; }
     .pile-count  { @apply text-[11px] text-white/50 mt-1 font-sans; }
 
-    .message-box  { @apply bg-black/30 rounded-lg px-4 py-[10px] text-center text-[0.95rem] min-h-[42px] leading-relaxed; }
+    .message-box  { @apply rounded-lg px-4 py-[10px] text-center text-[0.95rem] min-h-[42px] leading-relaxed; }
     .warning      { @apply text-[#f39c12] font-bold; }
     .action-row   { @apply flex justify-center gap-2.5 flex-wrap; }
 
@@ -877,7 +877,12 @@ function renderGame(v) {
   // ── Opponent zones ────────────────────────────────────────
   const opponentZones = v.opponents.map(opp => {
     const isOppTurn = v.current === opp.seatIndex;
-    const handCards = Array.from({ length: opp.handCount }, () => cardEl(null, { back: true })).join('') || emptyCardEl();
+    const handCards = Array.from({ length: Math.min(opp.handCount, 3) }, (_, i) => {
+      const isLast = i === Math.min(opp.handCount, 3) - 1;
+      return isLast && opp.handCount > 3
+        ? `<div class="card back"><span class="card-extra-count">${opp.handCount}</span></div>`
+        : cardEl(null, { back: true });
+    }).join('') || emptyCardEl();
     const faceUpCards = opp.faceUp.length
       ? opp.faceUp.map(c => c ? cardEl(c) : cardEl(null, { back: true })).join('')
       : emptyCardEl();
@@ -974,7 +979,10 @@ function renderGame(v) {
   const wrapEnd   = v.opponents.length > 1 ? '</div>' : '';
 
   board.innerHTML = `
-    ${wrapStart}${opponentZones}${wrapEnd}
+    <div class="opponents-col">
+      <div class="message-box">${personalise(v.msg)}</div>
+      ${wrapStart}${opponentZones}${wrapEnd}
+    </div>
 
     <div class="w-full">
       <div class="center-row pile">
@@ -990,8 +998,6 @@ function renderGame(v) {
           ${v.threeOn ? '<div class="pile-count warning">⚠ play a 3</div>' : v.sevenOn ? '<div class="pile-count warning">⚠ play ≤7</div>' : ''}
         </div>
       </div>
-
-      <div class="message-box">${personalise(v.msg)}</div>
 
       ${actions}
 

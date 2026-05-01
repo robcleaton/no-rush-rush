@@ -1,0 +1,21 @@
+# Priority words for room name generation
+# These words appear more often than the standard pool
+# Format: WORD [weight]
+#   - weight is optional and defaults to 3
+#   - a weight of 3 means the word is 3x more likely to be picked
+#   - words already in RUDE_WORDS will still appear, just less often
+
+SHITHEAD 5
+SHITE 5
+SCROTE 4
+BELLEND 5
+BOLLOCKS 4
+WANKER 4
+TOSSER 3
+KNOBHEAD 3
+NONCE 3
+TIT 3
+BUMHOLE 3
+MINGE 5
+TWAT 5
+ARSE 3

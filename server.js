@@ -2,6 +2,7 @@ const express = require('express');
 const http = require('http');
 const { Server } = require('socket.io');
 const path = require('path');
+const fs = require('fs');
 
 const app = express();
 const server = http.createServer(app);
@@ -74,10 +75,30 @@ const RUDE_WORDS = [
   'WOBBLER','WRECKED','YOBBO',
 ];
 
+function buildWordPool() {
+  const pool = [...RUDE_WORDS];
+  try {
+    const lines = fs.readFileSync(path.join(__dirname, 'priority-words.txt'), 'utf8').split('\n');
+    for (const raw of lines) {
+      const line = raw.trim();
+      if (!line || line.startsWith('#')) continue;
+      const [word, weightStr] = line.split(/\s+/);
+      const weight = parseInt(weightStr, 10) || 3;
+      const upper = word.toUpperCase();
+      for (let i = 0; i < weight; i++) pool.push(upper);
+    }
+  } catch {
+    // file missing or unreadable — use base pool only
+  }
+  return pool;
+}
+
+const WORD_POOL = buildWordPool();
+
 function generateCode() {
   let code;
   do {
-    code = RUDE_WORDS[Math.floor(Math.random() * RUDE_WORDS.length)];
+    code = WORD_POOL[Math.floor(Math.random() * WORD_POOL.length)];
   } while (rooms.has(code));
   return code;
 }

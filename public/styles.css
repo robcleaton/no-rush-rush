@@ -22,6 +22,7 @@
 
 h1, h2, h3, h4, h5 {
   font-family: 'TuskerGrotesk';
+  text-transform: uppercase;
 }
 
 ::selection {
@@ -125,14 +126,35 @@ html, body { background-color: transparent; }
     .center-row {
       width: 100%;
     }
-    .opponents-row {
+    .opponents-col {
       width: 40%;
+    }
+    .opponents-row {
       display: block;
       gap: 12px;
 
       .opponent-zone {
         margin-bottom: 4px;
       }
+    }
+  }
+  .your-hand {
+    .face-down .card, .face-up .card {
+      height: auto;
+      aspect-ratio: 160 / 212;
+    }
+  }
+  .opponent-zone {
+    .table-cards .card {
+      height: auto !important;
+      aspect-ratio: 160 / 212;
+    }
+    .hand .card {
+      height: auto !important;
+      aspect-ratio: 160 / 212;
+    }
+    .cards-stack .cards-row:last-child {
+      margin-top: -29%;
     }
   }
 }
@@ -222,6 +244,22 @@ footer {
 .card .badge.killer  { background: darkorange; }
 .card .badge.high  { background: black; color:white; }
 .card .badge.window { background: #cee6ee; color: black; border: 1px solid black;}
+.card-extra-count {
+  position: absolute;
+  bottom: 5px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--accent2);
+  color: var(--shithead-black);
+  font-family: 'TuskerGrotesk', sans-serif;
+  font-size: 13px;
+  line-height: 1;
+  padding: 3px 5px 2px;
+  border-radius: 4px;
+  border: 1.5px solid var(--shithead-black);
+  white-space: nowrap;
+  pointer-events: none;
+}
 .card.back {
   background-image: repeating-linear-gradient(
     45deg,
@@ -313,10 +351,12 @@ body {
 }
 
 .opponents-row {
-  display: contents !important;
+  /* display: contents !important; */
   flex-direction: column;
 }
 .opponent-zone {
+  width: 100%;
+  
   .card-groups {
     gap: 2%;
   }
@@ -346,11 +386,14 @@ body {
       }
       .card:nth-child(2), .card:nth-child(3), .card:nth-child(4), .card:nth-child(5), .card:nth-child(6) {
         margin-left: clamp(-52px,-8vw,-40px);
+        @media (min-width: 768px) {
+          margin-left: -3vw; }
       }
   }
 }
 .message-box {
-  color: white;
+  background-color: yellow;
+  color: var(--shithead-black);
 }
 /* ── Pile ──────────────────────────────────────────── */
 .center-row.pile {
@@ -404,7 +447,7 @@ body {
   }
   .face-down .card, .face-up .card  {
     width: clamp(44px,33.33%,134px);
-    height: clamp(100px,19.2vw,184px);
+    /* height: clamp(100px,19.2vw,184px); */
     width: 32.6%;
 
     .corner {
